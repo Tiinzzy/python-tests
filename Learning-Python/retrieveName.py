@@ -10,10 +10,6 @@ ctx = ssl.create_default_context()
 ctx.check_hostname = False 
 ctx.verify_mode = ssl.CERT_NONE
 
-# url = input('Enter URL...')
-# html = urllib.request.urlopen(url, context=ctx).read()
-# soup = BeautifulSoup(html, 'html.parser')
-
 def get_link(page_url, link_number):
     html = urllib.request.urlopen(page_url, context=ctx).read()
     soup = BeautifulSoup(html, 'html.parser')
