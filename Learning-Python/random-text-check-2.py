@@ -1,8 +1,10 @@
 import click
 import sys
 import random
+from essential_generators import DocumentGenerator
 
-def get_random_sentence():
+
+def get_random_sentence_by_hand():
     subject = ['tina', 'kamran', 'she']
     verb = ['went home', 'is', 'picked']
     obj = ['shopping', 'happy', 'yellow flower']
@@ -13,6 +15,13 @@ def get_random_sentence():
 
     random_sentence = a + ' ' + b + ' ' + c
     return random_sentence
+
+
+def get_random_sentence_by_package():
+    gen = DocumentGenerator()
+    for i in range(1):
+        random_sentence = gen.sentence()
+        return str(random_sentence)
 
 
 def sentence_to_array(sentence):
@@ -62,7 +71,7 @@ def compare_sentences(src_sentence, input_sentence):
 if __name__ == '__main__':
     print('Please type this sentence, you are not allowed to ues back-space.')
 
-    source_sentence = get_random_sentence()
+    source_sentence = get_random_sentence_by_package()
     print('=> ', source_sentence)
 
     number_of_words = get_number_of_words(source_sentence)
