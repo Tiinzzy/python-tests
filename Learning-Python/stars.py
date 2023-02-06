@@ -1,4 +1,8 @@
-def getting_reversed_stars(num):
+def getting_reversed_stars(num):    
+    # while num > 0:
+    #     stars = ' ' + '*' * (2*num - 1)
+    #     all_stars.append(stars)
+    #     num -= 1
     for i in range(num):
         i = '*'
         stars = ' ' + i * (2*num - 1)
@@ -17,9 +21,7 @@ def display_stars_from_one_to_many(all_stars):
     all_stars = [all_stars[i] for i in new_arrangement]
 
     for i in all_stars:
-        number = 20
-        print(i.center(number, ' '))
-        number -= number
+        print(i)
 
 
 if __name__ == '__main__':
