@@ -35,13 +35,12 @@ def check_for_parser_output(element, all_links):
     return all_links
 
 
-
 def get_link(start_link):
     all_links = list()
     html = urllib.request.urlopen(start_link, context=ctx).read()
     soup = BeautifulSoup(html, 'lxml')
     link = None
-    
+
     for child in soup.recursiveChildGenerator():
         all_links = check_for_parser_output(child, all_links)
         if len(all_links) > 2:
@@ -91,8 +90,22 @@ def do_search(start_link):
         to_title = get_wiki_title(start_link)
         add_to_database(from_title, to_title)
         print(from_title, '--->', to_title)
-        if re.search('Philosophy', start_link):
+        if re.search('Philosophy_of_logic', start_link):
             break
+
+
+def get_all_data():
+    db = Database()
+    con, cur = db.open_database()
+    sql = 'SELECT from_title, to_title FROM tests.wiki_articles_relations'
+    cur.execute(sql)
+    rows = cur.fetchall()
+    result = []
+    for row in rows:
+        result.append(
+            {'from_title': row[0], 'to_title': row[1]})
+    db.close_database()
+    return result
 
 
 if __name__ == "__main__":
