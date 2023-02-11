@@ -9,6 +9,7 @@ import urllib.error
 import collections
 collections.Callable = collections.abc.Callable
 
+
 WIKI_BASE_URL = 'https://en.wikipedia.org'
 
 ctx = ssl.create_default_context()
@@ -25,26 +26,33 @@ def check_for_paragraph(element):
 
 
 def check_for_parser_output(element, all_links):
-    if element.name == 'div' and {'class': 'mw-parser-output'}:
-        for ch in element:
-            aTag = check_for_paragraph(ch)
-            if aTag is not None:
-                all_links.append(str(aTag))
-                if len(all_links) > 2:
+    if element.name == 'div':
+        good_div = len(element.attrs) > 0 and 'class' in element.attrs.keys() and len(
+            element.attrs['class']) > 0 and element.attrs['class'][0] == 'mw-parser-output'
+        if good_div:
+            for ch in element:
+                aTag = check_for_paragraph(ch)
+                if aTag is not None:
+                    all_links.append(str(aTag))
                     return all_links
     return all_links
 
 
 def get_link(start_link):
     all_links = list()
-    html = urllib.request.urlopen(start_link, context=ctx).read()
-    soup = BeautifulSoup(html, 'lxml')
+    html = None
+    try:
+        html = urllib.request.urlopen(start_link, context=ctx).read()
+        soup = BeautifulSoup(html, 'lxml')
+    except:
+        return None
+
     link = None
 
     for child in soup.recursiveChildGenerator():
         all_links = check_for_parser_output(child, all_links)
-        if len(all_links) > 2:
-            link = all_links[1]
+        if len(all_links) > 0:
+            link = all_links[0]
             break
 
     if link is not None:
@@ -88,10 +96,11 @@ def do_search(start_link):
         from_title = get_wiki_title(start_link)
         start_link = get_link(start_link)
         to_title = get_wiki_title(start_link)
-        add_to_database(from_title, to_title)
-        print(from_title, '--->', to_title)
-        if re.search('Philosophy_of_logic', start_link):
-            break
+        if len(from_title) > 0 and len(to_title) > 0:
+            add_to_database(from_title, to_title)
+            print(from_title, '--->', to_title)
+            if re.search('Philosophy_of_logic', start_link):
+                break
 
 
 def get_all_data():
