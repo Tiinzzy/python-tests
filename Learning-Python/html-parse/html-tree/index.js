@@ -9,7 +9,6 @@ backend.get_wikipedias_relationships((data) => {
   displayGraphvis(data);
 });
 
-
 function displayGraphvis(relations) {
   var graph = graphviz.digraph("G");
 
@@ -23,10 +22,9 @@ function displayGraphvis(relations) {
     graph.addEdge(fromTitle, toTitle, { "minlen": 2 });
   });;
 
-  
+
   graph.setGraphVizPath("/usr/bin");
   graph.output("svg", "/home/tina/Downloads/html-tree.svg");
 
-  console.log('-----------------------------');
-  console.log(graph.to_dot());
+  let returned_arraye = graph.to_dot();
 }
