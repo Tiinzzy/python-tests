@@ -10,6 +10,12 @@ def all_relationships():
     return jsonify(data)
 
 
+@app.route("/send-data-to-frontend")
+def send_relationships():
+    data = get_all_data()
+    return jsonify(data)
+
+
 # if __name__ == "__main__":
 #     data = get_all_data()
 #     print(data)
