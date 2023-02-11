@@ -1,5 +1,5 @@
 import sys
-import re
+import random
 from database import Database
 import ssl
 from bs4 import BeautifulSoup
@@ -7,6 +7,7 @@ import urllib.request
 import urllib.parse
 import urllib.error
 import collections
+
 collections.Callable = collections.abc.Callable
 
 
@@ -20,9 +21,9 @@ SECION_CLASSES = ['module', 'module--news', 'module--collapse-images']
 NEWS_TAG = 'div'
 NEWS_CLASSES = ['module__content']
 
-
 ANCHOR_TAG = 'a'
 
+already_seen_urls = []
 
 def get_page(url):
     try:
@@ -81,15 +82,29 @@ def get_anchor_href(element):
         return None
 
 
-def get_url_hrefs(url):
+def get_url_hrefs(url, count):
+    base_url = url[:-1] if url.endswith('/') else url
     urls = []
     html, soup = get_page(url)
     for chld in soup.recursiveChildGenerator():
         if is_a_tag(chld, ANCHOR_TAG):
             href = get_anchor_href(chld)
-            if href is not None:
-                urls.append(href)
-    return urls
+            if href is not None and not href.startswith('#'):
+                href = href if href.startswith('http') else base_url + href
+                if href not in already_seen_urls:                    
+                    already_seen_urls.append(href)
+                    urls.append(href)
+
+    return random.choices(urls, k=count)
+
+
+def crawl(given_urls, depth, count, level):
+    if level > depth:
+        return
+    for gurl in given_urls:
+        print(str(level)+('-'*2*level)+'>', gurl)
+        drived_urls = get_url_hrefs(gurl, count)
+        crawl(drived_urls, depth, count, level+1)
 
 
 if __name__ == "__main__":
@@ -97,7 +112,6 @@ if __name__ == "__main__":
         start_link = sys.argv[1]
     else:
         # start_link = input('Please enter a wikipedia link: ')
-        start_link = 'https://www.bbc.com/'
+        start_link = 'https://en.wikipedia.org/wiki/jazz'
 
-    urls = get_url_hrefs(start_link)
-    print(urls)
+    crawl([start_link], depth=3, count=5, level=0)
