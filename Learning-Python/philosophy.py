@@ -40,8 +40,6 @@ def get_link(page_url, link_number):
             print(c)
             print('............................')
 
-
-
     index = None
     link = None
     for tag in divTag:
