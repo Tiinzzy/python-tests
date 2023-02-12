@@ -111,7 +111,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         start_link = sys.argv[1]
     else:
-        # start_link = input('Please enter a wikipedia link: ')
-        start_link = 'https://en.wikipedia.org/wiki/jazz'
+        start_link = input('Please enter a wikipedia link: ')
+        # start_link = 'https://en.wikipedia.org/wiki/jazz'
 
     crawl([start_link], depth=3, count=5, level=0)
