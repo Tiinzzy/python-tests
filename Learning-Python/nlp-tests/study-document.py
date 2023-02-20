@@ -95,6 +95,13 @@ class Nltk_Process:
         result = text.concordance(word)
         return result
 
+    def get_collocation(self, tokens):
+        text = Text(tokens)
+        result = text.collocation_list()
+        return result
+
+
+
 
 if __name__ == "__main__":
     test = Nltk_Process()
@@ -125,4 +132,7 @@ if __name__ == "__main__":
     dataFrame = test.data_as_dataFrame(freq)
     # print(dataFrame.head(10))
 
-    test.get_concordance(tokens, 'news')
+    # test.get_concordance(tokens, 'news')
+
+    collocation = test.get_collocation(tokens)
+    print(collocation)
