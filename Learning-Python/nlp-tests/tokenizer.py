@@ -12,12 +12,14 @@ s2 = "This is a cooool #dummysmiley: :-) :-P <3 and some arrows < > -> <--.\n I 
 tokens = wordpunct_tokenize(s1)
 print('wordpunct_tokenize >>>>>>>')
 print(tokens)
+print('\n'*5)
 
 
 # not a good one so dumb
 tokens = SpaceTokenizer().tokenize(s1)
 print('SpaceTokenizer.tokenize >>>>>>>')
 print(tokens)
+print('\n'*5)
 
 
 tokens = TweetTokenizer().tokenize(s2)
