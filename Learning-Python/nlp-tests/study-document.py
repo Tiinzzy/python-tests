@@ -90,6 +90,11 @@ class Nltk_Process:
         df = df.sort_values(by=['frequency'], ascending=False)
         return df
 
+    def get_concordance(self, tokens, word):
+        text = Text(tokens)
+        result = text.concordance(word)
+        return result
+
 
 if __name__ == "__main__":
     test = Nltk_Process()
@@ -118,4 +123,6 @@ if __name__ == "__main__":
     # plt.show()
 
     dataFrame = test.data_as_dataFrame(freq)
-    print(dataFrame.head(10))
+    # print(dataFrame.head(10))
+
+    test.get_concordance(tokens, 'news')
