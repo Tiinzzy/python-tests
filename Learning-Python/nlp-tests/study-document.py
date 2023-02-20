@@ -100,7 +100,10 @@ class Nltk_Process:
         result = text.collocation_list()
         return result
 
-
+    def find_simillarities(self, tokens, word):
+        text = Text(tokens)
+        result = text.similar(word)
+        return result
 
 
 if __name__ == "__main__":
@@ -135,4 +138,7 @@ if __name__ == "__main__":
     # test.get_concordance(tokens, 'news')
 
     collocation = test.get_collocation(tokens)
-    print(collocation)
+    # print(collocation)
+
+    similar = test.find_simillarities(tokens, 'news')
+    # print(similar)
