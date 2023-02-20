@@ -1,4 +1,4 @@
-from nltk.tokenize import TweetTokenizer
+from nltk.tokenize import wordpunct_tokenize
 from nltk import FreqDist
 from nltk.corpus import stopwords
 import pandas as pd
@@ -14,17 +14,19 @@ import collections
 collections.Callable = collections.abc.Callable
 
 
-class Nltk_Process:
+DOCUMENT_FOLDER = '/home/tina/Documents/python/python-tests/Learning-Python/nlp-tests/'
+
+
+class NltkProcess:
     def __init__(self):
         self.ctx = ssl.create_default_context()
         self.ctx.check_hostname = False
         self.ctx.verify_mode = ssl.CERT_NONE
 
-    def open_file_and_read_text(self, file_name):
-        text_file = open(
-            '/home/tina/Documents/python/python-tests/Learning-Python/nlp-tests/' + file_name, 'r')
-        text = text_file.read()
-        return text
+    def init_by_file(self, file_name):
+        text_file = open(DOCUMENT_FOLDER + file_name, 'r')
+        self.text = text_file.read()
+        return self
 
     def __open_and_read_url(self, url):
         try:
@@ -34,41 +36,55 @@ class Nltk_Process:
         except:
             return None
 
-    def read_web_page_text(self, url):
+    def init_web_page(self, url):
         soup = self.__open_and_read_url(url)
-        text = soup.get_text()
-        return text
+        self.text = soup.get_text()
+        return self
 
-    def tokenize_text(self, text):
-        tokens = TweetTokenizer().tokenize(text)
-        return tokens
+    def tokenize(self):
+        self.tokens = wordpunct_tokenize(self.text)
+        return self
 
-    def most_common_words(self, tokens):
-        frequency = FreqDist(tokens)
-        return frequency
+    def get_most_common_words(self, count, giev_tokens=None):
+        if giev_tokens is None:
+            giev_tokens = self.tokens
+        self.frequency = FreqDist(giev_tokens)
+        return self.frequency.most_common(count)
 
-    def clean_version_without_stop_words(self, tokens):
+    def get_frequency_as_data_frame(self):
+        words = []
+        frequency = []
+        for w in self.frequency.keys():
+            words.append(w)
+            frequency.append(self.frequency.freq(w)*100)
+        df = pd.DataFrame()
+        df['words'] = words
+        df['frequency'] = frequency
+        df = df.sort_values(by=['frequency'], ascending=False)
+        return df
+
+    def remove_stop_words(self):
         all_stop_words = set(stopwords.words(
             'english') + list(string.punctuation))
 
-        no_stop_word_tokens = []
-        for t in tokens:
+        self.no_stop_word_tokens = []
+        for t in self.tokens:
             if t.lower() not in all_stop_words:
-                no_stop_word_tokens.append(t.lower())
-        return no_stop_word_tokens
+                self.no_stop_word_tokens.append(t.lower())
+        return self
 
-    def draw_lexical_dispersion_plot(self, text, words, ignore_case=False, title="Lexical Dispersion Plot"):
+    def draw_lexical_dispersion_plot(self, words, ignore_case=False, title="Lexical Dispersion Plot"):
         word2y = {
             word.casefold() if ignore_case else word: y
             for y, word in enumerate(reversed(words))
         }
         xs, ys = [], []
-        for x, token in enumerate(text):
+        for x, token in enumerate(self.tokens):
             token = token.casefold() if ignore_case else token
-        y = word2y.get(token)
-        if y is not None:
-            xs.append(x)
-            ys.append(y)
+            y = word2y.get(token)
+            if y is not None:
+                xs.append(x)
+                ys.append(y)
 
         _, ax = plt.subplots()
         ax.plot(xs, ys, "|")
@@ -76,69 +92,50 @@ class Nltk_Process:
         ax.set_ylim(-1, len(words))
         ax.set_title(title)
         ax.set_xlabel("Word Offset")
+        ax.set_xlim([0, len(self.tokens)])
+
+        plt.show()
         return ax
 
-    def data_as_dataFrame(self, clean_words_freq):
-        words = []
-        frequency = []
-        for w in clean_words_freq.keys():
-            words.append(w)
-            frequency.append(clean_words_freq.freq(w)*100)
-        df = pd.DataFrame()
-        df['words'] = words
-        df['frequency'] = frequency
-        df = df.sort_values(by=['frequency'], ascending=False)
-        return df
+    def show_concordance(self, word):
+        text = Text(self.tokens)
+        text.concordance(word)
 
-    def get_concordance(self, tokens, word):
-        text = Text(tokens)
-        result = text.concordance(word)
-        return result
-
-    def get_collocation(self, tokens):
-        text = Text(tokens)
+    def get_collocation(self):
+        text = Text(self.tokens)
         result = text.collocation_list()
         return result
 
-    def find_simillarities(self, tokens, word):
-        text = Text(tokens)
+    def get_simillarities(self, word):
+        text = Text(self.tokens)
         result = text.similar(word)
         return result
 
+    def get_text(self):
+        return self.text
+
+    def get_tokens(self):
+        return self.tokens
+
+    def get_no_stop_words_tokens(self):
+        return self.no_stop_word_tokens
+
 
 if __name__ == "__main__":
-    test = Nltk_Process()
+    myNlpDoc = NltkProcess()
 
-    # text = test.open_file_and_read_text('text.txt')
-    # print(text)
+    # myNlpDoc.init_web_page('https://www.cnn.com/')
+    myNlpDoc.init_by_file('text.txt').tokenize().remove_stop_words()
 
-    text = test.read_web_page_text(
-        'https://www.cnn.com/')
-    # print(text)
+    print(myNlpDoc.get_text())
+    print(myNlpDoc.get_tokens())
+    print(myNlpDoc.get_most_common_words(5))
+    print(myNlpDoc.get_no_stop_words_tokens())
+    print(myNlpDoc.get_most_common_words(
+        5, myNlpDoc.get_no_stop_words_tokens()))
+    print(myNlpDoc.get_frequency_as_data_frame().head(10))
+    print(myNlpDoc.get_collocation())
+    print(myNlpDoc.get_simillarities('news'))
+    # myNlpDoc.show_concordance('news')
 
-    tokens = test.tokenize_text(text)
-    # print(tokens)
-
-    freq = test.most_common_words(tokens)
-    # print(freq.most_common(10))
-
-    tokens_witouth_stop_word = test.clean_version_without_stop_words(tokens)
-    # print(tokens_witouth_stop_word)
-
-    freq = test.most_common_words(tokens_witouth_stop_word)
-    # print(freq.most_common(10))
-
-    words = ["cnn", "news"]
-    test.draw_lexical_dispersion_plot(text, words)
-    # plt.show()
-
-    dataFrame = test.data_as_dataFrame(freq)
-    # print(dataFrame.head(10))
-
-    # test.get_concordance(tokens, 'news')
-
-    collocation = test.get_collocation(tokens)
-    # print(collocation)
-
-    similar = test.find_simillarities(tokens, 'news')
-    # print(similar)
+    myNlpDoc.draw_lexical_dispersion_plot(["guardian", "want", "ai", "says", "programming","news", 'chatbots']) 
