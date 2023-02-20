@@ -1,18 +1,17 @@
-# read text file and run nltk process in here
-# write the code SUPER CLEAN not like what we did on Sunday 19th
-
-
-# definatly draw => Dispersion Plot
-
-
-# document = new MyClass('path/to/your/doc')
-
-# document.getTokens(),
+import ssl
+from bs4 import BeautifulSoup
+import urllib.request
+import urllib.parse
+import urllib.error
+import collections
+collections.Callable = collections.abc.Callable
 
 
 class Nltk_Process:
     def __init__(self):
-        pass
+        self.ctx = ssl.create_default_context()
+        self.ctx.check_hostname = False
+        self.ctx.verify_mode = ssl.CERT_NONE
 
     def open_and_read_text(self, text):
         text_file = open(
@@ -21,8 +20,22 @@ class Nltk_Process:
         result = print(txt)
         return result
 
+    def open_and_read_url(self, url):
+        try:
+            html = urllib.request.urlopen(url, context=self.ctx).read()
+            soup = BeautifulSoup(html, 'lxml')
+            return soup
+        except:
+            return None
+
+    def read_web_page(self, url):
+        soup = self.open_and_read_url(url)
+        text = soup.get_text()
+        result = print(text)
+        return result
 
 
 if __name__ == "__main__":
     test = Nltk_Process()
-    test.open_and_read_text('text.txt')
+    # test.open_and_read_text('text.txt')
+    test.read_web_page('https://www.foodnetwork.ca/recipe/air-fryer-cauliflower-bites/')
