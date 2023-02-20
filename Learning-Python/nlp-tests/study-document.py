@@ -13,12 +13,11 @@ class Nltk_Process:
         self.ctx.check_hostname = False
         self.ctx.verify_mode = ssl.CERT_NONE
 
-    def open_and_read_text(self, text):
+    def open_and_read_text(self, file_name):
         text_file = open(
-            '/home/tina/Documents/python/python-tests/Learning-Python/nlp-tests/' + text, 'r')
-        txt = text_file.read()
-        result = print(txt)
-        return result
+            '/home/tina/Documents/python/python-tests/Learning-Python/nlp-tests/' + file_name, 'r')
+        text = text_file.read()
+        return text
 
     def open_and_read_url(self, url):
         try:
@@ -31,11 +30,14 @@ class Nltk_Process:
     def read_web_page(self, url):
         soup = self.open_and_read_url(url)
         text = soup.get_text()
-        result = print(text)
-        return result
+        return text
 
 
 if __name__ == "__main__":
     test = Nltk_Process()
-    # test.open_and_read_text('text.txt')
-    test.read_web_page('https://www.foodnetwork.ca/recipe/air-fryer-cauliflower-bites/')
+    text = test.open_and_read_text('text.txt')
+    print(text)
+    print('\n' * 5)
+    text = test.read_web_page(
+        'https://www.foodnetwork.ca/recipe/air-fryer-cauliflower-bites/')
+    print(text)
