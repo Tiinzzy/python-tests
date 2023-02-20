@@ -60,5 +60,7 @@ if __name__ == "__main__":
     from nltk.corpus import gutenberg
 
     words = ["Elinor", "Marianne", "Edward", "Willoughby"]
-    dispersion_plot(gutenberg.words("austen-sense.txt"), words)
+    text = gutenberg.words("austen-sense.txt")
+    print(text)
+    dispersion_plot(text, words)
     plt.show()
