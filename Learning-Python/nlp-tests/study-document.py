@@ -1,6 +1,9 @@
 from nltk.tokenize import TweetTokenizer
 from nltk import FreqDist
 from nltk.corpus import stopwords
+import pandas as pd
+import matplotlib.pyplot as plt
+from nltk.text import Text
 import string
 import ssl
 from bs4 import BeautifulSoup
@@ -54,12 +57,35 @@ class Nltk_Process:
                 no_stop_word_tokens.append(t.lower())
         return no_stop_word_tokens
 
+    def draw_lexical_dispersion_plot(self, text, words, ignore_case=False, title="Lexical Dispersion Plot"):
+        word2y = {
+            word.casefold() if ignore_case else word: y
+            for y, word in enumerate(reversed(words))
+        }
+        xs, ys = [], []
+        for x, token in enumerate(text):
+            token = token.casefold() if ignore_case else token
+        y = word2y.get(token)
+        if y is not None:
+            xs.append(x)
+            ys.append(y)
+
+        _, ax = plt.subplots()
+        ax.plot(xs, ys, "|")
+        ax.set_yticks(list(range(len(words))), words, color="C0")
+        ax.set_ylim(-1, len(words))
+        ax.set_title(title)
+        ax.set_xlabel("Word Offset")
+        return ax
+
+
 
 if __name__ == "__main__":
     test = Nltk_Process()
+
     # text = test.open_file_and_read_text('text.txt')
     # print(text)
-    # print('\n' * 5)
+
     text = test.read_web_page_text(
         'https://www.cnn.com/')
     # print(text)
@@ -68,10 +94,14 @@ if __name__ == "__main__":
     # print(tokens)
 
     freq = test.most_common_words(tokens)
-    print(freq.most_common(10))
+    # print(freq.most_common(10))
 
     tokens_witouth_stop_word = test.clean_version_without_stop_words(tokens)
     # print(tokens_witouth_stop_word)
 
     freq = test.most_common_words(tokens_witouth_stop_word)
-    print(freq.most_common(10))
+    # print(freq.most_common(10))
+
+    words = ["cnn", "news"]
+    test.draw_lexical_dispersion_plot(text, words)
+    plt.show()
