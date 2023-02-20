@@ -1,4 +1,5 @@
 from nltk.tokenize import TweetTokenizer
+from nltk import FreqDist
 import ssl
 from bs4 import BeautifulSoup
 import urllib.request
@@ -37,6 +38,10 @@ class Nltk_Process:
         tokens = TweetTokenizer().tokenize(text)
         return tokens
 
+    def most_common_words(self, tokens):
+        frequency = FreqDist(tokens)
+        return frequency
+
 
 if __name__ == "__main__":
     test = Nltk_Process()
@@ -47,5 +52,7 @@ if __name__ == "__main__":
     #     'https://www.foodnetwork.ca/recipe/air-fryer-cauliflower-bites/')
     # print(text)
 
-    token = test.tokenize_text(text)
-    print(token)
+    tokens = test.tokenize_text(text)
+    # print(tokens)
+    freq = test.most_common_words(tokens)
+    print(freq.most_common(10))
