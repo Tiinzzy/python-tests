@@ -1,5 +1,7 @@
 from nltk.tokenize import TweetTokenizer
 from nltk import FreqDist
+from nltk.corpus import stopwords
+import string
 import ssl
 from bs4 import BeautifulSoup
 import urllib.request
@@ -42,17 +44,34 @@ class Nltk_Process:
         frequency = FreqDist(tokens)
         return frequency
 
+    def clean_version_without_stop_words(self, tokens):
+        all_stop_words = set(stopwords.words(
+            'english') + list(string.punctuation))
+
+        no_stop_word_tokens = []
+        for t in tokens:
+            if t.lower() not in all_stop_words:
+                no_stop_word_tokens.append(t.lower())
+        return no_stop_word_tokens
+
 
 if __name__ == "__main__":
     test = Nltk_Process()
-    text = test.open_file_and_read_text('text.txt')
-    print(text)
+    # text = test.open_file_and_read_text('text.txt')
+    # print(text)
     # print('\n' * 5)
-    # text = test.read_web_page_text(
-    #     'https://www.foodnetwork.ca/recipe/air-fryer-cauliflower-bites/')
+    text = test.read_web_page_text(
+        'https://www.cnn.com/')
     # print(text)
 
     tokens = test.tokenize_text(text)
     # print(tokens)
+
     freq = test.most_common_words(tokens)
+    print(freq.most_common(10))
+
+    tokens_witouth_stop_word = test.clean_version_without_stop_words(tokens)
+    # print(tokens_witouth_stop_word)
+
+    freq = test.most_common_words(tokens_witouth_stop_word)
     print(freq.most_common(10))
