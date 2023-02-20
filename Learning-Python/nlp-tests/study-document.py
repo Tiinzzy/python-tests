@@ -78,6 +78,17 @@ class Nltk_Process:
         ax.set_xlabel("Word Offset")
         return ax
 
+    def data_as_dataFrame(self, clean_words_freq):
+        words = []
+        frequency = []
+        for w in clean_words_freq.keys():
+            words.append(w)
+            frequency.append(clean_words_freq.freq(w)*100)
+        df = pd.DataFrame()
+        df['words'] = words
+        df['frequency'] = frequency
+        df = df.sort_values(by=['frequency'], ascending=False)
+        return df
 
 
 if __name__ == "__main__":
@@ -104,4 +115,7 @@ if __name__ == "__main__":
 
     words = ["cnn", "news"]
     test.draw_lexical_dispersion_plot(text, words)
-    plt.show()
+    # plt.show()
+
+    dataFrame = test.data_as_dataFrame(freq)
+    print(dataFrame.head(10))
