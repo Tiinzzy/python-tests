@@ -38,7 +38,7 @@ class NltkProcess:
 
     def init_web_page(self, url):
         soup = self.__open_and_read_url(url)
-        self.text = soup.get_text()
+        self.text = soup.get_text(separator=' ')
         return self
 
     def tokenize(self):
@@ -112,7 +112,8 @@ class NltkProcess:
         return result
 
     def get_text(self):
-        return self.text
+        txt = ' '.join(self.text.split())
+        return txt
 
     def get_tokens(self):
         return self.tokens
@@ -124,18 +125,30 @@ class NltkProcess:
 if __name__ == "__main__":
     myNlpDoc = NltkProcess()
 
-    # myNlpDoc.init_web_page('https://www.cnn.com/')
-    myNlpDoc.init_by_file('text.txt').tokenize().remove_stop_words()
+    myNlpDoc.init_web_page(
+        'https://www.foxnews.com/').tokenize().remove_stop_words()
+    # myNlpDoc.init_by_file('text.txt').tokenize().remove_stop_words()
 
     print(myNlpDoc.get_text())
+    print('\n' * 2)
     print(myNlpDoc.get_tokens())
+    print('\n' * 2)
     print(myNlpDoc.get_most_common_words(5))
+    print('\n' * 2)
     print(myNlpDoc.get_no_stop_words_tokens())
+    print('\n' * 2)
     print(myNlpDoc.get_most_common_words(
         5, myNlpDoc.get_no_stop_words_tokens()))
+    print('\n' * 2)
     print(myNlpDoc.get_frequency_as_data_frame().head(10))
+    print('\n' * 2)
     print(myNlpDoc.get_collocation())
+    print('\n' * 2)
     print(myNlpDoc.get_simillarities('news'))
+    print('\n' * 2)
     # myNlpDoc.show_concordance('news')
+    print('\n' * 2)
 
-    myNlpDoc.draw_lexical_dispersion_plot(["guardian", "want", "ai", "says", "programming","news", 'chatbots']) 
+
+    # myNlpDoc.draw_lexical_dispersion_plot(["guardian", "want", "ai", "says", "programming","news", 'chatbots'])
+
