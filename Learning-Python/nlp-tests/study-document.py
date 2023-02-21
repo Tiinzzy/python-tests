@@ -112,8 +112,7 @@ class NltkProcess:
         return result
 
     def get_text(self):
-        for i in self.text:
-            txt = ' '.join(self.text.split())
+        txt = ' '.join(self.text.split())
         return txt
 
     def get_tokens(self):
