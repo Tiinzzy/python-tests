@@ -15,7 +15,8 @@ export default class Url extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            url: null
+            url: null,
+            value: 'https://www.cnn.com/'
         };
 
     }
@@ -25,8 +26,8 @@ export default class Url extends React.Component {
     }
 
     SubmitUrl() {
-        let url = Base64.encode(this.state.url);
-        console.log(url,'<<<<<<<')
+        let url = Base64.encode(this.state.value);
+        console.log(url, '<<<<<<<')
         backend.send_url_to_backend(url, (data) => {
             console.log(data)
         })
@@ -37,7 +38,7 @@ export default class Url extends React.Component {
             <>
                 <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', marginTop: 50 }}>
                     <Typography mb={1} fontSize={18} variant="body1">Enter a Url</Typography>
-                    <TextField variant="outlined" onChange={(e) => this.GetTextfieldValue(e)} />
+                    <TextField value={this.state.value} variant="outlined" onChange={(e) => this.GetTextfieldValue(e)} />
 
                 </Box >
                 <Box style={{ justifyContent: 'right', display: 'flex', marginTop: 20 }}>
