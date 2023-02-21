@@ -1,6 +1,6 @@
 import { Box } from '@mui/system';
 import React from 'react';
-import Url from './Url';
+import InitUrlProcess from './InitUrlProcess';
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -14,7 +14,7 @@ export default class Home extends React.Component {
     render() {
         return (
             <Box style={{ width: 600, justifyContent: 'center', margin: 'auto' }}>
-                <Url />
+                <InitUrlProcess />
             </Box>
         );
     }
