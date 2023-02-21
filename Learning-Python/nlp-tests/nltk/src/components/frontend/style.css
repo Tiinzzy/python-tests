@@ -1,0 +1,51 @@
+.DividerStyle {
+    margin-bottom: 15px !important;
+    color: #4c4c4c !important
+}
+
+.GetTokensBtn {
+    margin-right: 15px !important;
+    color: white !important;
+    background-color: rgb(31, 76, 142) !important;
+    font-weight: bold !important;
+    font-size: 18px;
+}
+
+.SunbmitBtn {
+    color: white !important;
+    background-color: rgb(31, 76, 142) !important;
+    font-weight: bold !important;
+    font-size: 18px;
+}
+
+.DataDisplayBox {
+    border: solid 1px #eaeaea;
+    border-radius: 4px;
+    margin-top: 25px;
+    overflow-y: scroll;
+    height: 600px;
+    width: 600px;
+    padding: 5px;
+}
+
+.MainTextTokenBox {
+    margin-top: 25px;
+}
+
+.MainHomeBox {
+    width: 600px;
+    margin: auto
+}
+
+.GetUrlBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.SUbmitBtnBox {
+    justify-content: right;
+    display: flex;
+    margin-top: 20px;
+}
