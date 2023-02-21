@@ -10,6 +10,8 @@ import { Base64 } from 'js-base64';
 import BackEndConnection from './BackEndConnection';
 import TextTokens from './TextTokens';
 
+import './style.css';
+
 const backend = BackEndConnection.INSTANCE();
 
 export default class InitUrlProcess extends React.Component {
@@ -38,13 +40,12 @@ export default class InitUrlProcess extends React.Component {
     render() {
         return (
             <Box>
-                <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', marginTop: 50 }}>
-                    <Typography mb={1} fontSize={18} variant="body1">Enter a Url</Typography>
+                <Box className="GetUrlBox">
+                    <Typography mb={1} fontSize={18} variant="body1">Enter URL</Typography>
                     <TextField value={this.state.value} variant="outlined" onChange={(e) => this.getTextfieldValue(e)} />
-
                 </Box >
-                <Box style={{ justifyContent: 'right', display: 'flex', marginTop: 20 }}>
-                    <Button variant="contained" size='large' onClick={() => this.submitUrl()}>Submit</Button>
+                <Box className="SUbmitBtnBox">
+                    <Button variant="contained" className='SunbmitBtn' size='large' onClick={() => this.submitUrl()}>Submit</Button>
                 </Box>
                 {this.state.data &&
                     <TextTokens data={this.state.data} />}
