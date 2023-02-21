@@ -5,6 +5,7 @@ import Box from '@mui/system/Box';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 
+import './style.css';
 
 export default class TextTokens extends React.Component {
     constructor(props) {
@@ -25,27 +26,27 @@ export default class TextTokens extends React.Component {
         for (let i in this.state.data.tokens) {
             tokens.push(i + ' --> ' + this.state.data.tokens[i]);
         }
-        this.setState({ tokens: tokens })
-        console.log(tokens)
+        this.setState({ tokens: tokens });
+        console.log(tokens);
     }
 
     getCleanTokens() {
         this.setState({ cleanTokens: this.state.data.nonStopWord });
+        console.log(this.state.cleanTokens);
     }
 
     render() {
         return (
-            <Box style={{ marginTop: 20 }}>
-                <Divider style={{ marginBottom: 20 }} color="#696969" />
-                <Button variant="contained" size='large' onClick={() => this.getText()} style={{ marginRight: 15 }}>Text</Button>
-                <Button variant="contained" size='large' onClick={() => this.getTokens()} style={{ marginRight: 15 }}>Tokens</Button>
-                <Button variant="contained" size='large' onClick={() => this.getCleanTokens()} style={{ marginRight: 15 }}>CLean Tokens</Button>
+            <Box className="MainTextTokenBox">
+                <Divider style={{ marginBottom: 20 }} color="#4c4c4c" />
+                <Button variant="contained" className='GetTokensBtn' size='large' onClick={() => this.getText()}>Text</Button>
+                <Button variant="contained" className='GetTokensBtn' size='large' onClick={() => this.getTokens()} >Tokens</Button>
+                <Button variant="contained" className='GetTokensBtn' size='large' onClick={() => this.getCleanTokens()} >CLean Tokens</Button>
 
-                {this.state.text !== null &&
-                    <Box style={{ marginTop: 20, overflowY: 'scroll', height: 600, width: 600 }}>{this.state.text}</Box>}
-                {this.state.tokens && <Box> {this.state.tokens.forEach((e, i) => {
+                {this.state.text !== null && <Box className="DataDisplayBox">{this.state.text}</Box>}
+                {/* {this.state.tokens && <Box> {this.state.tokens.forEach((e, i) => {
                     <Box key={i}> {e}</Box>
-                })}</Box>}
+                })}</Box>} */}
             </Box>
         );
     }
