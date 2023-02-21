@@ -37,7 +37,7 @@ class NltkProcess:
 
     @classmethod
     def tokenize(self
-    ):
+                 ):
         self.tokens = wordpunct_tokenize(self.text)
         return self
 
@@ -46,10 +46,10 @@ class NltkProcess:
         all_stop_words = set(stopwords.words(
             'english') + list(string.punctuation))
 
-        no_stop_word_tokens = []
+        self.no_stop_word_tokens = []
         for t in self.tokens:
             if t.lower() not in all_stop_words:
-                no_stop_word_tokens.append(t.lower())
+                self.no_stop_word_tokens.append(t.lower())
         return self
 
     @classmethod
@@ -62,6 +62,10 @@ class NltkProcess:
     def get_tokens(self):
         return self.tokens
 
+    @classmethod
+    def get_no_stop_words_tokens(self):
+        return self.no_stop_word_tokens
+
 
 if __name__ == "__main__":
     url = 'https://www.cnn.com/'
@@ -70,3 +74,5 @@ if __name__ == "__main__":
     print(NltkProcess.get_text())
     print('\n' * 2)
     print(NltkProcess.get_tokens())
+    print('\n' * 2)
+    print(NltkProcess.get_no_stop_words_tokens())
