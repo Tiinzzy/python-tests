@@ -2,6 +2,8 @@ import { Box } from '@mui/system';
 import React from 'react';
 import InitUrlProcess from './InitUrlProcess';
 
+import './style.css';
+
 export default class Home extends React.Component {
     constructor(props) {
         super(props);
@@ -13,7 +15,7 @@ export default class Home extends React.Component {
 
     render() {
         return (
-            <Box style={{ width: 600, justifyContent: 'center', margin: 'auto' }}>
+            <Box className="MainHomeBox">
                 <InitUrlProcess />
             </Box>
         );
