@@ -53,6 +53,13 @@ class NltkProcess:
         return self
 
     @classmethod
+    def get_most_common_words(self, count, giev_tokens=None):
+        if giev_tokens is None:
+            giev_tokens = self.tokens
+        self.frequency = FreqDist(giev_tokens)
+        return self.frequency.most_common(count)
+
+    @classmethod
     def get_text(self):
         for i in self.text:
             txt = ' '.join(self.text.split())
@@ -82,3 +89,5 @@ if __name__ == "__main__":
     print(NltkProcess.get_tokens())
     print('\n' * 2)
     print(NltkProcess.get_no_stop_words_tokens())
+    print('\n' * 2)
+    print(NltkProcess.get_most_common_words(10, NltkProcess.get_no_stop_words_tokens()))
