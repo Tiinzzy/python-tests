@@ -16,7 +16,7 @@ class BackEndConnectionImpl {
     }
 
     async send_text_file_to_backend(query, callback) {
-        return axios.post("/file-to-txt-and-tokens", {}, { params: { query: query } })
+        return axios.post("/file-to-txt-and-tokens", query, {})
             .then(response => {
                 if (response.status === 200) {
                     if (callback) {
