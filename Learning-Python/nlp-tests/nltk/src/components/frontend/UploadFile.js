@@ -14,12 +14,30 @@ export default class UploadFile extends React.Component {
 
     }
 
+    initReadFile(e) {
+        document.getElementById("myFile").addEventListener('change', this.handleFileSelect(e), false);
+        let filePath = document.getElementById("myFile").value;
+        let fileName = filePath.replace('fakepath', '').replace('C:\\\\', '');
+        this.setState({ fileName: fileName })
+    }
+
+    handleFileSelect(e) {
+        const reader = new FileReader();
+        reader.onload = this.handleFileLoad;
+        reader.readAsText(e.target.files[0]);
+    }
+
+    handleFileLoad(e) {
+        console.log('----------------------------')
+        console.log(e.target.result);
+    }
+
     render() {
         return (
-            <Box style={{marginRight: 15}}>
+            <Box style={{ marginRight: 15 }}>
                 <Button size='large' className='SunbmitBtn' variant="contained" component="label">
                     Upload
-                    <input hidden id="myFile" multiple type="file" accept="text/plain" />
+                    <input hidden id="myFile" multiple type="file" accept="text/plain" onChange={(e) => this.initReadFile(e)} />
                 </Button>
             </Box>
         );
