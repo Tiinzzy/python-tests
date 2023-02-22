@@ -3,6 +3,8 @@ import React from 'react';
 import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
 
+import { shared } from './helper';
+
 import './style.css';
 
 export default class UploadFile extends React.Component {
@@ -18,7 +20,7 @@ export default class UploadFile extends React.Component {
         document.getElementById("myFile").addEventListener('change', this.handleFileSelect(e), false);
         let filePath = document.getElementById("myFile").value;
         let fileName = filePath.replace('fakepath', '').replace('C:\\\\', '');
-        this.setState({ fileName: fileName })
+        this.setState({ fileName: fileName });
     }
 
     handleFileSelect(e) {
@@ -28,8 +30,10 @@ export default class UploadFile extends React.Component {
     }
 
     handleFileLoad(e) {
-        console.log('----------------------------')
-        console.log(e.target.result);
+        let text = { 'text': e.target.result };
+        if (text.text.length > 0) {
+            shared.callInitUrlProcess({ action: 'data-is-ready', data: text })
+        }
     }
 
     render() {
