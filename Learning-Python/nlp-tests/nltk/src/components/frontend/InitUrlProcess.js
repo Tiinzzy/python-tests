@@ -8,8 +8,10 @@ import Button from '@mui/material/Button';
 import { Base64 } from 'js-base64';
 
 import BackEndConnection from './BackEndConnection';
-import TextTokens from './TextTokens';
+import TextTokensUrl from './TextTokensUrl';
+import TextTokensFile from './TextTokensFile';
 import UploadFile from './UploadFile';
+import { shared } from './helper';
 
 import './style.css';
 
@@ -22,7 +24,8 @@ export default class InitUrlProcess extends React.Component {
             url: null,
             value: 'https://www.cnn.com/'
         };
-
+        this.callInitUrlProcess = this.callInitUrlProcess.bind(this);
+        shared.callInitUrlProcess = this.callInitUrlProcess;
     }
 
     getTextfieldValue(e) {
@@ -38,6 +41,12 @@ export default class InitUrlProcess extends React.Component {
         })
     }
 
+    callInitUrlProcess(e) {
+        if (e.action === 'data-is-ready') {
+            this.setState({ data: e.data });
+        }
+    }
+
     render() {
         return (
             <Box>
@@ -51,7 +60,7 @@ export default class InitUrlProcess extends React.Component {
                     <Button variant="contained" className='SunbmitBtn' size='large' onClick={() => this.submitUrl()}>Submit</Button>
                 </Box>
                 {this.state.data &&
-                    <TextTokens data={this.state.data} />}
+                    <TextTokensUrl data={this.state.data} />}
             </Box>
         );
     }
