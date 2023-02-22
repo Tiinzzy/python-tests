@@ -24,10 +24,10 @@ def process_url():
 
 @app.route("/file-to-txt-and-tokens", methods=['POST'])
 def process_text_file():
-    test = request.form.getlist('query')
-    # print(test, '<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+    text = request.json['text']
+    print(text, '<<<<<<<<<<<<<<<<<<<<<<<<<<<')
 
-    res = NltkProcess.process_text_file(test)
+    res = NltkProcess.process_text_file(text)
 
     return jsonify(res)
 
