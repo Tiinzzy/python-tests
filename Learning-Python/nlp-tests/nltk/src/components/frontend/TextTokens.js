@@ -56,10 +56,12 @@ export default class TextTokens extends React.Component {
         return (
             <Box className="MainTextTokenBox">
                 <Divider style={{ marginBottom: 20 }} color="#4c4c4c" />
-                <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getText()}>Text</Button>
-                <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getTokens()} >Tokens</Button>
-                <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getCleanTokens()} >CLean Tokens</Button>
-                <CommonWords />
+                <Box display='flex'>
+                    <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getText()}>Text</Button>
+                    <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getTokens()} >Tokens</Button>
+                    <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getCleanTokens()} >CLean Tokens</Button>
+                    <CommonWords />
+                </Box>
 
                 {this.state.text !== null && <Box className="DataDisplayBox">{this.state.text}</Box>}
 
