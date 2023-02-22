@@ -9,6 +9,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import Divider from '@mui/material/Divider';
 
 import BackEndConnection from './BackEndConnection';
+import { shared } from './helper';
 
 import './style.css';
 
@@ -21,7 +22,8 @@ export default class CommonWords extends React.Component {
         super(props);
         this.state = {
             open: false,
-            value: 'Common Words'
+            value: 'Common Words',
+            data: null
         };
     }
 
@@ -32,14 +34,17 @@ export default class CommonWords extends React.Component {
     sendCommonWordValue(e) {
         this.setState({ open: false, value: e + ' Common Words' });
         backend.get_common_words(e, (data) => {
-            console.log(data)
+            let that = this;
+            that.setState({ data: data }, () => {
+                shared.callTextTokens({ action: 'get-common-words', data: that.state.data })
+            })
         })
     }
 
     render() {
         return (
             <>
-                <List sx={{ width: 210, bgcolor: 'background.paper', border: 'solid 1px #eaeaea' }} component="nav">
+                <List sx={{ width: 210, bgcolor: 'background.paper', border: 'solid 1px #eaeaea', marginTop: 1, borderRadius: 4 }} component="nav">
                     <ListItemButton onClick={() => this.handleOpen()}>
                         <ListItemText primary={this.state.value} />
                         {this.state.open ? <ExpandLess /> : <ExpandMore />}
