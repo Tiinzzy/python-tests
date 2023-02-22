@@ -35,7 +35,6 @@ export default class InitUrlProcess extends React.Component {
         let url = Base64.encode(this.state.value);
         let that = this;
         backend.send_url_to_backend(url, (data) => {
-            console.log(data)
             that.setState({ data: data });
         })
     }
