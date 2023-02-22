@@ -1,5 +1,7 @@
-import { Box } from '@mui/system';
 import React from 'react';
+
+import Box from '@mui/system/Box';
+
 import InitUrlProcess from './InitUrlProcess';
 
 import './style.css';
