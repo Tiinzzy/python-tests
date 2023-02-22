@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 @app.route("/url-to-txt-and-tokens", methods=['GET'])
-def top_ten_movies():
+def process_url():
     args = request.args
     url = args.get('url')
     main_url = base64.b64decode(url).decode('utf-8')
@@ -20,3 +20,13 @@ def top_ten_movies():
     result = {'text': text, 'tokens': tokens, 'nonStopWord': nonStopWord}
 
     return jsonify(result)
+
+
+@app.route("/file-to-txt-and-tokens", methods=['POST'])
+def process_text_file():
+    test = request.form.getlist('query')
+    # print(test, '<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+
+    res = NltkProcess.process_text_file(test)
+
+    return jsonify(res)
