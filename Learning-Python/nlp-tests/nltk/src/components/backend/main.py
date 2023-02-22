@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 @app.route("/url-to-txt-and-tokens", methods=['GET'])
-def top_ten_movies():
+def process_url():
     args = request.args
     url = args.get('url')
     main_url = base64.b64decode(url).decode('utf-8')
@@ -18,5 +18,43 @@ def top_ten_movies():
     nonStopWord = NltkProcess.get_no_stop_words_tokens()
 
     result = {'text': text, 'tokens': tokens, 'nonStopWord': nonStopWord}
+
+    return jsonify(result)
+
+
+@app.route("/file-to-txt-and-tokens", methods=['POST'])
+def process_text_file():
+    text = request.json['text']
+    print(text, '<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+
+    res = NltkProcess.process_text_file(text)
+
+    return jsonify(res)
+
+
+@app.route("/get-common-words-count", methods=['GET'])
+def get_common_words():
+    args = request.args
+    count = args.get('count')
+    count = int(count)
+
+    common_words = NltkProcess.get_most_common_words(
+        count, NltkProcess.get_no_stop_words_tokens())
+
+    result = {'common_words': common_words}
+
+    return jsonify(result)
+
+
+@app.route("/get-frequency-of-words", methods=['GET'])
+def get_frequency_of_words():
+    args = request.args
+    count = args.get('count')
+    count = int(count)
+
+    freq = NltkProcess.get_frequency_as_data_frame().head(count)
+    df2js = freq.to_json(orient = 'values')
+
+    result = {'freq': df2js}
 
     return jsonify(result)

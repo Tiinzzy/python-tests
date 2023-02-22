@@ -53,6 +53,26 @@ class NltkProcess:
         return self
 
     @classmethod
+    def get_most_common_words(self, count, giev_tokens=None):
+        if giev_tokens is None:
+            giev_tokens = self.tokens
+        self.frequency = FreqDist(giev_tokens)
+        return self.frequency.most_common(count)
+
+    @classmethod
+    def get_frequency_as_data_frame(self):
+        words = []
+        frequency = []
+        for w in self.frequency.keys():
+            words.append(w)
+            frequency.append(self.frequency.freq(w)*100)
+        df = pd.DataFrame()
+        df['words'] = words
+        df['frequency'] = frequency
+        df = df.sort_values(by=['frequency'], ascending=False)
+        return df    
+
+    @classmethod
     def get_text(self):
         for i in self.text:
             txt = ' '.join(self.text.split())
@@ -66,6 +86,12 @@ class NltkProcess:
     def get_no_stop_words_tokens(self):
         return self.no_stop_word_tokens
 
+    @classmethod
+    def process_text_file(self, text):
+        print()
+        print('>>>>>>>>>>>>>>>>>>>>>>>.', text)
+        return {'result': 'rescieved'}
+
 
 if __name__ == "__main__":
     url = 'https://www.cnn.com/'
@@ -76,3 +102,7 @@ if __name__ == "__main__":
     print(NltkProcess.get_tokens())
     print('\n' * 2)
     print(NltkProcess.get_no_stop_words_tokens())
+    print('\n' * 2)
+    print(NltkProcess.get_most_common_words(10, NltkProcess.get_no_stop_words_tokens()))
+    print('\n' * 2)
+    print(NltkProcess.get_frequency_as_data_frame().head(10))
