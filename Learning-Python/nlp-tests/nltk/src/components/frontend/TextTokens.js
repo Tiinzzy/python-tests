@@ -5,6 +5,7 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 
 import CommonWords from './CommonWords';
+import { shared } from './helper';
 
 import './style.css';
 
@@ -16,11 +17,12 @@ export default class TextTokens extends React.Component {
             tokens: [],
             cleanTokens: []
         };
-
+        this.callTextTokens = this.callTextTokens.bind(this);
+        shared.callTextTokens = this.callTextTokens;
     }
 
     getText() {
-        this.setState({ text: this.state.data.text, tokens: [] });
+        this.setState({ text: this.state.data.text, tokens: [], commonWords: '', cleanTokens: [] });
     }
 
     getTokens() {
@@ -28,7 +30,7 @@ export default class TextTokens extends React.Component {
         for (let i in this.state.data.tokens) {
             tokens.push(i + ' --> ' + this.state.data.tokens[i]);
         }
-        this.setState({ tokens: tokens, text: null, cleanTokens: [] });
+        this.setState({ tokens: tokens, text: null, cleanTokens: [], commonWords: '' });
     }
 
     getCleanTokens() {
@@ -36,7 +38,18 @@ export default class TextTokens extends React.Component {
         for (let i in this.state.data.nonStopWord) {
             cleanTokens.push(i + ' --> ' + this.state.data.nonStopWord[i]);
         }
-        this.setState({ cleanTokens: cleanTokens, text: null, tokens: [] });
+        this.setState({ cleanTokens: cleanTokens, text: null, tokens: [], commonWords: '' });
+    }
+
+    callTextTokens(e) {
+        if (e.action === 'get-common-words') {
+            let common_words = [];
+            let info = e.data.common_words;
+            for (let i in info) {
+                common_words.push('Word = ' + info[i][0] + ',  Count = ' + info[i][1]);
+            }
+            this.setState({ commonWords: common_words, text: null, cleanTokens: [], tokens: [] })
+        }
     }
 
     render() {
@@ -63,6 +76,15 @@ export default class TextTokens extends React.Component {
                             <div key={i}>{e}</div>
                         ))}
                     </Box>}
+
+                {this.state.commonWords &&
+                    <Box className="DataDisplayBox">
+                        {this.state.commonWords.map((e, i) => (
+                            <div key={i}>{e}</div>
+                        ))}
+                    </Box>}
+
+
             </Box>
         );
     }
