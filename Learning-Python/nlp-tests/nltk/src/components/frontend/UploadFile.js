@@ -36,6 +36,7 @@ export default class UploadFile extends React.Component {
 
     async handleFileLoad(e) {
         let query = { text: e.target.result };
+
         await backend.send_text_file_to_backend(query, (data) => {
             console.log(data)
         });
