@@ -46,6 +46,20 @@ class BackEndConnectionImpl {
             })
     }
 
+    async get_frequency_of_words(count, callback) {
+        return axios.get("/get-frequency-of-words?count=" + count, {})
+            .then(function (response) {
+                if (callback) {
+                    callback(response.data);
+                }
+                return response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+                return false;
+            })
+    }
+
 }
 
 export default class BackEndConnection {
