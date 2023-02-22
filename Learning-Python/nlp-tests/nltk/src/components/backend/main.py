@@ -30,3 +30,17 @@ def process_text_file():
     res = NltkProcess.process_text_file(test)
 
     return jsonify(res)
+
+
+@app.route("/get-common-words-count", methods=['GET'])
+def get_common_words():
+    args = request.args
+    count = args.get('count')
+    count = int(count)
+
+    common_words = NltkProcess.get_most_common_words(
+        count, NltkProcess.get_no_stop_words_tokens())
+
+    result = {'common_words': common_words}
+
+    return jsonify(result)
