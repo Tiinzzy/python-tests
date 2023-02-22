@@ -16,7 +16,6 @@ class BackEndConnectionImpl {
     }
 
     async send_text_file_to_backend(query, callback) {
-
         return axios.post("/file-to-txt-and-tokens", {}, { params: { query: query } })
             .then(response => {
                 if (response.status === 200) {
@@ -32,6 +31,21 @@ class BackEndConnectionImpl {
                 return false;
             });
     }
+
+    async get_common_words(count, callback) {
+        return axios.get("/get-common-words-count?count=" + count, {})
+            .then(function (response) {
+                if (callback) {
+                    callback(response.data);
+                }
+                return response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+                return false;
+            })
+    }
+
 }
 
 export default class BackEndConnection {
