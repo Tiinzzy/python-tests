@@ -46,7 +46,7 @@ export default class TextTokens extends React.Component {
             let common_words = [];
             let info = e.data.common_words;
             for (let i in info) {
-                common_words.push('Word = ' + info[i][0] + ',  Count = ' + info[i][1]);
+                common_words.push(info[i][0] + ' -->  Count = ' + info[i][1]);
             }
             this.setState({ commonWords: common_words, text: null, cleanTokens: [], tokens: [] })
         }
