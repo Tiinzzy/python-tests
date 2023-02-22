@@ -44,3 +44,17 @@ def get_common_words():
     result = {'common_words': common_words}
 
     return jsonify(result)
+
+
+@app.route("/get-frequency-of-words", methods=['GET'])
+def get_frequency_of_words():
+    args = request.args
+    count = args.get('count')
+    count = int(count)
+
+    freq = NltkProcess.get_frequency_as_data_frame().head(count)
+    df2js = freq.to_json(orient = 'values')
+
+    result = {'freq': df2js}
+
+    return jsonify(result)
