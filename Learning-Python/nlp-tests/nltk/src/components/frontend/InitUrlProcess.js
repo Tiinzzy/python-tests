@@ -8,8 +8,7 @@ import Button from '@mui/material/Button';
 import { Base64 } from 'js-base64';
 
 import BackEndConnection from './BackEndConnection';
-import TextTokensUrl from './TextTokensUrl';
-import TextTokensFile from './TextTokensFile';
+import TextTokens from './TextTokens';
 import UploadFile from './UploadFile';
 import { shared } from './helper';
 
@@ -60,7 +59,7 @@ export default class InitUrlProcess extends React.Component {
                     <Button variant="contained" className='SunbmitBtn' size='large' onClick={() => this.submitUrl()}>Submit</Button>
                 </Box>
                 {this.state.data &&
-                    <TextTokensUrl data={this.state.data} />}
+                    <TextTokens data={this.state.data} />}
             </Box>
         );
     }
