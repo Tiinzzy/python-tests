@@ -4,8 +4,13 @@ import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
 
 import { shared } from './helper';
+import BackEndConnection from './BackEndConnection';
+
+import { Base64 } from 'js-base64';
 
 import './style.css';
+
+const backend = BackEndConnection.INSTANCE();
 
 export default class UploadFile extends React.Component {
     constructor(props) {
@@ -29,10 +34,13 @@ export default class UploadFile extends React.Component {
         reader.readAsText(e.target.files[0]);
     }
 
-    handleFileLoad(e) {
-        let text = { 'text': e.target.result };
-        if (text.text.length > 0) {
-            shared.callInitUrlProcess({ action: 'data-is-ready', data: text })
+    async handleFileLoad(e) {
+        let query = { text: e.target.result };
+        await backend.send_text_file_to_backend(query, (data) => {
+            console.log(data)
+        });
+        if (query.text.length > 0) {
+            shared.callInitUrlProcess({ action: 'data-is-ready', data: query })
         }
     }
 
