@@ -60,6 +60,19 @@ class NltkProcess:
         return self.frequency.most_common(count)
 
     @classmethod
+    def get_frequency_as_data_frame(self):
+        words = []
+        frequency = []
+        for w in self.frequency.keys():
+            words.append(w)
+            frequency.append(self.frequency.freq(w)*100)
+        df = pd.DataFrame()
+        df['words'] = words
+        df['frequency'] = frequency
+        df = df.sort_values(by=['frequency'], ascending=False)
+        return df    
+
+    @classmethod
     def get_text(self):
         for i in self.text:
             txt = ' '.join(self.text.split())
@@ -91,3 +104,5 @@ if __name__ == "__main__":
     print(NltkProcess.get_no_stop_words_tokens())
     print('\n' * 2)
     print(NltkProcess.get_most_common_words(10, NltkProcess.get_no_stop_words_tokens()))
+    print('\n' * 2)
+    print(NltkProcess.get_frequency_as_data_frame().head(10))
