@@ -6,7 +6,14 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import Divider from '@mui/material/Divider';
+import Box from '@mui/system/Box';
+
+
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+
 
 import BackEndConnection from './BackEndConnection';
 import { shared } from './helper';
@@ -15,52 +22,53 @@ import './style.css';
 
 const backend = BackEndConnection.INSTANCE();
 
-const COMMON_WORDS_AMOUNT = [5, 10, 15, 20]
+const COMMON_WORDS_AMOUNT = [-1, 5, 10, 15, 20]
 
 export default class CommonWords extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false,
-            value: 'Common Words',
+            selectedCount: COMMON_WORDS_AMOUNT[0],
             data: null
         };
     }
 
-    handleOpen() {
-        this.setState({ open: true });
-    }
 
-    sendCommonWordValue(e) {
-        this.setState({ open: false, value: e + ' Common Words' });
-        backend.get_common_words(e, (data) => {
+    getCommonWordValue(e) {
+        this.setState({ selectedCount: e.target.value });
+        backend.get_common_words(e.target.value, (data) => {
             let that = this;
             that.setState({ data: data }, () => {
                 shared.callTextTokens({ action: 'get-common-words', data: that.state.data })
-            })
+            });
+        });
+
+        backend.get_frequency_of_words(3, (data) => {
+            console.log(data);
         })
     }
 
     render() {
         return (
-            <>
-                <List sx={{ width: 210, bgcolor: 'background.paper', border: 'solid 1px #eaeaea', marginTop: 1, borderRadius: 4 }} component="nav">
-                    <ListItemButton onClick={() => this.handleOpen()}>
-                        <ListItemText primary={this.state.value} />
-                        {this.state.open ? <ExpandLess /> : <ExpandMore />}
-                    </ListItemButton>
-                    <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            {COMMON_WORDS_AMOUNT.map((e, i) => (
-                                <ListItemButton key={i} onClick={() => this.sendCommonWordValue(e)}>
-                                    <ListItemText primary={e} />
-                                    <Divider />
-                                </ListItemButton>
-                            ))}
-                        </List>
-                    </Collapse>
-                </List>
-            </>
+            <Box style={{ display: 'flex', flexDirection: 'row' }}>
+                <FormControl>
+                    <InputLabel id="select-label">Common Words Count</InputLabel>
+                    <Select
+                        style={{ width: 208 }}
+                        labelId="select-label"
+                        value={this.state.selectedCount}
+                        label="Common Words Count"
+                        onChange={(e) => this.getCommonWordValue(e)}                >
+                        {COMMON_WORDS_AMOUNT.map((e, i) => (
+                            <MenuItem key={i} value={e}>
+                                {e < 0 ? 'Select a Count' : e}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
+                {/* Virtualized List tomorrow */}
+            </Box>
         );
     }
 };
