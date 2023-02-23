@@ -45,8 +45,10 @@ def get_common_words():
 
     common_words = NltkProcess.get_most_common_words(
         count, NltkProcess.get_no_stop_words_tokens())
+    all_freq = len(NltkProcess.get_frequency_as_data_frame())
 
-    result = {'common_words': common_words}
+
+    result = {'common_words': common_words, 'all': all_freq}
 
     return jsonify(result)
 

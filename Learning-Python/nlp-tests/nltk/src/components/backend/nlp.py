@@ -98,15 +98,16 @@ if __name__ == "__main__":
     url = 'https://www.cnn.com/'
     NltkProcess.init_web_page(url).tokenize().remove_stop_words()
 
-    print(NltkProcess.get_text())
-    print('\n' * 2)
-    print(NltkProcess.get_tokens())
-    print('\n' * 2)
-    print(NltkProcess.get_no_stop_words_tokens())
-    print('\n' * 2)
-    print(NltkProcess.get_most_common_words(
-        10, NltkProcess.get_no_stop_words_tokens()))
-    print('\n' * 2)
-    print(NltkProcess.get_frequency_as_data_frame())
-    print('\n' * 10)
-    print(NltkProcess.get_frequency_as_data_frame().head(5).values.tolist())
+    # print(NltkProcess.get_text())
+    # print('\n' * 2)
+    # print(NltkProcess.get_tokens())
+    # print('\n' * 2)
+    # print(NltkProcess.get_no_stop_words_tokens())
+    # print('\n' * 2)
+    # print(NltkProcess.get_most_common_words(
+    #     10, NltkProcess.get_no_stop_words_tokens()))
+    # print('\n' * 2)
+    # print(NltkProcess.get_frequency_as_data_frame())
+    # print('\n' * 10)
+    # print(NltkProcess.get_frequency_as_data_frame().head(5).values.tolist())
+
