@@ -16,7 +16,6 @@ export default class UploadFile extends React.Component {
         this.state = {
 
         };
-
     }
 
     initReadFile(e) {
@@ -32,15 +31,14 @@ export default class UploadFile extends React.Component {
         reader.readAsText(e.target.files[0]);
     }
 
-    async handleFileLoad(e) {
+    handleFileLoad(e) {
         let query = { text: e.target.result };
-
-        await backend.send_text_file_to_backend(query, (data) => {
-            console.log(data)
+        backend.send_text_file_to_backend(query, (data) => {
+            let result = { 'text': query, 'clean': data.no_stopwords, 'tokens': data.tokens };
+            if (query.text.length > 0) {
+                shared.callInitUrlProcess({ action: 'data-is-ready', data: result });
+            }
         });
-        if (query.text.length > 0) {
-            shared.callInitUrlProcess({ action: 'data-is-ready', data: query })
-        }
     }
 
     render() {
