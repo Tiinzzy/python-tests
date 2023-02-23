@@ -3,10 +3,8 @@ import React from 'react';
 import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
 
-import { shared } from './helper';
 import BackEndConnection from './BackEndConnection';
-
-import { Base64 } from 'js-base64';
+import { shared } from './helper';
 
 import './style.css';
 
