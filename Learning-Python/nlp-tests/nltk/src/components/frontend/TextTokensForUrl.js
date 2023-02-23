@@ -28,7 +28,7 @@ export default class TextTokensForUrl extends React.Component {
     getTokens() {
         let tokens = [];
         for (let i in this.state.data.tokens) {
-            tokens.push(i + ' --> ' + this.state.data.tokens[i]);
+            tokens[i] = [i, this.state.data.tokens[i]];
         }
         this.setState({ tokens: tokens, text: null, cleanTokens: [], commonWords: '' });
     }
@@ -67,18 +67,31 @@ export default class TextTokensForUrl extends React.Component {
 
                 {this.state.tokens.length > 0 &&
                     <Box className="DataDisplayBox">
-                        {this.state.tokens.map((e, i) => (
-                            <div key={i}>{e}</div>
-                        ))}
+                        <table width="100%">
+                            <tbody >
+                                <tr>
+                                    <th>index</th>
+                                    <th>Tokenized Word</th>
+                                </tr>
+                                {this.state.tokens.map((e, i) => (
+                                    <tr key={i} >
+                                        <td>
+                                            {e[0]}
+                                        </td>
+                                        <td>
+                                            {e[1]}
+                                        </td>
+                                    </tr>))}
+                            </tbody>
+                        </table>
                     </Box>}
-
                 {this.state.cleanTokens.length > 0 &&
                     <Box className="DataDisplayBox">
                         <table width="100%">
                             <tbody >
                                 <tr>
                                     <th>index</th>
-                                    <th>Tokenized Word</th>
+                                    <th>Clean Tokenized Word</th>
                                 </tr>
                                 {this.state.cleanTokens.map((e, i) => (
                                     <tr key={i} >
