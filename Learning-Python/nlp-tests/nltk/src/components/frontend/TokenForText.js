@@ -36,7 +36,7 @@ export default class TokenForText extends React.Component {
     getCleanTokens() {
         let cleanTokens = [];
         for (let i in this.state.data.clean) {
-            cleanTokens.push(i + ' --> ' + this.state.data.clean[i]);
+            cleanTokens[i] = [i, this.state.data.clean[i]];
         }
         this.setState({ cleanTokens: cleanTokens, text: null, tokens: [], commonWords: '' });
     }
@@ -75,9 +75,23 @@ export default class TokenForText extends React.Component {
 
                 {this.state.cleanTokens.length > 0 &&
                     <Box className="DataDisplayBox">
-                        {this.state.cleanTokens.map((e, i) => (
-                            <div key={i}>{e}</div>
-                        ))}
+                        <table width="100%">
+                            <tbody >
+                                <tr>
+                                    <th>index</th>
+                                    <th>Tokenized Word</th>
+                                </tr>
+                                {this.state.cleanTokens.map((e, i) => (
+                                    <tr key={i} >
+                                        <td>
+                                            {e[0]}
+                                        </td>
+                                        <td>
+                                            {e[1]}
+                                        </td>
+                                    </tr>))}
+                            </tbody>
+                        </table>
                     </Box>}
 
                 {this.state.commonWords &&
