@@ -93,7 +93,6 @@ export default class TokenForText extends React.Component {
                             </tbody>
                         </table>
                     </Box>}
-
                 {this.state.commonWords &&
                     <Box className="DataDisplayBox">
                         <table width="100%">
