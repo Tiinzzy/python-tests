@@ -107,5 +107,7 @@ if __name__ == "__main__":
     print(NltkProcess.get_most_common_words(
         10, NltkProcess.get_no_stop_words_tokens()))
     print('\n' * 2)
-    print(NltkProcess.get_frequency_as_data_frame().head(10))
+    print(NltkProcess.get_frequency_as_data_frame())
     print('\n' * 10)
+    print(NltkProcess.get_frequency_as_data_frame().head(10).values.tolist())
+
