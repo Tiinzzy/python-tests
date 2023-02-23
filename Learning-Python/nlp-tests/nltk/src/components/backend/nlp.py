@@ -109,5 +109,4 @@ if __name__ == "__main__":
     print('\n' * 2)
     print(NltkProcess.get_frequency_as_data_frame())
     print('\n' * 10)
-    print(NltkProcess.get_frequency_as_data_frame().head(10).values.tolist())
-
+    print(NltkProcess.get_frequency_as_data_frame().head(5).values.tolist())
