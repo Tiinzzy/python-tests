@@ -46,11 +46,11 @@ export default class TokenForText extends React.Component {
             let common_words = [];
             let info = e.data.common_words;
             for (let i in info) {
-                common_words.push(info[i][0] + ' -->  Count = ' + info[i][1]);
+                common_words[i] = [info[i][0], info[i][1]];
             }
-            this.setState({ commonWords: common_words, text: null, cleanTokens: [], tokens: [] })
+            this.setState({ commonWords: common_words, text: null, cleanTokens: [], tokens: [] });
+            console.log(common_words)
         }
-
     }
 
     render() {
@@ -82,11 +82,24 @@ export default class TokenForText extends React.Component {
 
                 {this.state.commonWords &&
                     <Box className="DataDisplayBox">
-                        {this.state.commonWords.map((e, i) => (
-                            <div key={i}>{e}</div>
-                        ))}
+                        <table width="100%">
+                            <tbody >
+                                <tr>
+                                    <th>Word</th>
+                                    <th>Count</th>
+                                </tr>
+                                {this.state.commonWords.map((e, i) => (
+                                    <tr key={i} >
+                                        <td>
+                                            {e[0]}
+                                        </td>
+                                        <td>
+                                            {e[1]}
+                                        </td>
+                                    </tr>))}
+                            </tbody>
+                        </table>
                     </Box>}
-
 
             </Box>
         );
