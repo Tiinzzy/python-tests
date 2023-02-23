@@ -28,12 +28,19 @@ export default class CommonWordsText extends React.Component {
         };
     }
 
+    componentDidMount() {
+        backend.get_common_words('1', (data) => {
+            let that = this;
+            that.setState({ all: data.all });
+        });
+    }
+
 
     getCommonWordValue(e) {
         this.setState({ selectedCount: e.target.value });
         backend.get_common_words(e.target.value, (data) => {
             let that = this;
-            that.setState({ data: data, all: data.all }, () => {
+            that.setState({ data: data }, () => {
                 shared.callTokenForText({ action: 'get-common-words-for-text', data: that.state.data });
             });
         });
