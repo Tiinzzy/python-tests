@@ -27,9 +27,14 @@ def process_text_file():
     text = request.json['text']
     print(text, '<<<<<<<<<<<<<<<<<<<<<<<<<<<')
 
-    res = NltkProcess.process_text_file(text)
+    NltkProcess.tokenize(text).remove_stop_words()
 
-    return jsonify(res)
+    tokens = NltkProcess.get_tokens()
+    no_stopwords = NltkProcess.get_no_stop_words_tokens()
+    print(no_stopwords)
+
+    result = {'tokens': tokens, 'no_stopwords': no_stopwords}
+    return jsonify(result)
 
 
 @app.route("/get-common-words-count", methods=['GET'])
@@ -53,7 +58,7 @@ def get_frequency_of_words():
     count = int(count)
 
     freq = NltkProcess.get_frequency_as_data_frame().head(count)
-    df2js = freq.to_json(orient = 'values')
+    df2js = freq.to_json(orient='values')
 
     result = {'freq': df2js}
 
