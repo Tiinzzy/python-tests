@@ -1,14 +1,6 @@
 import React from 'react';
 
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import Box from '@mui/system/Box';
-
-
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
@@ -58,7 +50,7 @@ export default class CommonWords extends React.Component {
                         labelId="select-label"
                         value={this.state.selectedCount}
                         label="Common Words Count"
-                        onChange={(e) => this.getCommonWordValue(e)}                >
+                        onChange={(e) => this.getCommonWordValue(e)}>
                         {COMMON_WORDS_AMOUNT.map((e, i) => (
                             <MenuItem key={i} value={e}>
                                 {e < 0 ? 'Select a Count' : e}
