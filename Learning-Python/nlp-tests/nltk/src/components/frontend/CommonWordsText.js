@@ -40,15 +40,13 @@ export default class CommonWordsText extends React.Component {
     }
 
     getFrequencyValue(e) {
-        if (e.target.value === 'All') {
-            this.setState({ selectedCountFW: this.state.all });
-            console.log(this.state.selectedCountFW, '<<<')
+        let count = e.target.value;
+        if (count === 'All') {
+            count = this.state.all;
         } else {
-            this.setState({ selectedCountFW: e.target.value });
-            console.log('>>>', this.state.selectedCountFW)
-
+            count = e.target.value;
         }
-        backend.get_frequency_of_words(this.state.selectedCountFW, (data) => {
+        backend.get_frequency_of_words(count, (data) => {
             let that = this;
             that.setState({ data: data }, () => {
                 shared.callTokenForText({ action: 'get-frequency-words-for-text', data: that.state.data });

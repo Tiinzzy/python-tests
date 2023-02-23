@@ -40,17 +40,13 @@ export default class CommonWordsUrl extends React.Component {
     }
 
     getFrequencyValue(e) {
-        console.log(e.target.value, 'value')
-        if (e.target.value === 'All') {
-            this.setState({ selectedCountFW: this.state.all })
-            console.log(this.state.all)
-            console.log(this.state.selectedCountFW, '<<<')
-
+        let count = e.target.value;
+        if (count === 'All') {
+            count = this.state.all;
         } else {
-            this.setState({ selectedCountFW: e.target.value });
-            console.log('>>>', this.state.selectedCountFW)
+            count = e.target.value;
         }
-        backend.get_frequency_of_words(this.state.selectedCountFW, (data) => {
+        backend.get_frequency_of_words(count, (data) => {
             let that = this;
             that.setState({ data: data }, () => {
                 shared.callTextTokensForUrl({ action: 'get-frequency-words-for-url', data: that.state.data });
