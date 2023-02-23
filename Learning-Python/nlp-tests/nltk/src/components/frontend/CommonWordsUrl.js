@@ -20,23 +20,30 @@ export default class CommonWordsUrl extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedCount: COMMON_WORDS_AMOUNT[0],
-            data: null
+            selectedCountCW: COMMON_WORDS_AMOUNT[0],
+            data: null,
+            selectedCountFW: COMMON_WORDS_AMOUNT[0]
         };
     }
 
 
     getCommonWordValue(e) {
-        this.setState({ selectedCount: e.target.value });
+        this.setState({ selectedCountCW: e.target.value });
         backend.get_common_words(e.target.value, (data) => {
             let that = this;
             that.setState({ data: data }, () => {
                 shared.callTextTokensForUrl({ action: 'get-common-words-for-url', data: that.state.data });
             });
         });
+    }
 
-        backend.get_frequency_of_words(3, (data) => {
-            console.log(data);
+    getFrequencyValue(e) {
+        this.setState({ selectedCountFW: e.target.value });
+        backend.get_frequency_of_words(e.target.value, (data) => {
+            let that = this;
+            that.setState({ data: data }, () => {
+                shared.callTextTokensForUrl({ action: 'get-frequency-words-for-url', data: that.state.data.freq });
+            });
         })
     }
 
@@ -48,7 +55,7 @@ export default class CommonWordsUrl extends React.Component {
                     <Select
                         style={{ width: 208 }}
                         labelId="select-label"
-                        value={this.state.selectedCount}
+                        value={this.state.selectedCountCW}
                         label="Common Words Count"
                         onChange={(e) => this.getCommonWordValue(e)}>
                         {COMMON_WORDS_AMOUNT.map((e, i) => (
@@ -58,8 +65,22 @@ export default class CommonWordsUrl extends React.Component {
                         ))}
                     </Select>
                 </FormControl>
-
-                {/* Virtualized List tomorrow */}
+                <Box display="flex" flexGrow={1} />
+                <FormControl>
+                    <InputLabel id="select-label-1">Words Frequency Count</InputLabel>
+                    <Select
+                        style={{ width: 208 }}
+                        labelId="select-label-1"
+                        value={this.state.selectedCountFW}
+                        label="Words Frequency Count"
+                        onChange={(e) => this.getFrequencyValue(e)}>
+                        {COMMON_WORDS_AMOUNT.map((e, i) => (
+                            <MenuItem key={i} value={e}>
+                                {e < 0 ? 'Select a Count' : e}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             </Box>
         );
     }
