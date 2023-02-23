@@ -14,7 +14,8 @@ import './style.css';
 
 const backend = BackEndConnection.INSTANCE();
 
-const COMMON_WORDS_AMOUNT = [-1, 5, 10, 15, 20]
+const COMMON_WORDS_AMOUNT = [-1, 5, 10, 15, 20];
+const WORD_FREQUENCY = [-1, 5, 10, 15, 20, 'All']
 
 export default class CommonWordsUrl extends React.Component {
     constructor(props) {
@@ -22,7 +23,8 @@ export default class CommonWordsUrl extends React.Component {
         this.state = {
             selectedCountCW: COMMON_WORDS_AMOUNT[0],
             data: null,
-            selectedCountFW: COMMON_WORDS_AMOUNT[0]
+            selectedCountFW: WORD_FREQUENCY[0],
+            all: null
         };
     }
 
@@ -31,18 +33,27 @@ export default class CommonWordsUrl extends React.Component {
         this.setState({ selectedCountCW: e.target.value });
         backend.get_common_words(e.target.value, (data) => {
             let that = this;
-            that.setState({ data: data }, () => {
+            that.setState({ data: data, all: data.all }, () => {
                 shared.callTextTokensForUrl({ action: 'get-common-words-for-url', data: that.state.data });
             });
         });
     }
 
     getFrequencyValue(e) {
-        this.setState({ selectedCountFW: e.target.value });
-        backend.get_frequency_of_words(e.target.value, (data) => {
+        console.log(e.target.value, 'value')
+        if (e.target.value === 'All') {
+            this.setState({ selectedCountFW: this.state.all })
+            console.log(this.state.all)
+            console.log(this.state.selectedCountFW,'<<<')
+
+        } else {
+            this.setState({ selectedCountFW: e.target.value });
+            console.log('>>>',this.state.selectedCountFW)
+        }
+        backend.get_frequency_of_words(this.state.selectedCountFW, (data) => {
             let that = this;
             that.setState({ data: data }, () => {
-                shared.callTextTokensForUrl({ action: 'get-frequency-words-for-url', data: that.state.data.freq });
+                shared.callTextTokensForUrl({ action: 'get-frequency-words-for-url', data: that.state.data });
             });
         })
     }
@@ -74,7 +85,7 @@ export default class CommonWordsUrl extends React.Component {
                         value={this.state.selectedCountFW}
                         label="Words Frequency Count"
                         onChange={(e) => this.getFrequencyValue(e)}>
-                        {COMMON_WORDS_AMOUNT.map((e, i) => (
+                        {WORD_FREQUENCY.map((e, i) => (
                             <MenuItem key={i} value={e}>
                                 {e < 0 ? 'Select a Count' : e}
                             </MenuItem>
