@@ -52,7 +52,7 @@ export default class TextTokensForUrl extends React.Component {
             }
             this.setState({ commonWords: common_words, text: null, cleanTokens: [], tokens: [], frequency: null })
         } else if (e.action === 'get-frequency-words-for-url') {
-            this.setState({ frequency: e.data, text: null, cleanTokens: [], tokens: [], commonWords: null })
+            this.setState({ frequency: e.data.freq, text: null, cleanTokens: [], tokens: [], commonWords: null })
         }
     }
 
@@ -114,11 +114,16 @@ export default class TextTokensForUrl extends React.Component {
                         <table width="100%">
                             <tbody >
                                 <tr>
+                                    <th>index</th>
                                     <th>Word</th>
                                     <th>Count</th>
                                 </tr>
                                 {this.state.commonWords.map((e, i) => (
                                     <tr key={i} >
+                                        <td>
+                                            {i+1}
+                                        </td>
+
                                         <td>
                                             {e[0]}
                                         </td>
@@ -135,11 +140,15 @@ export default class TextTokensForUrl extends React.Component {
                         <table width="100%">
                             <tbody >
                                 <tr>
+                                    <th>index</th>
                                     <th>Word</th>
                                     <th>Frequency</th>
                                 </tr>
                                 {this.state.frequency.map((e, i) => (
                                     <tr key={i} >
+                                        <td>
+                                            {i+1}
+                                        </td>
                                         <td>
                                             {e[0]}
                                         </td>

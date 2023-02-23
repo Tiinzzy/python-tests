@@ -51,9 +51,8 @@ export default class TokenForText extends React.Component {
                 common_words[i] = [info[i][0], info[i][1]];
             }
             this.setState({ commonWords: common_words, text: null, cleanTokens: [], tokens: [], frequency: null });
-            console.log(common_words)
         } else if (e.action === 'get-frequency-words-for-text') {
-            this.setState({ frequency: e.data, text: null, cleanTokens: [], tokens: [], commonWords: null })
+            this.setState({ frequency: e.data.freq, text: null, cleanTokens: [], tokens: [], commonWords: null })
         }
     }
 
@@ -116,11 +115,15 @@ export default class TokenForText extends React.Component {
                         <table width="100%">
                             <tbody >
                                 <tr>
+                                    <th>index</th>
                                     <th>Word</th>
                                     <th>Count</th>
                                 </tr>
                                 {this.state.commonWords.map((e, i) => (
                                     <tr key={i} >
+                                        <td>
+                                            {i + 1}
+                                        </td>
                                         <td>
                                             {e[0]}
                                         </td>
@@ -136,11 +139,15 @@ export default class TokenForText extends React.Component {
                         <table width="100%">
                             <tbody >
                                 <tr>
+                                    <th>index</th>
                                     <th>Word</th>
                                     <th>Frequency</th>
                                 </tr>
                                 {this.state.frequency.map((e, i) => (
                                     <tr key={i} >
+                                        <td>
+                                            {i + 1}
+                                        </td>
                                         <td>
                                             {e[0]}
                                         </td>
