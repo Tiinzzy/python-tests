@@ -4,7 +4,7 @@ import Box from '@mui/system/Box';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 
-import CommonWords from './CommonWords';
+import CommonWordsText from './CommonWordsText';
 import { shared } from './helper';
 
 import './style.css';
@@ -61,7 +61,7 @@ export default class TokenForText extends React.Component {
                     <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getText()}>Text</Button>
                     <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getTokens()} >Tokens</Button>
                     <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getCleanTokens()} >CLean Tokens</Button>
-                    <CommonWords />
+                    <CommonWordsText />
                 </Box>
 
                 {this.state.text !== null && <Box className="DataDisplayBox">{this.state.text}</Box>}
