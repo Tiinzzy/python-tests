@@ -36,9 +36,10 @@ class NltkProcess:
         return self
 
     @classmethod
-    def tokenize(self
-                 ):
-        self.tokens = wordpunct_tokenize(self.text)
+    def tokenize(self, give_text=None):
+        if give_text is None:
+            give_text = self.text
+        self.tokens = wordpunct_tokenize(give_text)
         return self
 
     @classmethod
@@ -70,7 +71,7 @@ class NltkProcess:
         df['words'] = words
         df['frequency'] = frequency
         df = df.sort_values(by=['frequency'], ascending=False)
-        return df    
+        return df
 
     @classmethod
     def get_text(self):
@@ -103,6 +104,8 @@ if __name__ == "__main__":
     print('\n' * 2)
     print(NltkProcess.get_no_stop_words_tokens())
     print('\n' * 2)
-    print(NltkProcess.get_most_common_words(10, NltkProcess.get_no_stop_words_tokens()))
+    print(NltkProcess.get_most_common_words(
+        10, NltkProcess.get_no_stop_words_tokens()))
     print('\n' * 2)
     print(NltkProcess.get_frequency_as_data_frame().head(10))
+    print('\n' * 10)
