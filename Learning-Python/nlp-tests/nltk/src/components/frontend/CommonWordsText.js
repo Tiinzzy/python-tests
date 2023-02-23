@@ -21,7 +21,9 @@ export default class CommonWordsText extends React.Component {
         super(props);
         this.state = {
             selectedCount: COMMON_WORDS_AMOUNT[0],
-            data: null        };
+            data: null,
+            selectedCountFW: COMMON_WORDS_AMOUNT[0]
+        };
     }
 
 
@@ -30,12 +32,18 @@ export default class CommonWordsText extends React.Component {
         backend.get_common_words(e.target.value, (data) => {
             let that = this;
             that.setState({ data: data }, () => {
-                    shared.callTokenForText({ action: 'get-common-words-for-text', data: that.state.data });
+                shared.callTokenForText({ action: 'get-common-words-for-text', data: that.state.data });
             });
         });
+    }
 
-        backend.get_frequency_of_words(3, (data) => {
-            console.log(data);
+    getFrequencyValue(e) {
+        this.setState({ selectedCountFW: e.target.value });
+        backend.get_frequency_of_words(e.target.value, (data) => {
+            let that = this;
+            that.setState({ data: data }, () => {
+                shared.callTokenForText({ action: 'get-frequency-words-for-text', data: that.state.data.freq });
+            });
         })
     }
 
@@ -57,8 +65,23 @@ export default class CommonWordsText extends React.Component {
                         ))}
                     </Select>
                 </FormControl>
+                <Box display="flex" flexGrow={1} />
+                <FormControl>
+                    <InputLabel id="select-label-1">Words Frequency Count</InputLabel>
+                    <Select
+                        style={{ width: 208 }}
+                        labelId="select-label-1"
+                        value={this.state.selectedCountFW}
+                        label="Words Frequency Count"
+                        onChange={(e) => this.getFrequencyValue(e)}>
+                        {COMMON_WORDS_AMOUNT.map((e, i) => (
+                            <MenuItem key={i} value={e}>
+                                {e < 0 ? 'Select a Count' : e}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
 
-                {/* Virtualized List tomorrow */}
             </Box>
         );
     }
