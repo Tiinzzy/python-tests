@@ -49,3 +49,15 @@
     display: flex;
     margin-top: 20px;
 }
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+
+td{
+padding-left: 10px;
+padding-top: 10px;
+padding-bottom: 10px;
+}
