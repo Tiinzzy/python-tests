@@ -24,16 +24,17 @@
     margin-top: 25px;
     overflow-y: scroll;
     height: 600px;
-    width: 600px;
+    width: 985px;
     padding: 5px;
 }
 
 .MainTextTokenBox {
     margin-top: 25px;
+    border: solid 0px red;
 }
 
 .MainHomeBox {
-    width: 600px;
+    width: 1000px;
     margin: auto
 }
 
@@ -56,12 +57,12 @@ td {
     border: 1px solid black;
 }
 
-td{
-padding-left: 10px;
-padding-top: 10px;
-padding-bottom: 10px;
+td {
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
-th{
+th {
     padding: 15px;
 }

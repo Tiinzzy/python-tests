@@ -42,10 +42,10 @@ export default class CommonWordsText extends React.Component {
     getFrequencyValue(e) {
         if (e.target.value === 'All') {
             this.setState({ selectedCountFW: this.state.all });
-            console.log(this.state.selectedCountFW,'<<<')
+            console.log(this.state.selectedCountFW, '<<<')
         } else {
             this.setState({ selectedCountFW: e.target.value });
-            console.log('>>>',this.state.selectedCountFW)
+            console.log('>>>', this.state.selectedCountFW)
 
         }
         backend.get_frequency_of_words(this.state.selectedCountFW, (data) => {
@@ -62,7 +62,7 @@ export default class CommonWordsText extends React.Component {
                 <FormControl>
                     <InputLabel id="select-label">Common Words Count</InputLabel>
                     <Select
-                        style={{ width: 208 }}
+                        style={{ width: 208, marginRight: 15 }}
                         labelId="select-label"
                         value={this.state.selectedCount}
                         label="Common Words Count"
@@ -74,7 +74,6 @@ export default class CommonWordsText extends React.Component {
                         ))}
                     </Select>
                 </FormControl>
-                <Box display="flex" flexGrow={1} />
                 <FormControl>
                     <InputLabel id="select-label-1">Words Frequency Count</InputLabel>
                     <Select
@@ -90,7 +89,6 @@ export default class CommonWordsText extends React.Component {
                         ))}
                     </Select>
                 </FormControl>
-
             </Box>
         );
     }

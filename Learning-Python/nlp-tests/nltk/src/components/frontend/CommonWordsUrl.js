@@ -44,11 +44,11 @@ export default class CommonWordsUrl extends React.Component {
         if (e.target.value === 'All') {
             this.setState({ selectedCountFW: this.state.all })
             console.log(this.state.all)
-            console.log(this.state.selectedCountFW,'<<<')
+            console.log(this.state.selectedCountFW, '<<<')
 
         } else {
             this.setState({ selectedCountFW: e.target.value });
-            console.log('>>>',this.state.selectedCountFW)
+            console.log('>>>', this.state.selectedCountFW)
         }
         backend.get_frequency_of_words(this.state.selectedCountFW, (data) => {
             let that = this;
@@ -64,7 +64,7 @@ export default class CommonWordsUrl extends React.Component {
                 <FormControl>
                     <InputLabel id="select-label">Common Words Count</InputLabel>
                     <Select
-                        style={{ width: 208 }}
+                        style={{ width: 208, marginRight: 15 }}
                         labelId="select-label"
                         value={this.state.selectedCountCW}
                         label="Common Words Count"
