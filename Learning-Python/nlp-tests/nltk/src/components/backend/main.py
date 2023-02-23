@@ -57,9 +57,7 @@ def get_frequency_of_words():
     count = args.get('count')
     count = int(count)
 
-    freq = NltkProcess.get_frequency_as_data_frame().head(count)
-    df2js = freq.to_json(orient='values')
-
-    result = {'freq': df2js}
+    freq = NltkProcess.get_frequency_as_data_frame().head(count).values.tolist()
+    result = {'freq': freq}
 
     return jsonify(result)
