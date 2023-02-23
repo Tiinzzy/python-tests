@@ -22,7 +22,9 @@ export default class InitUrlProcess extends React.Component {
         super(props);
         this.state = {
             url: null,
-            value: 'https://www.cnn.com/'
+            value: 'https://www.cnn.com/',
+            data: null,
+            textData: null
         };
         this.callInitUrlProcess = this.callInitUrlProcess.bind(this);
         shared.callInitUrlProcess = this.callInitUrlProcess;
@@ -36,13 +38,13 @@ export default class InitUrlProcess extends React.Component {
         let url = Base64.encode(this.state.value);
         let that = this;
         backend.send_url_to_backend(url, (data) => {
-            that.setState({ data: data });
+            that.setState({ data: data, textData: null });
         })
     }
 
     callInitUrlProcess(e) {
         if (e.action === 'data-is-ready') {
-            this.setState({ textData: e.data });
+            this.setState({ textData: e.data, data: null });
         }
     }
 
@@ -58,10 +60,10 @@ export default class InitUrlProcess extends React.Component {
 
                     <Button variant="contained" className='SunbmitBtn' size='large' onClick={() => this.submitUrl()}>Submit</Button>
                 </Box>
-                {this.state.data &&
+                {this.state.data !== null && this.state.textData === null &&
                     <TextTokensForUrl data={this.state.data} />}
 
-                {this.state.textData &&
+                {this.state.textData !== null && this.state.data === null &&
                     <TokenForText data={this.state.textData} />}
             </Box>
         );
