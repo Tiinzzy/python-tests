@@ -25,14 +25,13 @@ export default class EnterUrl extends React.Component {
     }
 
     getTextfieldValue(e) {
-        this.setState({ url: e.target.value })
+        this.setState({ url: e.target.value });
     }
 
     submitUrl() {
         let url = Base64.encode(this.state.value);
         let that = this;
         backend.send_url_to_backend(url, (data) => {
-            console.log(data, '<< data')
             that.setState({ data: data });
             shared.callInitUrlProcess({ action: 'url-data-is-read', data: data })
         })
