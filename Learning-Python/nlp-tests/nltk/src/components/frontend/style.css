@@ -34,19 +34,60 @@
 }
 
 .MainHomeBox {
-    width: 1000px;
     margin: auto
 }
 
+.UploadIcon {
+    color: rgb(31, 76, 142) !important;
+    margin-bottom: 6px;
+}
+
 .GetUrlBox {
+    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-top: 50px;
+    border: solid 1px #c1c1c1;
+    border-radius: 10px;
+    padding: 20px;
+    width: 600px;
+}
+
+.StartInstruction{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.MainTwoButtons {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 10px;
+    width: 600px;
+}
+
+.GetFileBox {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    border: solid 1px #c1c1c1;
+    border-radius: 10px;
+    padding: 20px;
+    width: 600px;
 }
 
 .SUbmitBtnBox {
     justify-content: right;
+    align-items: right;
     display: flex;
     margin-top: 20px;
 }
