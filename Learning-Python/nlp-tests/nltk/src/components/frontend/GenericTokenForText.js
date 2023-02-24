@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Box from '@mui/system/Box';
-import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 import CommonWordsFrequency from './CommonWordsFrequency';
@@ -86,8 +86,7 @@ export default class GenericTokenForText extends React.Component {
     render() {
         return (
             <Box className="MainTextTokenBox">
-                <Divider style={{ marginBottom: 20 }} color="#4c4c4c" />
-                <Box display='flex'>
+                <Box className="FunctionalityBtn">
                     <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getText()}>Text</Button>
                     <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getTokens()} >Tokens</Button>
                     <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getCleanTokens()} >CLean Tokens</Button>
