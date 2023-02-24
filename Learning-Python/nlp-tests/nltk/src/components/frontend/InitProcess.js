@@ -37,7 +37,10 @@ export default class InitProcess extends React.Component {
         if (e.action === 'data-is-ready') {
             this.setState({ textData: e.data, data: null, turnOffDisplay: true });
         } else if (e.action === 'url-data-is-read') {
-            this.setState({ data: e.data, textData: null, turnOffDisplay: true });
+            console.log(e.name)
+            this.setState({ data: e.data, textData: null, turnOffDisplay: true, dataName: e.name });
+        } else if (e.action === "file-name-is-ready") {
+            this.setState({ dataName: e.data });
         }
     }
 
@@ -62,10 +65,10 @@ export default class InitProcess extends React.Component {
                 {this.state.displayAtach === true && this.state.turnOffDisplay === false && <AttachFile />}
                 {this.state.displayEnterUrl === true && this.state.turnOffDisplay === false && <EnterUrl />}
                 {this.state.data !== null && this.state.textData === null &&
-                    <GenericTokenForText data={this.state.data} service='url' />}
+                    <GenericTokenForText data={this.state.data} service='url' dataName={this.state.dataName} />}
 
                 {this.state.textData !== null && this.state.data === null &&
-                    <GenericTokenForText data={this.state.textData} service='text' />}
+                    <GenericTokenForText data={this.state.textData} service='text' dataName={this.state.dataName} />}
             </Box>
         );
     }
