@@ -13,6 +13,7 @@ export default class GenericTokenForText extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            dataName: props.dataName,
             service: props.service,
             data: props.data,
             tokens: [],
@@ -86,6 +87,11 @@ export default class GenericTokenForText extends React.Component {
     render() {
         return (
             <Box className="MainTextTokenBox">
+                <Box className="DataNameBox">
+                    <Typography mb={6} fontSize={25} variant="body1" fontWeight="500">Processing data for:
+                        <span style={{ marginLeft: 10, fontWeight: 'bold' }}>{this.state.dataName} </span>
+                    </Typography>
+                </Box>
                 <Box className="FunctionalityBtn">
                     <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getText()}>Text</Button>
                     <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getTokens()} >Tokens</Button>
