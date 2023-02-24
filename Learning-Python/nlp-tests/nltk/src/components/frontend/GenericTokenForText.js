@@ -24,6 +24,7 @@ export default class GenericTokenForText extends React.Component {
             commonWords: null,
             openDialog: false
         };
+        this.handleCloseDialog = this.handleCloseDialog.bind(this);
         this.callTokenForText = this.callTokenForText.bind(this);
         shared.callTokenForText = this.callTokenForText;
     }
@@ -43,18 +44,22 @@ export default class GenericTokenForText extends React.Component {
 
     getCleanTokensUrl() {
         let cleanTokens = [];
+        let allWords = [];
         for (let i in this.state.data.nonStopWord) {
             cleanTokens[i] = [i, this.state.data.nonStopWord[i]];
+            allWords.push(this.state.data.nonStopWord[i])
         }
-        this.setState({ cleanTokens: cleanTokens, text: null, tokens: [], commonWords: null, frequency: null });
+        this.setState({ cleanTokens: cleanTokens, text: null, tokens: [], commonWords: null, frequency: null, allWords });
     }
 
     getCleanTokensText() {
         let cleanTokens = [];
+        let allWords = [];
         for (let i in this.state.data.clean) {
             cleanTokens[i] = [i, this.state.data.clean[i]];
+            allWords.push(this.state.data.clean[i])
         }
-        this.setState({ cleanTokens: cleanTokens, text: null, tokens: [], commonWords: null, frequency: null });
+        this.setState({ cleanTokens: cleanTokens, text: null, tokens: [], commonWords: null, frequency: null, allWords });
     }
 
     getCleanTokens() {
@@ -201,7 +206,7 @@ export default class GenericTokenForText extends React.Component {
                         </table>
                     </Box>}
                 <Dialog open={this.state.openDialog} onClose={() => this.handleCloseDialog()}>
-                    <DispersionPlot />
+                    <DispersionPlot allWords={this.state.allWords} close={this.handleCloseDialog} />
                 </Dialog>
             </Box>
         );
