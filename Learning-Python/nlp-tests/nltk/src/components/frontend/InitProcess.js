@@ -4,15 +4,12 @@ import Box from '@mui/system/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-import BackEndConnection from './BackEndConnection';
 import GenericTokenForText from './GenericTokenForText';
 import AttachFile from './AttachFile';
 import EnterUrl from './EnterUrl';
 import { shared } from './helper';
 
 import './style.css';
-
-const backend = BackEndConnection.INSTANCE();
 
 export default class InitProcess extends React.Component {
     constructor(props) {
@@ -37,7 +34,6 @@ export default class InitProcess extends React.Component {
         if (e.action === 'data-is-ready') {
             this.setState({ textData: e.data, data: null, turnOffDisplay: true });
         } else if (e.action === 'url-data-is-read') {
-            console.log(e.name)
             this.setState({ data: e.data, textData: null, turnOffDisplay: true, dataName: e.name });
         } else if (e.action === "file-name-is-ready") {
             this.setState({ dataName: e.data });

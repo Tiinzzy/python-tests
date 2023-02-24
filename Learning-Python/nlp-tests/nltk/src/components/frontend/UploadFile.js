@@ -35,7 +35,6 @@ export default class UploadFile extends React.Component {
     handleFileLoad(e) {
         let query = { text: e.target.result };
         backend.send_text_file_to_backend(query, (data) => {
-            let that = this;
             let result = { 'text': query, 'clean': data.no_stopwords, 'tokens': data.tokens };
             if (query.text.length > 0) {
                 shared.callInitUrlProcess({ action: 'data-is-ready', data: result });
