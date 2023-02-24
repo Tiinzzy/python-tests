@@ -87,11 +87,6 @@ class NltkProcess:
     def get_no_stop_words_tokens(self):
         return self.no_stop_word_tokens
 
-    @classmethod
-    def process_text_file(self, text):
-        print()
-        print('>>>>>>>>>>>>>>>>>>>>>>>.', text)
-        return {'result': 'rescieved'}
 
 
 if __name__ == "__main__":

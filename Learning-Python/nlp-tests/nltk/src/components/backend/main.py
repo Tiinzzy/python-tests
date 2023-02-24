@@ -25,13 +25,11 @@ def process_url():
 @app.route("/file-to-txt-and-tokens", methods=['POST'])
 def process_text_file():
     text = request.json['text']
-    print(text, '<<<<<<<<<<<<<<<<<<<<<<<<<<<')
 
     NltkProcess.tokenize(text).remove_stop_words()
 
     tokens = NltkProcess.get_tokens()
     no_stopwords = NltkProcess.get_no_stop_words_tokens()
-    print(no_stopwords)
 
     result = {'tokens': tokens, 'no_stopwords': no_stopwords}
     return jsonify(result)
@@ -59,10 +57,8 @@ def get_frequency_of_words():
     count = args.get('count')
     count = int(count)
 
-    print(count)
     freq = NltkProcess.get_frequency_as_data_frame()
     frequency = freq.head(count).values.tolist()
     result = {'freq': frequency}
-    print(result)
-
+    
     return jsonify(result)
