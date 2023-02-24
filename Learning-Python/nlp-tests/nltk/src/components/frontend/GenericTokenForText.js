@@ -3,8 +3,10 @@ import React from 'react';
 import Box from '@mui/system/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
 
 import CommonWordsFrequency from './CommonWordsFrequency';
+import DispersionPlot from './DispersionPlot';
 import { shared } from './helper';
 
 import './style.css';
@@ -19,7 +21,8 @@ export default class GenericTokenForText extends React.Component {
             tokens: [],
             cleanTokens: [],
             frequency: null,
-            commonWords: null
+            commonWords: null,
+            openDialog: false
         };
         this.callTokenForText = this.callTokenForText.bind(this);
         shared.callTokenForText = this.callTokenForText;
@@ -62,6 +65,14 @@ export default class GenericTokenForText extends React.Component {
         }
     }
 
+    getDispersionPlot() {
+        this.setState({ openDialog: true });
+    }
+
+    handleCloseDialog() {
+        this.setState({ openDialog: false })
+    }
+
     callTokenForText(e) {
         if (e.action === 'get-common-words-for-text') {
             let common_words = [];
@@ -79,8 +90,6 @@ export default class GenericTokenForText extends React.Component {
             this.setState({ commonWords: common_words, text: null, cleanTokens: [], tokens: [], frequency: null })
         } else if (e.action === 'get-frequency-words-for-text') {
             this.setState({ frequency: e.data.freq, text: null, cleanTokens: [], tokens: [], commonWords: null })
-        } else if (e.action === 'get-frequency-words-for-url') {
-            this.setState({ frequency: e.data.freq, text: null, cleanTokens: [], tokens: [], commonWords: null })
         }
     }
 
@@ -96,6 +105,7 @@ export default class GenericTokenForText extends React.Component {
                     <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getText()}>Text</Button>
                     <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getTokens()} >Tokens</Button>
                     <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getCleanTokens()} >CLean Tokens</Button>
+                    <Button variant="contained" className='GetTokensBtn' size='medium' onClick={() => this.getDispersionPlot()} >dispersion plot</Button>
                     <CommonWordsFrequency />
                 </Box>
 
@@ -190,6 +200,9 @@ export default class GenericTokenForText extends React.Component {
                             </tbody>
                         </table>
                     </Box>}
+                <Dialog open={this.state.openDialog} onClose={() => this.handleCloseDialog()}>
+                    <DispersionPlot />
+                </Dialog>
             </Box>
         );
     }
