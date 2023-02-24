@@ -22,7 +22,8 @@ export default class InitProcess extends React.Component {
             textData: null,
             displayAtach: false,
             displayEnterUrl: false,
-            displayButtons: true
+            displayButtons: true,
+            turnOffDisplay: false
         };
         this.callInitUrlProcess = this.callInitUrlProcess.bind(this);
         shared.callInitUrlProcess = this.callInitUrlProcess;
@@ -34,9 +35,9 @@ export default class InitProcess extends React.Component {
 
     callInitUrlProcess(e) {
         if (e.action === 'data-is-ready') {
-            this.setState({ textData: e.data, data: null });
+            this.setState({ textData: e.data, data: null, turnOffDisplay: true });
         } else if (e.action === 'url-data-is-read') {
-            this.setState({ data: e.data, textData: null });
+            this.setState({ data: e.data, textData: null, turnOffDisplay: true });
         }
     }
 
@@ -58,8 +59,8 @@ export default class InitProcess extends React.Component {
                             <Button variant="contained" className='SunbmitBtn' size='large' onClick={() => this.gotToUrl()}>Enter Url</Button>
                         </Box>
                     </Box>}
-                {this.state.displayAtach === true && <AttachFile />}
-                {this.state.displayEnterUrl === true && <EnterUrl />}
+                {this.state.displayAtach === true && this.state.turnOffDisplay === false && <AttachFile />}
+                {this.state.displayEnterUrl === true && this.state.turnOffDisplay === false && <EnterUrl />}
                 {this.state.data !== null && this.state.textData === null &&
                     <GenericTokenForText data={this.state.data} service='url' />}
 
