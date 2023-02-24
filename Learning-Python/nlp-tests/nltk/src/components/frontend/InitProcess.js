@@ -60,10 +60,6 @@ export default class InitProcess extends React.Component {
                     <Button variant="contained" className='SunbmitBtn' size='large' onClick={() => this.submitUrl()}>Submit</Button>
                 </Box>
 
-                {/* {this.state.data !== null && this.state.textData === null &&
-                    <TextTokensForUrl data={this.state.data} />} */}
-
-
                 {this.state.data !== null && this.state.textData === null &&
                     <GenericTokenForText data={this.state.data} service='url' />}
 
