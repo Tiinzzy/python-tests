@@ -33,7 +33,7 @@ export default class EnterUrl extends React.Component {
         let that = this;
         backend.send_url_to_backend(url, (data) => {
             that.setState({ data: data });
-            shared.callInitUrlProcess({ action: 'url-data-is-read', data: data })
+            shared.callInitUrlProcess({ action: 'url-data-is-read', data: data, name: this.state.value })
         })
     }
 
