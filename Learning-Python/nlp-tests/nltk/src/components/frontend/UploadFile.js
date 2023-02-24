@@ -43,9 +43,9 @@ export default class UploadFile extends React.Component {
 
     render() {
         return (
-            <Box style={{ marginRight: 15 }}>
+            <Box>
                 <Button size='large' className='SunbmitBtn' variant="contained" component="label">
-                    Upload
+                    Select a file
                     <input hidden id="myFile" multiple type="file" accept="text/plain" onChange={(e) => this.initReadFile(e)} />
                 </Button>
             </Box>
