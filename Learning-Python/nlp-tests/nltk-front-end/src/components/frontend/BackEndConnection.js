@@ -1,7 +1,13 @@
 import axios from 'axios';
 
 class BackEndConnectionImpl {
+    #url = null;
+    #text = null;
+
     async send_url_to_backend(url, callback) {
+        this.#url = url;
+        this.#text = null;
+
         return axios.get("/url-to-txt-and-tokens?url=" + url, {})
             .then(function (response) {
                 if (callback) {
@@ -16,7 +22,9 @@ class BackEndConnectionImpl {
     }
 
     async send_text_file_to_backend(query, callback) {
-        console.log(query)
+        this.#url = null;
+        this.#text = query.text;
+
         return axios.post("/file-to-txt-and-tokens", query, {})
             .then(response => {
                 if (response.status === 200) {
@@ -34,7 +42,7 @@ class BackEndConnectionImpl {
     }
 
     async get_common_words(count, callback) {
-        return axios.get("/get-common-words-count?count=" + count, {})
+        return axios.post("/get-common-words-count", { count, url: this.#url, text: this.#text }, {})
             .then(function (response) {
                 if (callback) {
                     callback(response.data);
@@ -48,7 +56,7 @@ class BackEndConnectionImpl {
     }
 
     async get_frequency_of_words(count, callback) {
-        return axios.get("/get-frequency-of-words?count=" + count, {})
+        return axios.post("/get-frequency-of-words", { count, url: this.#url, text: this.#text }, {})
             .then(function (response) {
                 if (callback) {
                     callback(response.data);
@@ -61,9 +69,22 @@ class BackEndConnectionImpl {
             })
     }
 
-    async get_dispersion_plot_graph(query, callback) {
-        console.log(query)
-        return axios.post("/get-graph-of-dispersion-plot", query, {})
+    async get_dispersion_plot_graph(words, callback) {
+        return axios.post("/get-graph-of-dispersion-plot", { words, url: this.#url, text: this.#text }, {})
+            .then(function (response) {
+                if (callback) {
+                    callback(response.data);
+                }
+                return response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+                return false;
+            })
+    }
+
+    async get_all_words(callback) {
+        return axios.post("/get-all-tokens-for-graph", { url: this.#url, text: this.#text }, {})
             .then(function (response) {
                 if (callback) {
                     callback(response.data);
