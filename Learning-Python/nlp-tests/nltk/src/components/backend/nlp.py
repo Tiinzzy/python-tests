@@ -3,6 +3,7 @@ from nltk import FreqDist
 from nltk.corpus import stopwords
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 import ssl
 import string
 from bs4 import BeautifulSoup
@@ -87,7 +88,8 @@ class NltkProcess:
                 xs.append(x)
                 ys.append(y)
 
-        _, ax = plt.subplots()
+        plt.rcParams['figure.dpi'] = 300
+        fig, ax = plt.subplots()
         ax.plot(xs, ys, "|")
         ax.set_yticks(list(range(len(words))), words, color="C0")
         ax.set_ylim(-1, len(words))
@@ -95,8 +97,7 @@ class NltkProcess:
         ax.set_xlabel("Word Offset")
         ax.set_xlim([0, len(self.tokens)])
 
-        plt.show()
-        return ax
+        return fig
 
     @classmethod
     def get_text(self):
@@ -111,6 +112,17 @@ class NltkProcess:
     @classmethod
     def get_no_stop_words_tokens(self):
         return self.no_stop_word_tokens
+
+    @classmethod
+    def get_sample_chart_fig(self):
+        t = np.arange(0.0, 2.0, 0.01)
+        s = 1 + np.sin(2 * np.pi * t)
+        fig, ax = plt.subplots()
+        ax.plot(t, s)
+        ax.set(xlabel='time (s)', ylabel='voltage (mV)',
+               title='About as simple as it gets, folks')
+        ax.grid()
+        return fig
 
 
 if __name__ == "__main__":
