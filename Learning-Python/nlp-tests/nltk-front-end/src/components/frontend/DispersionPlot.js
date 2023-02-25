@@ -19,54 +19,47 @@ export default class DispersionPlot extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allWords: props.allWords,
             close: props.close,
             selectedWords: {}
         };
     }
 
     componentDidMount() {
-        let uniqWOrds = [...new Set(this.state.allWords)];
-        let selectedWords = {};
+        let that = this;
+        backend.get_all_words((data) => {
+            that.setState({ allWords: data.cleanTokens });
+            let uniqWOrds = [...new Set(that.state.allWords)];
+            let selectedWords = {};
+            for (let w in uniqWOrds) {
+                selectedWords[uniqWOrds[w]] = false;
+            }
+            that.setState({ uniqWOrds, selectedWords });
+        });
 
-        for (let w in uniqWOrds) {
-            selectedWords[uniqWOrds[w]] = false;
-        }
 
-        this.setState({ uniqWOrds, selectedWords })
     }
 
     wordSelected(e) {
         let start = Date.now();
         let selectedWords = this.state.selectedWords;
-        console.log(Object.keys(selectedWords).length);
-        selectedWords[e] = !selectedWords[e]
-        this.setState({ selectedWords }, function () {
-            console.log(Date.now() - start);
-        })
+        selectedWords[e] = !selectedWords[e];
+        this.setState({ selectedWords });
     }
 
     submitWords() {
         let SELECTED_WORDS = [];
-        console.log(new Date());
         for (let w in this.state.selectedWords) {
             if (this.state.selectedWords[w]) {
                 SELECTED_WORDS.push(w);
             }
         }
-        console.log(new Date());
-
-        this.state.close();
-        let words = { 'words': SELECTED_WORDS };
-
-        let url = 'http://localhost:8000/get-graph-of-dispersion-plot?words=' + SELECTED_WORDS.join(',')
-        let image = document.getElementById('chart_place_holder');
-        image.src = url;
-        shared.callTokenForText({ action: 'display-graph' })
-        // window.open(url, '_blank')
-        // backend.get_dispersion_plot_graph(words, (data) => {
-        //     console.log(data);
-        // })
+        let that = this;
+        backend.get_dispersion_plot_graph(SELECTED_WORDS.join(','), (data) => {
+            let image = document.getElementById('chart_place_holder');
+            image.src = 'data:image/png;base64, ' + data.image;
+            shared.callTokenForText({ action: 'display-graph' });
+            that.state.close();
+        })
     }
 
     render() {
