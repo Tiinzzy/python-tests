@@ -19,34 +19,96 @@
 }
 
 .DataDisplayBox {
-    border: solid 1px #eaeaea;
+    border: solid 1px #dfdfdf;
     border-radius: 4px;
     margin-top: 25px;
     overflow-y: scroll;
-    height: 600px;
+    height: 500px;
     width: 985px;
     padding: 5px;
 }
 
 .MainTextTokenBox {
-    margin-top: 25px;
+    margin-top: 100px;
     border: solid 0px red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.FunctionalityBtn {
+    border: solid 0px red;
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    justify-content: left;
+    width: 985px;
+}
+
+.DataNameBox {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    border: solid 0px red;
+    width: 985px;
 }
 
 .MainHomeBox {
-    width: 1000px;
     margin: auto
 }
 
+.UploadIcon {
+    color: rgb(31, 76, 142) !important;
+    margin-bottom: 6px;
+}
+
 .GetUrlBox {
+    margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-top: 50px;
+    border: solid 1px #c1c1c1;
+    border-radius: 10px;
+    padding: 20px;
+    width: 600px;
+}
+
+.StartInstruction {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.MainTwoButtons {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 10px;
+    width: 600px;
+}
+
+.GetFileBox {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    border: solid 1px #c1c1c1;
+    border-radius: 10px;
+    padding: 20px;
+    width: 600px;
 }
 
 .SUbmitBtnBox {
     justify-content: right;
+    align-items: right;
     display: flex;
     margin-top: 20px;
 }
@@ -65,4 +127,26 @@ td {
 
 th {
     padding: 15px;
+}
+
+.EachWordDiv {
+    overflow-y: scroll;
+    height: 500px;
+    width: 800px;
+}
+
+.EachWord {
+    cursor: pointer;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: 500;
+    border-bottom: solid 1px #c1c1c1;
+}
+
+.EachWord:active {
+    background: rgba(16, 107, 192, 0.353);
+}
+
+.EachWord:focus {
+    background: rgba(16, 107, 192, 0.353);
 }

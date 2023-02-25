@@ -1,78 +1,70 @@
 import React from 'react';
 
-import TextField from '@mui/material/TextField';
 import Box from '@mui/system/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-import { Base64 } from 'js-base64';
-
-import BackEndConnection from './BackEndConnection';
 import GenericTokenForText from './GenericTokenForText';
-import UploadFile from './UploadFile';
+import AttachFile from './AttachFile';
+import EnterUrl from './EnterUrl';
 import { shared } from './helper';
 
 import './style.css';
-
-const backend = BackEndConnection.INSTANCE();
 
 export default class InitProcess extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            url: null,
-            value: 'https://www.cnn.com/',
             data: null,
-            textData: null
+            textData: null,
+            displayAtach: false,
+            displayEnterUrl: false,
+            displayButtons: true,
+            turnOffDisplay: false
         };
         this.callInitUrlProcess = this.callInitUrlProcess.bind(this);
         shared.callInitUrlProcess = this.callInitUrlProcess;
     }
 
-    getTextfieldValue(e) {
-        this.setState({ url: e.target.value })
-    }
-
-    submitUrl() {
-        let url = Base64.encode(this.state.value);
-        let that = this;
-        backend.send_url_to_backend(url, (data) => {
-            that.setState({ data: data, textData: null });
-        })
+    gotToUrl() {
+        this.setState({ displayEnterUrl: true, displayButtons: false });
     }
 
     callInitUrlProcess(e) {
         if (e.action === 'data-is-ready') {
-            this.setState({ textData: e.data, data: null });
+            this.setState({ textData: e.data, data: null, turnOffDisplay: true });
+        } else if (e.action === 'url-data-is-read') {
+            this.setState({ data: e.data, textData: null, turnOffDisplay: true, dataName: e.name });
+        } else if (e.action === "file-name-is-ready") {
+            this.setState({ dataName: e.data });
         }
+    }
+
+    selectFile() {
+        this.setState({ displayAtach: true, displayButtons: false })
     }
 
     render() {
         return (
             <Box>
-                <Box className="GetUrlBox">
-                    <Typography mb={1} fontSize={18} variant="body1">Enter URL</Typography>
-                    <TextField value={this.state.value} variant="outlined" onChange={(e) => this.getTextfieldValue(e)} />
-                </Box >
-                <Box className="SUbmitBtnBox">
-                    <UploadFile />
+                {this.state.displayButtons === true &&
+                    <Box style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <Box className="StartInstruction">
+                            <Typography mb={2} fontSize={18} variant="body1" fontWeight="500">Select a file or enter a url to start processing the text</Typography>
+                        </Box>
+                        <Box className="MainTwoButtons">
+                            <Button style={{ marginRight: 20 }} variant="contained" className='SunbmitBtn' size='large' onClick={() => this.selectFile()}>Upload</Button>
 
-                    <Button variant="contained" className='SunbmitBtn' size='large' onClick={() => this.submitUrl()}>Submit</Button>
-                </Box>
-
-                {/* {this.state.data !== null && this.state.textData === null &&
-                    <TextTokensForUrl data={this.state.data} />} */}
-
-
+                            <Button variant="contained" className='SunbmitBtn' size='large' onClick={() => this.gotToUrl()}>Enter Url</Button>
+                        </Box>
+                    </Box>}
+                {this.state.displayAtach === true && this.state.turnOffDisplay === false && <AttachFile />}
+                {this.state.displayEnterUrl === true && this.state.turnOffDisplay === false && <EnterUrl />}
                 {this.state.data !== null && this.state.textData === null &&
-                    <GenericTokenForText data={this.state.data} service='url' />}
-
+                    <GenericTokenForText data={this.state.data} service='url' dataName={this.state.dataName} />}
 
                 {this.state.textData !== null && this.state.data === null &&
-                    <GenericTokenForText data={this.state.textData} service='text' />}
-
-
-
+                    <GenericTokenForText data={this.state.textData} service='text' dataName={this.state.dataName} />}
             </Box>
         );
     }

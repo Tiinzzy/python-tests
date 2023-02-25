@@ -16,6 +16,7 @@ class BackEndConnectionImpl {
     }
 
     async send_text_file_to_backend(query, callback) {
+        console.log(query)
         return axios.post("/file-to-txt-and-tokens", query, {})
             .then(response => {
                 if (response.status === 200) {
@@ -48,6 +49,21 @@ class BackEndConnectionImpl {
 
     async get_frequency_of_words(count, callback) {
         return axios.get("/get-frequency-of-words?count=" + count, {})
+            .then(function (response) {
+                if (callback) {
+                    callback(response.data);
+                }
+                return response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+                return false;
+            })
+    }
+
+    async get_dispersion_plot_graph(query, callback) {
+        console.log(query)
+        return axios.post("/get-graph-of-dispersion-plot", query, {})
             .then(function (response) {
                 if (callback) {
                     callback(response.data);

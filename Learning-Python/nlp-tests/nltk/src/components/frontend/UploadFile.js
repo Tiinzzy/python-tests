@@ -23,6 +23,7 @@ export default class UploadFile extends React.Component {
         let filePath = document.getElementById("myFile").value;
         let fileName = filePath.replace('fakepath', '').replace('C:\\\\', '');
         this.setState({ fileName: fileName });
+        shared.callInitUrlProcess({ action: 'file-name-is-ready', data: fileName });
     }
 
     handleFileSelect(e) {
@@ -43,9 +44,9 @@ export default class UploadFile extends React.Component {
 
     render() {
         return (
-            <Box style={{ marginRight: 15 }}>
+            <Box>
                 <Button size='large' className='SunbmitBtn' variant="contained" component="label">
-                    Upload
+                    Select a file
                     <input hidden id="myFile" multiple type="file" accept="text/plain" onChange={(e) => this.initReadFile(e)} />
                 </Button>
             </Box>
