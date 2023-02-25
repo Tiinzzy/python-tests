@@ -22,7 +22,8 @@ export default class GenericTokenForText extends React.Component {
             cleanTokens: [],
             frequency: null,
             commonWords: null,
-            openDialog: false
+            openDialog: false,
+            displayGRaph: false
         };
         this.handleCloseDialog = this.handleCloseDialog.bind(this);
         this.callTokenForText = this.callTokenForText.bind(this);
@@ -31,7 +32,7 @@ export default class GenericTokenForText extends React.Component {
 
     getText() {
         let text = (this.state.service === 'text' ? this.state.data.text.text : this.state.data.text);
-        this.setState({ text, tokens: [], commonWords: null, cleanTokens: [], frequency: null });
+        this.setState({ text, tokens: [], commonWords: null, cleanTokens: [], frequency: null, displayGRaph: false });
     }
 
     getTokens() {
@@ -39,7 +40,7 @@ export default class GenericTokenForText extends React.Component {
         for (let i in this.state.data.tokens) {
             tokens[i] = [i, this.state.data.tokens[i]];
         }
-        this.setState({ tokens: tokens, text: null, cleanTokens: [], commonWords: null, frequency: null });
+        this.setState({ tokens: tokens, text: null, cleanTokens: [], commonWords: null, frequency: null, displayGRaph: false });
     }
 
     getCleanTokensUrl() {
@@ -49,7 +50,7 @@ export default class GenericTokenForText extends React.Component {
             cleanTokens[i] = [i, this.state.data.nonStopWord[i]];
             allWords.push(this.state.data.nonStopWord[i])
         }
-        this.setState({ cleanTokens: cleanTokens, text: null, tokens: [], commonWords: null, frequency: null, allWords });
+        this.setState({ cleanTokens: cleanTokens, text: null, tokens: [], commonWords: null, frequency: null, allWords, displayGRaph: false });
     }
 
     getCleanTokensText() {
@@ -59,7 +60,7 @@ export default class GenericTokenForText extends React.Component {
             cleanTokens[i] = [i, this.state.data.clean[i]];
             allWords.push(this.state.data.clean[i])
         }
-        this.setState({ cleanTokens: cleanTokens, text: null, tokens: [], commonWords: null, frequency: null, allWords });
+        this.setState({ cleanTokens: cleanTokens, text: null, tokens: [], commonWords: null, frequency: null, allWords, displayGRaph: false });
     }
 
     getCleanTokens() {
@@ -85,16 +86,18 @@ export default class GenericTokenForText extends React.Component {
             for (let i in info) {
                 common_words[i] = [info[i][0], info[i][1]];
             }
-            this.setState({ commonWords: common_words, text: null, cleanTokens: [], tokens: [], frequency: null });
+            this.setState({ commonWords: common_words, text: null, cleanTokens: [], tokens: [], frequency: null, displayGRaph: false });
         } else if (e.action === 'get-common-words-for-url') {
             let common_words = [];
             let info = e.data.common_words;
             for (let i in info) {
                 common_words[i] = [info[i][0], info[i][1]];
             }
-            this.setState({ commonWords: common_words, text: null, cleanTokens: [], tokens: [], frequency: null })
+            this.setState({ commonWords: common_words, text: null, cleanTokens: [], tokens: [], frequency: null, displayGRaph: false })
         } else if (e.action === 'get-frequency-words-for-text') {
-            this.setState({ frequency: e.data.freq, text: null, cleanTokens: [], tokens: [], commonWords: null })
+            this.setState({ frequency: e.data.freq, text: null, cleanTokens: [], tokens: [], commonWords: null, displayGRaph: false })
+        } else if (e.action === 'display-graph') {
+            this.setState({ displayGRaph: true, text: null, cleanTokens: [], tokens: [], commonWords: null, frequency: null })
         }
     }
 
@@ -208,6 +211,7 @@ export default class GenericTokenForText extends React.Component {
                 <Dialog maxWidth="md" open={this.state.openDialog} onClose={() => this.handleCloseDialog()}>
                     <DispersionPlot allWords={this.state.allWords} close={this.handleCloseDialog} />
                 </Dialog>
+                <img id='chart_place_holder' src="" width={this.state.displayGRaph ? '1000': '0'} />
             </Box>
         );
     }
