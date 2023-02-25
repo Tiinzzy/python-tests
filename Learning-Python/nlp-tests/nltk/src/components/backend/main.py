@@ -1,8 +1,15 @@
+import io
+from flask import Response
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+
+
 from flask import Flask, request, jsonify
 from nlp import NltkProcess
 import base64
 
 app = Flask(__name__)
+
+nltk_processor = NltkProcess()
 
 
 @app.route("/url-to-txt-and-tokens", methods=['GET'])
@@ -11,11 +18,11 @@ def process_url():
     url = args.get('url')
     main_url = base64.b64decode(url).decode('utf-8')
 
-    NltkProcess.init_web_page(main_url).tokenize().remove_stop_words()
+    nltk_processor.init_web_page(main_url).tokenize().remove_stop_words()
 
-    text = NltkProcess.get_text()
-    tokens = NltkProcess.get_tokens()
-    nonStopWord = NltkProcess.get_no_stop_words_tokens()
+    text = nltk_processor.get_text()
+    tokens = nltk_processor.get_tokens()
+    nonStopWord = nltk_processor.get_no_stop_words_tokens()
 
     result = {'text': text, 'tokens': tokens, 'nonStopWord': nonStopWord}
 
@@ -26,10 +33,10 @@ def process_url():
 def process_text_file():
     text = request.json['text']
 
-    NltkProcess.tokenize(text).remove_stop_words()
+    nltk_processor.tokenize(text).remove_stop_words()
 
-    tokens = NltkProcess.get_tokens()
-    no_stopwords = NltkProcess.get_no_stop_words_tokens()
+    tokens = nltk_processor.get_tokens()
+    no_stopwords = nltk_processor.get_no_stop_words_tokens()
 
     result = {'tokens': tokens, 'no_stopwords': no_stopwords}
     return jsonify(result)
@@ -41,9 +48,9 @@ def get_common_words():
     count = args.get('count')
     count = int(count)
 
-    common_words = NltkProcess.get_most_common_words(
-        count, NltkProcess.get_no_stop_words_tokens())
-    all_freq = len(NltkProcess.get_frequency_as_data_frame())
+    common_words = nltk_processor.get_most_common_words(
+        count, nltk_processor.get_no_stop_words_tokens())
+    all_freq = len(nltk_processor.get_frequency_as_data_frame())
 
     result = {'common_words': common_words, 'all': all_freq}
 
@@ -56,17 +63,28 @@ def get_frequency_of_words():
     count = args.get('count')
     count = int(count)
 
-    freq = NltkProcess.get_frequency_as_data_frame()
+    freq = nltk_processor.get_frequency_as_data_frame()
     frequency = freq.head(count).values.tolist()
     result = {'freq': frequency}
 
     return jsonify(result)
 
 
-@app.route("/get-graph-of-dispersion-plot", methods=['POST'])
+@app.route("/get-graph-of-dispersion-plot", methods=['GET'])
 def get_dispersion_plot():
-    words = request.json['words']
+    args = request.args
+    words = args.get('words')
+    words = words.split(',')
+    figure = nltk_processor.draw_lexical_dispersion_plot(words)
+    output = io.BytesIO()
+    FigureCanvas(figure).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 
-    result = NltkProcess.draw_lexical_dispersion_plot(words)
 
-    return jsonify(result)
+@app.route("/get-sample-chart", methods=['GET'])
+def get_sample_chart():
+    print('Hi THERE !!!')
+    figure = nltk_processor.get_sample_chart_fig()
+    output = io.BytesIO()
+    FigureCanvas(figure).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
