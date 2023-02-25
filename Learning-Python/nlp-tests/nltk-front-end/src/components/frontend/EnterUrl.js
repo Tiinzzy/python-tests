@@ -25,7 +25,7 @@ export default class EnterUrl extends React.Component {
     }
 
     getTextfieldValue(e) {
-        this.setState({ url: e.target.value });
+        this.setState({ value: e.target.value });
     }
 
     submitUrl() {
@@ -45,7 +45,7 @@ export default class EnterUrl extends React.Component {
                     <TextField value={this.state.value} variant="outlined" onChange={(e) => this.getTextfieldValue(e)} />
                     <Box className="SUbmitBtnBox">
                         <Button variant="contained" className='SunbmitBtn' size='large' onClick={() => this.submitUrl()}>Submit</Button>
-                    </Box>
+                    </Box>                    
                 </Box >
             </>
         );
