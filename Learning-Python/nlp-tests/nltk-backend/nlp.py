@@ -13,6 +13,8 @@ import urllib.error
 import collections
 collections.Callable = collections.abc.Callable
 
+import io
+import base64
 
 class NltkProcess:
     def __init__(self):
@@ -96,8 +98,13 @@ class NltkProcess:
         ax.set_title(title)
         ax.set_xlabel("Word Offset")
         ax.set_xlim([0, len(self.tokens)])
+        ax.grid()
 
-        return fig
+        my_string_bytes = io.BytesIO()
+        plt.savefig(my_string_bytes, format='jpg')
+        my_string_bytes.seek(0)
+        my_base64_jpg_data = base64.b64encode(my_string_bytes.read()).decode()        
+        return fig, my_base64_jpg_data
 
     @classmethod
     def get_text(self):
@@ -123,6 +130,7 @@ class NltkProcess:
                title='About as simple as it gets, folks')
         ax.grid()
         return fig
+
 
 
 if __name__ == "__main__":
