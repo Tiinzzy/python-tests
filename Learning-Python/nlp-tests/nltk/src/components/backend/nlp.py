@@ -3,6 +3,7 @@ from nltk import FreqDist
 from nltk.corpus import stopwords
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 import ssl
 import string
 from bs4 import BeautifulSoup
@@ -74,6 +75,31 @@ class NltkProcess:
         return df
 
     @classmethod
+    def draw_lexical_dispersion_plot(self, words, ignore_case=False, title="Lexical Dispersion Plot"):
+        word2y = {
+            word.casefold() if ignore_case else word: y
+            for y, word in enumerate(reversed(words))
+        }
+        xs, ys = [], []
+        for x, token in enumerate(self.tokens):
+            token = token.casefold() if ignore_case else token
+            y = word2y.get(token)
+            if y is not None:
+                xs.append(x)
+                ys.append(y)
+
+        plt.rcParams['figure.dpi'] = 300
+        fig, ax = plt.subplots()
+        ax.plot(xs, ys, "|")
+        ax.set_yticks(list(range(len(words))), words, color="C0")
+        ax.set_ylim(-1, len(words))
+        ax.set_title(title)
+        ax.set_xlabel("Word Offset")
+        ax.set_xlim([0, len(self.tokens)])
+
+        return fig
+
+    @classmethod
     def get_text(self):
         for i in self.text:
             txt = ' '.join(self.text.split())
@@ -88,10 +114,15 @@ class NltkProcess:
         return self.no_stop_word_tokens
 
     @classmethod
-    def process_text_file(self, text):
-        print()
-        print('>>>>>>>>>>>>>>>>>>>>>>>.', text)
-        return {'result': 'rescieved'}
+    def get_sample_chart_fig(self):
+        t = np.arange(0.0, 2.0, 0.01)
+        s = 1 + np.sin(2 * np.pi * t)
+        fig, ax = plt.subplots()
+        ax.plot(t, s)
+        ax.set(xlabel='time (s)', ylabel='voltage (mV)',
+               title='About as simple as it gets, folks')
+        ax.grid()
+        return fig
 
 
 if __name__ == "__main__":
@@ -111,3 +142,4 @@ if __name__ == "__main__":
     # print('\n' * 10)
     # print(NltkProcess.get_frequency_as_data_frame().head(5).values.tolist())
 
+    NltkProcess.draw_lexical_dispersion_plot(["cnn", "news", "newsletters"])
