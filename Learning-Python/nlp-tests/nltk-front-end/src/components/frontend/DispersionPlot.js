@@ -23,7 +23,8 @@ export default class DispersionPlot extends React.Component {
         this.state = {
             close: props.close,
             selectedWords: {},
-            loading: false
+            loading: false,
+            filter: null
         };
     }
 
@@ -66,6 +67,11 @@ export default class DispersionPlot extends React.Component {
         })
     }
 
+    filterData(e) {
+        console.log(e)
+        this.setState({ filter: e })
+    }
+
     render() {
         return (
             <Box>
@@ -77,7 +83,9 @@ export default class DispersionPlot extends React.Component {
                         <Box style={{ height: 4, color: 'rgb(31, 76, 142)' }}><LinearProgress color="inherit" /></Box> :
                         <Box style={{ height: 4 }}></Box>}
                     <div className='EachWordDiv'>
-                        {this.state.uniqWOrds && this.state.uniqWOrds.sort().map((e, i) => (
+                        {ALPHABET.map((e, i) => (<div style={{ padding: 10, cursor: 'pointer' }} key={i} onClick={() => this.filterData(e)}> {e}</div>))}
+
+                        {this.state.filter !== null && this.state.uniqWOrds && this.state.uniqWOrds.filter(e => e.startsWith(this.state.filter.toLowerCase())).sort().map((e, i) => (
                             <FormControlLabel key={i} control={<Checkbox checked={this.state.selectedWords[e]} onChange={() => this.wordSelected(e)} />} label={e} />
                         ))}
                     </div>
