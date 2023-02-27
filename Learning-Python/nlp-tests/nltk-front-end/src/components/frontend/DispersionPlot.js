@@ -7,36 +7,40 @@ import Button from '@mui/material/Button';
 import DialogActions from '@mui/material/DialogActions';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import LinearProgress from '@mui/material/LinearProgress';
 
 import BackEndConnection from './BackEndConnection';
 import { shared } from './helper';
 
 import './style.css';
 
-const backend = BackEndConnection.INSTANCE();
+const backend = BackEndConnection.INSTANCE()
+const ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
 export default class DispersionPlot extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             close: props.close,
-            selectedWords: {}
+            selectedWords: {},
+            loading: false
         };
     }
 
     componentDidMount() {
         let that = this;
-        backend.get_all_words((data) => {
-            that.setState({ allWords: data.cleanTokens });
-            let uniqWOrds = [...new Set(that.state.allWords)];
-            let selectedWords = {};
-            for (let w in uniqWOrds) {
-                selectedWords[uniqWOrds[w]] = false;
-            }
-            that.setState({ uniqWOrds, selectedWords });
-        });
+        that.setState({ loading: true }, function () {
+            backend.get_all_words((data) => {
+                that.setState({ allWords: data.cleanTokens });
+                let uniqWOrds = [...new Set(that.state.allWords)];
+                let selectedWords = {};
+                for (let w in uniqWOrds) {
+                    selectedWords[uniqWOrds[w]] = false;
+                }
+                that.setState({ uniqWOrds, selectedWords, loading: false });
+            });
 
-
+        })
     }
 
     wordSelected(e) {
@@ -69,6 +73,9 @@ export default class DispersionPlot extends React.Component {
                     {"Select the words you would like to compare the frequency across your data:"}
                 </DialogTitle>
                 <DialogContent>
+                    {this.state.loading ?
+                        <Box style={{ height: 4, color: 'rgb(31, 76, 142)' }}><LinearProgress color="inherit" /></Box> :
+                        <Box style={{ height: 4 }}></Box>}
                     <div className='EachWordDiv'>
                         {this.state.uniqWOrds && this.state.uniqWOrds.sort().map((e, i) => (
                             <FormControlLabel key={i} control={<Checkbox checked={this.state.selectedWords[e]} onChange={() => this.wordSelected(e)} />} label={e} />
