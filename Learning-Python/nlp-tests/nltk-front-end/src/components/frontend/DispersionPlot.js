@@ -68,28 +68,27 @@ export default class DispersionPlot extends React.Component {
     }
 
     filterData(e) {
-        console.log(e)
         this.setState({ filter: e })
     }
 
     render() {
         return (
             <Box>
-                <DialogTitle>
-                    {"Select the words you would like to compare the frequency across your data:"}
-                </DialogTitle>
-                <DialogContent>
-                    {this.state.loading ?
-                        <Box style={{ height: 4, color: 'rgb(31, 76, 142)' }}><LinearProgress color="inherit" /></Box> :
-                        <Box style={{ height: 4 }}></Box>}
-                    <div className='EachWordDiv'>
-                        {ALPHABET.map((e, i) => (<div style={{ padding: 10, cursor: 'pointer' }} key={i} onClick={() => this.filterData(e)}> {e}</div>))}
-
-                        {this.state.filter !== null && this.state.uniqWOrds && this.state.uniqWOrds.filter(e => e.startsWith(this.state.filter.toLowerCase())).sort().map((e, i) => (
-                            <FormControlLabel key={i} control={<Checkbox checked={this.state.selectedWords[e]} onChange={() => this.wordSelected(e)} />} label={e} />
-                        ))}
-                    </div>
-                </DialogContent>
+                <Box className="DialogTitle">
+                    {"Select the words you to compare their frequency across data:"}
+                </Box>
+                {this.state.loading ?
+                    <Box style={{ height: 4, color: 'rgb(31, 76, 142)' }}><LinearProgress color="inherit" /></Box> :
+                    <Box style={{ height: 4 }}></Box>}
+                <Box className="EachWordDiv">
+                    {ALPHABET.map((e, i) => (<div className='EachAlphabetBox' key={i} onClick={() => this.filterData(e)}> {e}</div>))}
+                </Box>
+                {this.state.filter !== null && this.state.uniqWOrds ?
+                    <Box className="FilterResultBox">
+                        {this.state.uniqWOrds.filter(e => e.startsWith(this.state.filter.toLowerCase())).sort().map((e, i) => (
+                            <FormControlLabel key={i} control={<Checkbox checked={this.state.selectedWords[e]} onChange={() => this.wordSelected(e)} />} label={e} />))}
+                    </Box> :
+                    <Box className="FilterResultBox"> </Box>}
                 <DialogActions mb={2}>
                     <Button onClick={() => this.submitWords()} variant="contained" className='GetTokensBtn' size='medium'>Submit</Button>
                 </DialogActions>
