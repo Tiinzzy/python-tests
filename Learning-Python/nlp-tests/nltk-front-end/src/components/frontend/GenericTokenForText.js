@@ -208,7 +208,7 @@ export default class GenericTokenForText extends React.Component {
                             </tbody>
                         </table>
                     </Box>}
-                <Dialog maxWidth="md" open={this.state.openDialog} onClose={() => this.handleCloseDialog()}>
+                <Dialog fullWidth maxWidth="lg" open={this.state.openDialog} onClose={() => this.handleCloseDialog()}>
                     <DispersionPlot allWords={this.state.allWords} close={this.handleCloseDialog} />
                 </Dialog>
                 <img id='chart_place_holder' src="" width={this.state.displayGRaph ? '1000': '0'} />
