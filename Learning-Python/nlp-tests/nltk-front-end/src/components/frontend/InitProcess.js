@@ -9,6 +9,7 @@ import AttachFile from './AttachFile';
 import EnterUrl from './EnterUrl';
 import { shared } from './helper';
 
+
 import './style.css';
 
 export default class InitProcess extends React.Component {
