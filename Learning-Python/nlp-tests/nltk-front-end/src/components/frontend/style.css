@@ -132,12 +132,14 @@ th {
 .EachWordDiv {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .EachAlphabetBox {
     cursor: pointer;
     padding: 6px 7px 7px 7px;
-    border: solid 1px rgb(31, 63, 128);
+    /* border: solid 1px rgb(31, 63, 128); */
     border-radius: 4px;
     height: 10px;
     width: 10px;
@@ -161,11 +163,12 @@ th {
 }
 
 .DialogTitle {
-    margin-top: 20px;
-    margin-bottom: 10px;
+    border: solid 1px red;
+    margin: 20px;
+    padding: 15px;
     margin-left: 10px;
-    font-weight: 500;
-    font-size: 18px;
+    font-weight: bold;
+    font-size: 30px;
 }
 
 
