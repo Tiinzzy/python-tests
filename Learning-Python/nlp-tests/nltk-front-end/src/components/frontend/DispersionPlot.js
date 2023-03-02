@@ -69,11 +69,15 @@ export default class DispersionPlot extends React.Component {
         this.setState({ filter: e })
     }
 
+    cancelAndClose() {
+        this.state.close();
+    }
+
     render() {
         return (
             <Box>
                 <Box className="DialogTitle">
-                    {"Select the words you to compare their frequency across data:"}
+                    Select words to compare their frequency across data:
                 </Box>
 
                 <Divider />
@@ -88,7 +92,8 @@ export default class DispersionPlot extends React.Component {
                             <FormControlLabel key={i} control={<Checkbox checked={this.state.selectedWords[e]} onChange={() => this.wordSelected(e)} />} label={e} />))}
                     </Box> :
                     <Box className="FilterResultBox"> </Box>}
-                <DialogActions mb={2}>
+                <DialogActions>
+                    <Button onClick={() => this.cancelAndClose()} variant="contained" className='GetTokensBtn' size='medium'>cancel</Button>
                     <Button onClick={() => this.submitWords()} variant="contained" className='GetTokensBtn' size='medium'>Submit</Button>
                 </DialogActions>
 
