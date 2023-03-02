@@ -1,13 +1,11 @@
 import React from 'react';
 
 import Box from '@mui/system/Box';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import DialogActions from '@mui/material/DialogActions';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import LinearProgress from '@mui/material/LinearProgress';
+import Divider from '@mui/material/Divider';
 
 import BackEndConnection from './BackEndConnection';
 import { shared } from './helper';
@@ -77,12 +75,13 @@ export default class DispersionPlot extends React.Component {
                 <Box className="DialogTitle">
                     {"Select the words you to compare their frequency across data:"}
                 </Box>
-                {this.state.loading ?
-                    <Box style={{ height: 4, color: 'rgb(31, 76, 142)' }}><LinearProgress color="inherit" /></Box> :
-                    <Box style={{ height: 4 }}></Box>}
+
+                <Divider />
                 <Box className="EachWordDiv">
                     {ALPHABET.map((e, i) => (<div className='EachAlphabetBox' key={i} onClick={() => this.filterData(e)}> {e}</div>))}
                 </Box>
+                <Divider />
+
                 {this.state.filter !== null && this.state.uniqWOrds ?
                     <Box className="FilterResultBox">
                         {this.state.uniqWOrds.filter(e => e.startsWith(this.state.filter.toLowerCase())).sort().map((e, i) => (
