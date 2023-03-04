@@ -13,7 +13,7 @@ import { shared } from './helper';
 import './style.css';
 
 const backend = BackEndConnection.INSTANCE()
-const ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+const ALPHABET = new Array(26).fill(0).map( (e, i) => String.fromCharCode(i + 65));
 
 export default class DispersionPlot extends React.Component {
     constructor(props) {
@@ -33,17 +33,15 @@ export default class DispersionPlot extends React.Component {
                 that.setState({ allWords: data.cleanTokens });
                 let uniqWOrds = [...new Set(that.state.allWords)];
                 let selectedWords = {};
-                for (let w in uniqWOrds) {
-                    selectedWords[uniqWOrds[w]] = false;
-                }
+                uniqWOrds.forEach(uw => {
+                    selectedWords[uw] = false;
+                });
                 that.setState({ uniqWOrds, selectedWords, loading: false });
             });
-
         })
     }
 
     wordSelected(e) {
-        let start = Date.now();
         let selectedWords = this.state.selectedWords;
         selectedWords[e] = !selectedWords[e];
         this.setState({ selectedWords });
@@ -92,8 +90,9 @@ export default class DispersionPlot extends React.Component {
                             <FormControlLabel key={i} control={<Checkbox checked={this.state.selectedWords[e]} onChange={() => this.wordSelected(e)} />} label={e} />))}
                     </Box> :
                     <Box className="FilterResultBox"> </Box>}
+
                 <DialogActions>
-                    <Button onClick={() => this.cancelAndClose()} variant="contained" className='GetTokensBtn' size='medium'>cancel</Button>
+                    <Button onClick={() => this.cancelAndClose()} variant="contained" className='GetTokensBtn' size='medium'>Cancel</Button>
                     <Button onClick={() => this.submitWords()} variant="contained" className='GetTokensBtn' size='medium'>Submit</Button>
                 </DialogActions>
 
