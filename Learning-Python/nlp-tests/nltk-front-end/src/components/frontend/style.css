@@ -136,38 +136,43 @@ th {
     align-items: center;
     margin-right: 20px;
     margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.DividerDialog{
+    margin-bottom: 40px !important;
 }
 
 .EachAlphabetBox {
     cursor: pointer;
-    margin: 9px;
-    font-size: 16px;
-    padding: 3px;
+    margin: 8px;
+    font-size: 15px;
+    padding: 1px;
 }
 
 .FilterResultBox {
-    border: solid 1px #eaeaea;
-    border-radius: 4px;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-    height: 150px;
-    padding: 15px;
+    width: 900px;
+    height: 600px;
+}
 
+.MuiFormControlLabel-root {
+    padding: 0px !important;
 }
 
 .DialogTitle {
     border: solid px red;
-    margin: 20px;
+    margin-top: 30px;
+    margin-bottom: 20px;
     padding: 15px;
-    margin-left: 10px;
+    margin-left: 5px;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 20px;
 }
 
+.FormCheckBox {
+    padding: 0px !important;
+}
 
 .EachWord {
     cursor: pointer;
