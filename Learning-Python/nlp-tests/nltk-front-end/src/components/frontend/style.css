@@ -136,38 +136,33 @@ th {
     align-items: center;
     margin-right: 20px;
     margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.DividerDialog {
+    margin-bottom: 15px !important;
 }
 
 .EachAlphabetBox {
     cursor: pointer;
-    margin: 9px;
-    font-size: 16px;
-    padding: 3px;
+    margin: 8px;
+    font-size: 15px;
+    padding: 1px;
 }
 
 .FilterResultBox {
-    border: solid 1px #eaeaea;
-    border-radius: 4px;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-    height: 150px;
-    padding: 15px;
-
+    width: 900px;
+    height: 600px;
 }
 
-.DialogTitle {
-    border: solid px red;
-    margin: 20px;
-    padding: 15px;
-    margin-left: 10px;
-    font-weight: bold;
-    font-size: 30px;
+.MuiFormControlLabel-root {
+    padding: 0px !important;
 }
 
+.FormCheckBox {
+    padding: 0px !important;
+}
 
 .EachWord {
     cursor: pointer;
@@ -183,4 +178,38 @@ th {
 
 .EachWord:focus {
     background: rgba(16, 107, 192, 0.353);
+}
+
+.SelectedResultBox {
+    border: solid 0px red;
+    margin: 25px 20px 15px 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-size:16px;
+    font-weight: bold;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    height: 20px;
+}
+
+.EachSelection {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: solid 0px blue;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: 300;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.HelperTextBox{
+    margin-left: 20px;
+    font-weight: 300;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #5d5d5d;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
