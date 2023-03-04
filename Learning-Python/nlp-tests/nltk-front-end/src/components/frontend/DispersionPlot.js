@@ -13,7 +13,7 @@ import { shared } from './helper';
 import './style.css';
 
 const backend = BackEndConnection.INSTANCE()
-const ALPHABET = new Array(26).fill(0).map( (e, i) => String.fromCharCode(i + 65));
+const ALPHABET = new Array(26).fill(0).map((e, i) => String.fromCharCode(i + 65));
 
 export default class DispersionPlot extends React.Component {
     constructor(props) {
@@ -73,23 +73,29 @@ export default class DispersionPlot extends React.Component {
 
     render() {
         return (
-            <Box>
+            <Box className="FilterResultBox">
                 <Box className="DialogTitle">
-                    Select words to compare their frequency across data:
+                    Filter Words
                 </Box>
 
                 <Divider />
                 <Box className="EachWordDiv">
                     {ALPHABET.map((e, i) => (<div className='EachAlphabetBox' key={i} onClick={() => this.filterData(e)}> {e}</div>))}
                 </Box>
-                <Divider />
+                <Divider className='DividerDialog' />
 
-                {this.state.filter !== null && this.state.uniqWOrds ?
-                    <Box className="FilterResultBox">
-                        {this.state.uniqWOrds.filter(e => e.startsWith(this.state.filter.toLowerCase())).sort().map((e, i) => (
-                            <FormControlLabel key={i} control={<Checkbox checked={this.state.selectedWords[e]} onChange={() => this.wordSelected(e)} />} label={e} />))}
-                    </Box> :
-                    <Box className="FilterResultBox"> </Box>}
+                <Box p={1} style={{ height: 250, border: 'solid 1px #eaeaea', margin: '20px 20px 35px 20px', borderRadius: 2 }}>
+                    {this.state.filter !== null && this.state.uniqWOrds &&
+                        this.state.uniqWOrds.filter(e => e.startsWith(this.state.filter.toLowerCase())).sort().map((e, i) => (
+                            <div key={i} style={{ display: 'inline-block', padding:5 }}>
+                                <FormControlLabel
+                                    control={<Checkbox
+                                        checked={this.state.selectedWords[e]}
+                                        onChange={() => this.wordSelected(e)} />}
+                                    label={e} />
+                            </div>))}
+                </Box>
+
 
                 <DialogActions>
                     <Button onClick={() => this.cancelAndClose()} variant="contained" className='GetTokensBtn' size='medium'>Cancel</Button>
