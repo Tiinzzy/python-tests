@@ -6,6 +6,7 @@ import DialogActions from '@mui/material/DialogActions';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import BackEndConnection from './BackEndConnection';
 import { shared } from './helper';
@@ -45,6 +46,14 @@ export default class DispersionPlot extends React.Component {
         let selectedWords = this.state.selectedWords;
         selectedWords[e] = !selectedWords[e];
         this.setState({ selectedWords });
+
+        let selected = [];
+        for (let w in this.state.selectedWords) {
+            if (this.state.selectedWords[w]) {
+                selected.push(w);
+            }
+        }
+        this.setState({ selected });
     }
 
     submitWords() {
@@ -74,9 +83,9 @@ export default class DispersionPlot extends React.Component {
     render() {
         return (
             <Box className="FilterResultBox">
-                <Box className="DialogTitle">
-                    Filter Words
-                </Box>
+                <DialogTitle id="alert-dialog-title">
+                    {"Filter Words"}
+                </DialogTitle>
 
                 <Divider />
                 <Box className="EachWordDiv">
@@ -84,10 +93,10 @@ export default class DispersionPlot extends React.Component {
                 </Box>
                 <Divider className='DividerDialog' />
 
-                <Box p={1} style={{ height: 250, border: 'solid 1px #eaeaea', margin: '20px 20px 35px 20px', borderRadius: 2 }}>
+                <Box p={1} style={{ height: 250, border: 'solid 1px #eaeaea', margin: '0px 20px 0px 20px', borderRadius: 2 }}>
                     {this.state.filter !== null && this.state.uniqWOrds &&
                         this.state.uniqWOrds.filter(e => e.startsWith(this.state.filter.toLowerCase())).sort().map((e, i) => (
-                            <div key={i} style={{ display: 'inline-block', padding:5 }}>
+                            <div key={i} style={{ display: 'inline-block', padding: 5 }}>
                                 <FormControlLabel
                                     control={<Checkbox
                                         checked={this.state.selectedWords[e]}
@@ -95,8 +104,14 @@ export default class DispersionPlot extends React.Component {
                                     label={e} />
                             </div>))}
                 </Box>
+                <Box className="HelperTextBox">
+                    *Select words to compare their frequency across data
+                </Box>
 
-
+                <Box className="SelectedResultBox">
+                    Selected Words:
+                    {this.state.selected && this.state.selected.map((e, i) => (<div className='EachSelection' key={i}>{e}</div>))}
+                </Box>
                 <DialogActions>
                     <Button onClick={() => this.cancelAndClose()} variant="contained" className='GetTokensBtn' size='medium'>Cancel</Button>
                     <Button onClick={() => this.submitWords()} variant="contained" className='GetTokensBtn' size='medium'>Submit</Button>
