@@ -17,7 +17,7 @@ def get_mysql_data(mysql_table, host, port, user, password, database):
     mysql = MysqlConnection().make_connection(host, port, user, password, database)
 
     conn = mysql.connect()
-    query = "Select * from tests.TBALE_NAME;".replace('TBALE_NAME', mysql_table)
+    query = "Select * from tests.TABLE_NAME;".replace('TABLE_NAME', mysql_table)
 
     df_result = pd.read_sql(query, conn)
     result = df_result.to_dict(orient='records')
