@@ -1,6 +1,6 @@
+from mysql_connection import MysqlConnection
 from pymongo import MongoClient
 import pandas as pd
-import mysql.connector as sql
 
 
 def insert_in_mongodb(documents, mongo_host, mongo_port, mongo_schema, mongo_collection):
@@ -13,13 +13,13 @@ def insert_in_mongodb(documents, mongo_host, mongo_port, mongo_schema, mongo_col
 
 
 def get_mysql_data(mysql_table, mysql_host, mysql_port, mysql_user, mysql_password, mysql_schema):
-    db_connection = sql.connect(host=mysql_host, database=mysql_schema, user=mysql_user, password=mysql_password,
-                                port=mysql_port)
-    db_cursor = db_connection.cursor()
+    mysql = MysqlConnection()
+    con, cur = mysql.open_database(mysql_host, mysql_port, mysql_user, mysql_password, mysql_schema)
     query = "Select * from tests.TBALE_NAME;".replace('TBALE_NAME', mysql_table)
-    db_cursor.execute(query)
-    table_rows = db_cursor.fetchall()
-    df = pd.DataFrame(table_rows)
-    print(df)
 
-    # return result
+    df_result = pd.read_sql(query, con)
+    # average_above_eight = df_result.loc[df_result['vote_average'] >= 8]
+    result = df_result.to_dict(orient='records')
+    mysql.close_database()
+
+    return result
