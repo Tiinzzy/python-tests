@@ -1,10 +1,24 @@
 from mysql_connection import MysqlConnection
 from mongodb_connection import MongodbConnection
 import pandas as pd
+import csv
+
+
+def insert_in_mysql(data):
+    print(data)
 
 
 def get_csv_data(csv_location):
-    print(csv_location)
+    content = []
+    with open(csv_location) as csvfile:
+        csv_reader = csv.reader(csvfile)
+        headers = next(csv_reader)
+
+        for row in csv_reader:
+            row_data = {key: value for key, value in zip(headers, row)}
+            content.append(row_data)
+
+    return content
 
 
 def insert_in_mongodb(documents, mongo_host, mongo_port, mongo_schema, mongo_collection):
