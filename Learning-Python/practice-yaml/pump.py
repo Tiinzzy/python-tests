@@ -38,7 +38,7 @@ def process_yaml(yaml_filename):
             mysql_table = data['destination']['database']
 
             data = get_csv_data(csv_location)
-            insert_in_mysql(data, mysql_schema, mysql_table)
+            insert_in_mysql(data, mysql_schema, mysql_table, mysql_host, mysql_port, mysql_user, mysql_password)
 
 
 if __name__ == '__main__':
