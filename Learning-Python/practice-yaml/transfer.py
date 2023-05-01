@@ -1,15 +1,15 @@
 from mysql_connection import MysqlConnection
-from pymongo import MongoClient
+from mongodb_connection import MongodbConnection
 import pandas as pd
 
 
 def insert_in_mongodb(documents, mongo_host, mongo_port, mongo_schema, mongo_collection):
-    connection = MongoClient(mongo_host, mongo_port)
-    database = connection[mongo_schema]
-    collection = database.get_collection(mongo_collection)
-
-    collection.insert_many(documents)
-    connection.close()
+    client = MongodbConnection(mongo_host, mongo_port)
+    connection = client.connect()
+    if connection:
+        client.insert(mongo_schema, mongo_collection, documents)
+    else:
+        print('something went wrong')
 
 
 def get_mysql_data(mysql_table, mysql_host, mysql_port, mysql_user, mysql_password, mysql_schema):
