@@ -10,6 +10,8 @@ def process_yaml(yaml_filename):
 
         mysql_host = data['source']['host']
         mysql_port = data['source']['port']
+        mysql_user = data['source']['user']
+        mysql_password = data['source']['password']
         mysql_schema = data['source']['schema']
         mysql_table = data['source']['table']
 
@@ -21,8 +23,8 @@ def process_yaml(yaml_filename):
         batch_size = data['pump']['batch_size']
         batch_error = data['pump']['on_error']
 
-        result = get_mysql_data(mysql_table)
-        insert_in_mongodb(result, mongodb_host, mongodb_port, mongodb_schema, mongodb_collection)
+        result = get_mysql_data(mysql_table, mysql_host, mysql_port, mysql_user, mysql_password, mysql_schema)
+        # insert_in_mongodb(result, mongodb_host, mongodb_port, mongodb_schema, mongodb_collection)
 
 
 if __name__ == '__main__':
