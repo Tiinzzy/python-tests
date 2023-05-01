@@ -8,6 +8,7 @@ def insert_in_mongodb(documents, mongo_host, mongo_port, mongo_schema, mongo_col
     connection = client.connect()
     if connection:
         client.insert(mongo_schema, mongo_collection, documents)
+        client.disconnect()
     else:
         print('something went wrong')
 
