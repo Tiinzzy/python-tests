@@ -1,5 +1,5 @@
 from yaml.loader import SafeLoader
-from transfer import get_mysql_data, insert_in_mongodb, get_csv_data
+from transfer import get_mysql_data, insert_in_mongodb, get_csv_data, insert_in_mysql
 import yaml
 import sys
 
@@ -37,6 +37,7 @@ def process_yaml(yaml_filename):
             mysql_schema = data['destination']['schema']
 
             data = get_csv_data(csv_location)
+            insert_in_mysql(data)
 
 
 if __name__ == '__main__':
