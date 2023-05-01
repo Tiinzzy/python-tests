@@ -10,6 +10,7 @@ destination:
   password: washywashy
   port: 3306
   schema: tests
+  database: business_employment
 
 pump:
   batch_size: 500
