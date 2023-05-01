@@ -4,8 +4,22 @@ import pandas as pd
 import csv
 
 
-def insert_in_mysql(data):
-    print(data)
+def insert_in_mysql(data, database, table, host, port, user, password):
+    columns = data[0].keys()
+    columns = list(columns)
+
+    create_table_sql = ''
+    for i in range(len(columns)):
+        create_table_sql += "`" + columns[i].lower() + "` text(1000)" + (", " if i < len(columns) - 1 else "")
+
+    create_table = f"""CREATE TABLE {database}.{table} (
+                 {create_table_sql}
+                                    );"""""
+    mysql = MysqlConnection().make_connection(host, port, user, password, database)
+    conn = mysql.connect()
+    conn.execute(create_table)
+    conn.close()
+    mysql.dispose()
 
 
 def get_csv_data(csv_location):
