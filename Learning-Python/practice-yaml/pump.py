@@ -1,5 +1,5 @@
 from yaml.loader import SafeLoader
-from transfer import get_mysql_data, insert_in_mongodb
+from transfer import get_mysql_data, insert_in_mongodb, get_csv_data
 import yaml
 import sys
 
@@ -8,23 +8,35 @@ def process_yaml(yaml_filename):
     with open(yaml_filename) as f:
         data = yaml.load(f, Loader=SafeLoader)
 
-        mysql_host = data['source']['host']
-        mysql_port = data['source']['port']
-        mysql_user = data['source']['user']
-        mysql_password = data['source']['password']
-        mysql_schema = data['source']['schema']
-        mysql_table = data['source']['table']
+        if yaml_filename == 'pump-config-2.yaml':
+            mysql_host = data['source']['host']
+            mysql_port = data['source']['port']
+            mysql_user = data['source']['user']
+            mysql_password = data['source']['password']
+            mysql_schema = data['source']['schema']
+            mysql_table = data['source']['table']
 
-        mongodb_host = data['destination']['host']
-        mongodb_port = data['destination']['port']
-        mongodb_schema = data['destination']['schema']
-        mongodb_collection = data['destination']['collection']
+            mongodb_host = data['destination']['host']
+            mongodb_port = data['destination']['port']
+            mongodb_schema = data['destination']['schema']
+            mongodb_collection = data['destination']['collection']
 
-        batch_size = data['pump']['batch_size']
-        batch_error = data['pump']['on_error']
+            batch_size = data['pump']['batch_size']
+            batch_error = data['pump']['on_error']
 
-        result = get_mysql_data(mysql_table, mysql_host, mysql_port, mysql_user, mysql_password, mysql_schema)
-        insert_in_mongodb(result, mongodb_host, mongodb_port, mongodb_schema, mongodb_collection)
+            documents = get_mysql_data(mysql_table, mysql_host, mysql_port, mysql_user, mysql_password, mysql_schema)
+            insert_in_mongodb(documents, mongodb_host, mongodb_port, mongodb_schema, mongodb_collection)
+
+        elif yaml_filename == 'pump-config-3.yaml':
+            csv_location = data['source']['location']
+
+            mysql_host = data['destination']['host']
+            mysql_port = data['destination']['port']
+            mysql_user = data['destination']['user']
+            mysql_password = data['destination']['password']
+            mysql_schema = data['destination']['schema']
+
+            data = get_csv_data(csv_location)
 
 
 if __name__ == '__main__':
