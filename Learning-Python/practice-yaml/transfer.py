@@ -8,6 +8,12 @@ def insert_in_mysql(data, database, table, host, port, user, password):
     columns = data[0].keys()
     columns = list(columns)
 
+    mysql = MysqlConnection().make_connection(host, port, user, password, database)
+    conn = mysql.connect()
+
+    drop_sql = f"DROP TABLE IF EXISTS {database}.{table};"
+    conn.execute(drop_sql)
+
     create_table_sql = ''
     for i in range(len(columns)):
         create_table_sql += "`" + columns[i].lower() + "` text(1000)" + (", " if i < len(columns) - 1 else "")
@@ -15,9 +21,16 @@ def insert_in_mysql(data, database, table, host, port, user, password):
     create_table = f"""CREATE TABLE {database}.{table} (
                  {create_table_sql}
                                     );"""""
-    mysql = MysqlConnection().make_connection(host, port, user, password, database)
-    conn = mysql.connect()
     conn.execute(create_table)
+
+    for i in range(len(data)):
+        rows = data[i].values()
+        rows = '","'.join(rows)
+        insert_into_table = f"""INSERT INTO {database}.{table}
+                        VALUES ("{rows}");
+                            """
+        conn.execute(insert_into_table)
+
     conn.close()
     mysql.dispose()
 
