@@ -1,0 +1,16 @@
+source:
+  data_base_type: csv # mysql, csv
+  location: /home/tina/Documents/python/python-tests/Learning-Python/practice-yaml/upstream/business-employment-2022-quarter.csv
+
+
+destination:
+  data_base_type: mysql # mysql, csv
+  host: localhost
+  user: dbadmin
+  password: washywashy
+  port: 3306
+  schema: tests
+
+pump:
+  batch_size: 500
+  on_error: stop # stop, skip
