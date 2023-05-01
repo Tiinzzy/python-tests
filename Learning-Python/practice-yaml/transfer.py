@@ -3,6 +3,10 @@ from mongodb_connection import MongodbConnection
 import pandas as pd
 
 
+def get_csv_data(csv_location):
+    print(csv_location)
+
+
 def insert_in_mongodb(documents, mongo_host, mongo_port, mongo_schema, mongo_collection):
     client = MongodbConnection(mongo_host, mongo_port)
     connection = client.connect()
