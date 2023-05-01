@@ -22,7 +22,7 @@ def process_yaml(yaml_filename):
         batch_error = data['pump']['on_error']
 
         result = get_mysql_data(mysql_table)
-        insert_in_mongodb(result)
+        insert_in_mongodb(result, mongodb_host, mongodb_port, mongodb_schema, mongodb_collection)
 
 
 if __name__ == '__main__':
