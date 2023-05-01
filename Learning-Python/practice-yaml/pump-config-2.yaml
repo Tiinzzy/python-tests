@@ -8,7 +8,7 @@ source:
 destination:
   data_base_type: mongodb
   host: localhost
-  port: 2710
+  port: 27017
   schema: tests
   collection: movies
 
