@@ -1,6 +1,8 @@
 source:
   data_base_type: mysql # mysql, csv
   host: localhost
+  user: dbadmin
+  password: washywashy
   port: 3306
   schema: tests
   table: imbd_movies
@@ -8,7 +10,7 @@ source:
 destination:
   data_base_type: mongodb
   host: localhost
-  port: 2710
+  port: 27017
   schema: tests
   collection: movies
 
