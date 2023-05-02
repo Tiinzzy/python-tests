@@ -40,6 +40,9 @@ def process_yaml(yaml_filename):
             data = get_csv_data(csv_location)
             insert_in_mysql(data, mysql_schema, mysql_table, mysql_host, mysql_port, mysql_user, mysql_password)
 
+        elif yaml_filename == 'pump-config-4.yaml':
+            print(data)
+
 
 if __name__ == '__main__':
     if len(sys.argv) < 1:
