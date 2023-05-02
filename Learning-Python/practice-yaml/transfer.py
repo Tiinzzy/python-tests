@@ -15,25 +15,24 @@ def create_table(columns, database, table):
     return result
 
 
+def get_unique_columns(data):
+    unique_columns = {}
+    for i in range(len(data)):
+        for prop in data[i].keys():
+            if prop not in unique_columns.keys():
+                unique_columns[prop] = 1
+    return list(unique_columns.keys())
+
+
 def insert_in_mysql_from_mongodb(data, host, port, user, password, database, table):
-    columns = list()
-    for i in range(len(data)):
-        c = list(data[i].keys())
-        if c not in columns:
-            columns.append(c)
+    unique_columns = get_unique_columns(data)
 
-    biggest = max(columns)
-    full_data = dict()
-    for i in range(len(data)):
-        columns = data[i].keys()
-        columns = list(columns)
-
-        print(data[i])
-        if biggest[i] in columns[i]:
-            full_data[biggest[i]] = columns[data[i]].values()
-        else:
-            full_data[biggest[i]] = None
-    print(full_data)
+    for d in data:
+        row = {}
+        for c in unique_columns:
+            col_value = d[c] if c in d.keys() else None
+            row[c] = col_value
+        print(row.values())
 
 
 def get_mongodb_documents(host, port, schema, collection):
