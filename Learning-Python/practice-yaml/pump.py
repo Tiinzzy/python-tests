@@ -41,7 +41,17 @@ def process_yaml(yaml_filename):
             insert_in_mysql(data, mysql_schema, mysql_table, mysql_host, mysql_port, mysql_user, mysql_password)
 
         elif yaml_filename == 'pump-config-4.yaml':
-            print(data)
+            mongodb_host = data['source']['host']
+            mongodb_port = data['source']['port']
+            mongodb_schema = data['source']['schema']
+            mongodb_collection = data['source']['collection']
+
+            mysql_host = data['destination']['host']
+            mysql_port = data['destination']['port']
+            mysql_user = data['destination']['user']
+            mysql_password = data['destination']['password']
+            mysql_schema = data['destination']['schema']
+            mysql_table = data['destination']['database']
 
 
 if __name__ == '__main__':
