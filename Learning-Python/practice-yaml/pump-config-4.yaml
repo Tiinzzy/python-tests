@@ -2,7 +2,7 @@ source:
   data_base_type: mongodb
   host: localhost
   port: 27017
-  schema: tests
+  schema: tina_db
   collection: movies
 
 destination:
@@ -12,7 +12,7 @@ destination:
   password: washywashy
   port: 3306
   schema: tests
-  table: imbd_movies
+  table: mongo_data
 
 pump:
   batch_size: 500
