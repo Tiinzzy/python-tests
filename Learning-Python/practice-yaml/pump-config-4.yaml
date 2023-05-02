@@ -12,7 +12,7 @@ destination:
   password: washywashy
   port: 3306
   schema: tests
-  table: mongo_data
+  table: mongo_movies
 
 pump:
   batch_size: 500
