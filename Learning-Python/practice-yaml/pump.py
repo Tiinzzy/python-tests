@@ -1,5 +1,6 @@
 from yaml.loader import SafeLoader
-from transfer import get_mysql_data, insert_in_mongodb, get_csv_data, insert_in_mysql
+from transfer import get_mysql_data, insert_in_mongodb, get_csv_data, insert_in_mysql, get_mongodb_documents, \
+    insert_in_mysql_from_mongodb
 import yaml
 import sys
 
@@ -39,6 +40,23 @@ def process_yaml(yaml_filename):
 
             data = get_csv_data(csv_location)
             insert_in_mysql(data, mysql_schema, mysql_table, mysql_host, mysql_port, mysql_user, mysql_password)
+
+        elif yaml_filename == 'pump-config-4.yaml':
+            mongodb_host = data['source']['host']
+            mongodb_port = data['source']['port']
+            mongodb_schema = data['source']['schema']
+            mongodb_collection = data['source']['collection']
+
+            mysql_host = data['destination']['host']
+            mysql_port = data['destination']['port']
+            mysql_user = data['destination']['user']
+            mysql_password = data['destination']['password']
+            mysql_schema = data['destination']['schema']
+            mysql_table = data['destination']['table']
+
+            data = get_mongodb_documents(mongodb_host, mongodb_port, mongodb_schema, mongodb_collection)
+            insert_in_mysql_from_mongodb(data, mysql_host, mysql_port, mysql_user, mysql_password, mysql_schema,
+                                         mysql_table)
 
 
 if __name__ == '__main__':

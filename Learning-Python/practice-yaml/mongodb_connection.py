@@ -23,3 +23,10 @@ class MongodbConnection:
         my_database = self.mongo_client[database_name]
         collection = my_database.get_collection(collection_name)
         collection.insert_many(documents)
+
+    def get_documents(self, database_name, collection_name):
+        my_database = self.mongo_client[database_name]
+        collection = my_database.get_collection(collection_name)
+        cursor = collection.find()
+        list_curser = list(cursor)
+        return list_curser
