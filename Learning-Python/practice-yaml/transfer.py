@@ -10,8 +10,10 @@ def get_mongodb_documents(host, port, schema, collection):
     if connection:
         data = client.get_documents(schema, collection)
         client.disconnect()
+        return data
     else:
         print('something went wrong')
+        return False
 
 
 def insert_in_mysql(data, database, table, host, port, user, password):
