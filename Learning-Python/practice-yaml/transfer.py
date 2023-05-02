@@ -17,22 +17,39 @@ def create_table(columns, database, table):
 
 def get_unique_columns(data):
     unique_columns = {}
+    values_container = []
     for i in range(len(data)):
         for prop in data[i].keys():
             if prop not in unique_columns.keys():
-                unique_columns[prop] = 1
-    return list(unique_columns.keys())
+                unique_columns[str(prop)] = 1
+                values_container.append('%s')
+    return list(unique_columns.keys()), ','.join(values_container)
 
 
 def insert_in_mysql_from_mongodb(data, host, port, user, password, database, table):
-    unique_columns = get_unique_columns(data)
+    unique_columns, values_container = get_unique_columns(data)
+
+    mysql = MysqlConnection().make_connection(host, port, user, password, database)
+    conn = mysql.connect()
+
+    drop_sql = f"DROP TABLE IF EXISTS {database}.{table};"
+    conn.execute(drop_sql)
+
+    insert_sql = create_table(unique_columns, database, table)
+    conn.execute(insert_sql)
+
+    insert_query = f"INSERT INTO {database}.{table} VALUES ({values_container})"
 
     for d in data:
         row = {}
         for c in unique_columns:
             col_value = d[c] if c in d.keys() else None
-            row[c] = col_value
-        print(row.values())
+            row[c] = str(col_value)
+        values = list(row.values())
+        conn.execute(insert_query, values)
+
+    conn.close()
+    mysql.dispose()
 
 
 def get_mongodb_documents(host, port, schema, collection):
@@ -58,7 +75,6 @@ def insert_in_mysql(data, database, table, host, port, user, password):
     conn.execute(drop_sql)
 
     insert_sql = create_table(columns, database, table)
-
     conn.execute(insert_sql)
 
     for i in range(len(data)):
