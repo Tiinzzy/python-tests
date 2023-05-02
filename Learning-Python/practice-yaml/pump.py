@@ -1,5 +1,6 @@
 from yaml.loader import SafeLoader
-from transfer import get_mysql_data, insert_in_mongodb, get_csv_data, insert_in_mysql, get_mongodb_documents
+from transfer import get_mysql_data, insert_in_mongodb, get_csv_data, insert_in_mysql, get_mongodb_documents, \
+    insert_in_mysql_from_mongodb
 import yaml
 import sys
 
@@ -47,7 +48,8 @@ def process_yaml(yaml_filename):
             mongodb_collection = data['source']['collection']
 
             data = get_mongodb_documents(mongodb_host, mongodb_port, mongodb_schema, mongodb_collection)
-            print(len(data))
+            insert_in_mysql_from_mongodb(data)
+
 
 if __name__ == '__main__':
     if len(sys.argv) < 1:
