@@ -4,9 +4,36 @@ import pandas as pd
 import csv
 
 
-def insert_in_mysql_from_mongodb(data):
-    columns = data[0].keys()
-    columns = list(columns)
+def create_table(columns, database, table):
+    create_table_sql = ''
+    for i in range(len(columns)):
+        create_table_sql += "`" + columns[i].lower() + "` text(1000)" + (", " if i < len(columns) - 1 else "")
+
+    result = f"""CREATE TABLE {database}.{table} (
+                 {create_table_sql}
+                                    );"""""
+    return result
+
+
+def insert_in_mysql_from_mongodb(data, host, port, user, password, database, table):
+    columns = list()
+    for i in range(len(data)):
+        c = list(data[i].keys())
+        if c not in columns:
+            columns.append(c)
+
+    biggest = max(columns)
+    full_data = dict()
+    for i in range(len(data)):
+        columns = data[i].keys()
+        columns = list(columns)
+
+        print(data[i])
+        if biggest[i] in columns[i]:
+            full_data[biggest[i]] = columns[data[i]].values()
+        else:
+            full_data[biggest[i]] = None
+    print(full_data)
 
 
 def get_mongodb_documents(host, port, schema, collection):
@@ -31,21 +58,16 @@ def insert_in_mysql(data, database, table, host, port, user, password):
     drop_sql = f"DROP TABLE IF EXISTS {database}.{table};"
     conn.execute(drop_sql)
 
-    create_table_sql = ''
-    for i in range(len(columns)):
-        create_table_sql += "`" + columns[i].lower() + "` text(1000)" + (", " if i < len(columns) - 1 else "")
+    insert_sql = create_table(columns, database, table)
 
-    create_table = f"""CREATE TABLE {database}.{table} (
-                 {create_table_sql}
-                                    );"""""
-    conn.execute(create_table)
+    conn.execute(insert_sql)
 
     for i in range(len(data)):
         rows = data[i].values()
         rows = '","'.join(rows)
         insert_into_table = f"""INSERT INTO {database}.{table}
-                        VALUES ("{rows}");
-                            """
+                    VALUES ("{rows}");
+                        """
         conn.execute(insert_into_table)
 
     conn.close()
