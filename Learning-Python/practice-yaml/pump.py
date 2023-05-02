@@ -47,7 +47,7 @@ def process_yaml(yaml_filename):
             mongodb_collection = data['source']['collection']
 
             data = get_mongodb_documents(mongodb_host, mongodb_port, mongodb_schema, mongodb_collection)
-
+            print(len(data))
 
 if __name__ == '__main__':
     if len(sys.argv) < 1:
