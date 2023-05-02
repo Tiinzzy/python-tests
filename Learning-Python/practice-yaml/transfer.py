@@ -4,6 +4,11 @@ import pandas as pd
 import csv
 
 
+def insert_in_mysql_from_mongodb(data):
+    columns = data[0].keys()
+    columns = list(columns)
+
+
 def get_mongodb_documents(host, port, schema, collection):
     client = MongodbConnection(host, port)
     connection = client.connect()
