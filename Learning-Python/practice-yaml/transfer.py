@@ -5,7 +5,13 @@ import csv
 
 
 def get_mongodb_documents(host, port, schema, collection):
-    print(host, port, schema, collection)
+    client = MongodbConnection(host, port)
+    connection = client.connect()
+    if connection:
+        data = client.get_documents(schema, collection)
+        client.disconnect()
+    else:
+        print('something went wrong')
 
 
 def insert_in_mysql(data, database, table, host, port, user, password):
