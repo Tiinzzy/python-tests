@@ -1,5 +1,5 @@
 from yaml.loader import SafeLoader
-from transfer import get_mysql_data, insert_in_mongodb, get_csv_data, insert_in_mysql
+from transfer import get_mysql_data, insert_in_mongodb, get_csv_data, insert_in_mysql, get_mongodb_documents
 import yaml
 import sys
 
@@ -46,12 +46,7 @@ def process_yaml(yaml_filename):
             mongodb_schema = data['source']['schema']
             mongodb_collection = data['source']['collection']
 
-            mysql_host = data['destination']['host']
-            mysql_port = data['destination']['port']
-            mysql_user = data['destination']['user']
-            mysql_password = data['destination']['password']
-            mysql_schema = data['destination']['schema']
-            mysql_table = data['destination']['database']
+            data = get_mongodb_documents(mongodb_host, mongodb_port, mongodb_schema, mongodb_collection)
 
 
 if __name__ == '__main__':
