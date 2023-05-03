@@ -1,3 +1,4 @@
+from process import extract_indexes
 import sys
 import csv
 
@@ -21,8 +22,8 @@ if __name__ == "__main__":
     else:
         file_name = sys.argv[1]
         try:
-            res = read_csv(file_name)
-            print(res[1])
+            data = read_csv(file_name)
+            extract_indexes(data)
         except Exception as e:
             print(e)
             print("Can not open " + file_name + " file!")
