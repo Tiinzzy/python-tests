@@ -55,7 +55,8 @@ def save_collections_as_csv(data, file_names):
         columns = list(data[d][0].keys())
 
     for i in range(len(file_names)):
-        path = '/home/tina/Documents/python/python-tests/Learning-Python/index_search/extracted_data/' + file_names[i]
+        path = '/home/tina/Documents/python/python-tests/Learning-Python/index_search/extracted_data/' + file_names[
+            i] + '.csv'
         with open(path, mode='w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             writer.writerow(columns)
