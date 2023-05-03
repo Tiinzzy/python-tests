@@ -1,3 +1,6 @@
+import csv
+
+
 def extract_indexes(data):
     unique_indexes = []
     for d in data:
@@ -47,17 +50,14 @@ def get_collections(unique_indexes, data):
 
 
 def save_collections_as_csv(data, file_names):
-    for row in data:
-        row_to_str(data[row])
-    # for file in file_names:
-    #     with open(file, 'a') as f:
-    #         for row in data:
-    #             f.write(row_to_str(row))
+    columns = []
+    for d in data:
+        columns = list(data[d][0].keys())
 
-
-def row_to_str(row):
-    result = []
-    for c in row:
-        result.append(str(list(c.values())))
-    print(result)
-# return ','.join(result) + '\n'
+    for i in range(len(file_names)):
+        path = '/home/tina/Documents/python/python-tests/Learning-Python/index_search/extracted_data/' + file_names[i]
+        with open(path, mode='w', newline='') as csv_file:
+            writer = csv.writer(csv_file)
+            writer.writerow(columns)
+            for row in data:
+                writer.writerow(list(data[file_names[i]][i].values()))
