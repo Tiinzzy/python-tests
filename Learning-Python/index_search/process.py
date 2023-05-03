@@ -59,5 +59,5 @@ def save_collections_as_csv(data, file_names):
         with open(path, mode='w', newline='') as csv_file:
             writer = csv.writer(csv_file)
             writer.writerow(columns)
-            for row in data:
-                writer.writerow(list(data[file_names[i]][i].values()))
+            for row in data[file_names[i]]:
+                writer.writerow(list(row.values()))
