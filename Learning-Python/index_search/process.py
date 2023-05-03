@@ -9,7 +9,6 @@ def extract_indexes(data):
 
 def save_in_separate_files(unique_indexes, data):
     finalized_data = {}
-    assignment = []
     for index in unique_indexes:
         finalized_data[index] = []
 
@@ -43,4 +42,3 @@ def save_in_separate_files(unique_indexes, data):
             finalized_data[unique_indexes[12]].append(data[i])
         elif unique_indexes[13] in row_list:
             finalized_data[unique_indexes[13]].append(data[i])
-    print(finalized_data)
