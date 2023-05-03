@@ -4,10 +4,10 @@ def extract_indexes(data):
         if d["\ufeffIndex"] not in unique_indexes:
             unique_indexes.append(d["\ufeffIndex"])
 
-    save_in_separate_files(unique_indexes, data)
+    get_collections(unique_indexes, data)
 
 
-def save_in_separate_files(unique_indexes, data):
+def get_collections(unique_indexes, data):
     finalized_data = {}
     for index in unique_indexes:
         finalized_data[index] = []
@@ -42,3 +42,22 @@ def save_in_separate_files(unique_indexes, data):
             finalized_data[unique_indexes[12]].append(data[i])
         elif unique_indexes[13] in row_list:
             finalized_data[unique_indexes[13]].append(data[i])
+
+    save_collections_as_csv(finalized_data, unique_indexes)
+
+
+def save_collections_as_csv(data, file_names):
+    for row in data:
+        row_to_str(data[row])
+    # for file in file_names:
+    #     with open(file, 'a') as f:
+    #         for row in data:
+    #             f.write(row_to_str(row))
+
+
+def row_to_str(row):
+    result = []
+    for c in row:
+        result.append(str(list(c.values())))
+    print(result)
+# return ','.join(result) + '\n'
