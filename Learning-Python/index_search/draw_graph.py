@@ -8,22 +8,19 @@ class DrawGraph:
         self.__graph_data = graph_data
 
     def graph(self):
-        df = pd.read_csv(self.__graph_data)
-        # print(df)
+        df = pd.read_csv(self.__graph_data, parse_dates=['Date'])
+        df = df.sort_values(by=['Date'])
+        df = df.set_index(df.Date)
 
-        x_axis_date = df.Date.unique()
-        y_axis_open = df.High.to_numpy()
-        y_axis_close = df.Low.to_numpy()
-        #
-        x_points = np.array(x_axis_date)
-        y_point_1 = np.array(y_axis_open)
-        y_point_2 = np.array(y_axis_close)
-
-        fig, ax1 = plt.subplots()
-        ax2 = ax1.twinx()
-        ax1.plot(x_points, y_point_1, 'b-')
-        ax2.plot(x_points, y_point_2, 'r-')
-
+        plt.figure(figsize=(20, 12))
+        plt.scatter(x=df.index, y=df.Low, s=0.1)
+        plt.grid(True)
+        plt.scatter(x=df.index, y=100+df.High, s=0.1)
         plt.show()
 
-
+        plt.figure(1, figsize=(20, 6))
+        plt.subplot(211)
+        plt.scatter(x=df.index, y=df.High, s=0.1, c='steelblue')
+        plt.subplot(212)
+        plt.scatter(x=df.index, y=df.Low, s=0.1, c='red')
+        plt.show()
