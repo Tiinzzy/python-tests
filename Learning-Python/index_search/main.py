@@ -51,7 +51,6 @@ if __name__ == "__main__":
             direct_processing(sys.argv[2])
             easy_process(sys.argv[2])
         elif sys.argv[1] == '-chart':
-            print('I have to draw chart for ', sys.argv[2])
             path = '/home/tina/Documents/python/python-tests/Learning-Python/index_search/extracted_data/' + sys.argv[2]
 
             new_chart = DrawGraph(path)
