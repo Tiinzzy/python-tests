@@ -19,7 +19,7 @@ class DrawGraph:
         plt.grid(True)
         plt.scatter(x=df.index, y=100 + df.High, s=0.1)
         plt.xlabel('Date', labelpad=15)
-        plt.ylabel('High', labelpad=15)
+        plt.ylabel('Highest & Lowest Price', labelpad=15)
         plt.title('The highest and lowest price of ' + chart_name, pad=30)
 
         plt.plot([1, 2, 3])
@@ -36,17 +36,22 @@ class DrawGraph:
         plt.figure(1, figsize=(20, 6))
         plt.subplot(211)
         plt.scatter(x=df.index, y=df.High, s=0.1, c='steelblue')
-        plt.title('The highest and lowest price of ' + chart_name, pad=15)
+        plt.title('The highest price of ' + chart_name, pad=15)
         plt.grid(True)
         plt.xlabel('Date', labelpad=15)
-        plt.ylabel('High', labelpad=15)
+        plt.ylabel('Highest Price', labelpad=15)
+        plt.plot([1, 2, 3])
+        plt.legend(['Highest'])
+
 
         plt.subplot(212)
         plt.scatter(x=df.index, y=df.Low, s=0.1, c='red')
-        plt.title('The highest and lowest price of ' + chart_name, pad=15)
+        plt.title('The lowest price of ' + chart_name, pad=15)
         plt.grid(True)
         plt.xlabel('Date', labelpad=15)
-        plt.ylabel('High', labelpad=15)
-        
+        plt.ylabel('Lowest Price', labelpad=15)
+        plt.plot([5, 6, 7])
+        plt.legend(['Lowest'])
+
         plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=1)
         plt.show()
