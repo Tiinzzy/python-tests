@@ -64,13 +64,17 @@ class DrawGraph:
         fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
         fig.suptitle('The highest, lowest, opening & closing price of ' + chart_name)
 
-        ax1.scatter(x=df.index, y=df.High, s=0.1)
+        ax1.scatter(x=df.index, y=df.High, s=0.1, label="Highest Price")
+        ax1.legend(loc='upper left')
 
-        ax2.scatter(x=df.index, y=df.Low, c='orange', s=0.1)
+        ax2.scatter(x=df.index, y=df.Low, c='orange', s=0.1, label="Lowest Price")
+        ax2.legend(loc='upper left')
 
-        ax3.scatter(x=df.index, y=df.Open, c='green', s=0.1)
+        ax3.scatter(x=df.index, y=df.Open, c='green', s=0.1, label="Opening Price")
+        ax3.legend(loc='upper left')
 
-        ax4.scatter(x=df.index, y=df.Close, c='red', s=0.1)
+        ax4.scatter(x=df.index, y=df.Close, c='red', s=0.1, label="CLosing Price")
+        ax4.legend(loc='upper left')
 
         for ax in fig.get_axes():
             ax.label_outer()
