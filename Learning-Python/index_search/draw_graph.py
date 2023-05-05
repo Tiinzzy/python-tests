@@ -43,7 +43,6 @@ class DrawGraph:
         plt.plot([1, 2, 3])
         plt.legend(['Highest'])
 
-
         plt.subplot(212)
         plt.scatter(x=df.index, y=df.Low, s=0.1, c='red')
         plt.title('The lowest price of ' + chart_name, pad=15)
@@ -54,4 +53,26 @@ class DrawGraph:
         plt.legend(['Lowest'])
 
         plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=1)
+        plt.show()
+
+    def quadruple_comparison_graph(self):
+        chart_name = self.__file_name.replace('.csv', '')
+        df = pd.read_csv(self.__graph_data, parse_dates=['Date'])
+        df = df.sort_values(by=['Date'])
+        df = df.set_index(df.Date)
+
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
+        fig.suptitle('The highest, lowest, opening & closing price of ' + chart_name)
+
+        ax1.scatter(x=df.index, y=df.High, s=0.1)
+
+        ax2.scatter(x=df.index, y=df.Low, c='orange', s=0.1)
+
+        ax3.scatter(x=df.index, y=df.Open, c='green', s=0.1)
+
+        ax4.scatter(x=df.index, y=df.Close, c='red', s=0.1)
+
+        for ax in fig.get_axes():
+            ax.label_outer()
+
         plt.show()
