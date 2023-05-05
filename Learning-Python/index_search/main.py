@@ -54,4 +54,6 @@ if __name__ == "__main__":
             path = '/home/tina/Documents/python/python-tests/Learning-Python/index_search/easy_output/' + sys.argv[2]
 
             new_chart = DrawGraph(path, sys.argv[2])
-            new_chart.quadruple_comparison_graph()
+            new_chart.single_graph()
+            # new_chart.double_comparison_graph()
+            # new_chart.quadruple_comparison_graph()
