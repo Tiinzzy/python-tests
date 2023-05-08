@@ -109,6 +109,13 @@ def optimize(df):
     selected_features = selector.get_support(indices=True)
     features = df.columns[selected_features]
 
+    X_selected = df[list(features)]
+    print(X_selected)
+    n_neighbors = 5
+    kn_model = neighbors.KNeighborsClassifier(n_neighbors, weights="uniform")
+    kn_model.fit(X_selected, y)
+    score = kn_model.score(X_selected, y)
+    print('score: ', score)
 
 
 if __name__ == '__main__':
