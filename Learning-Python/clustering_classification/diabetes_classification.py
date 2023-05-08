@@ -3,7 +3,8 @@ import time
 from sklearn import neighbors
 from sklearn.model_selection import train_test_split
 
-FEATURES = ['gender', 'age', 'hypertension', 'heart_disease', 'smoking_history', 'bmi', 'HbA1c_level', 'blood_glucose_level']
+FEATURES = ['gender', 'age', 'hypertension', 'heart_disease', 'smoking_history', 'bmi', 'HbA1c_level',
+            'blood_glucose_level']
 LABEL = ['diabetes']
 
 
@@ -64,7 +65,7 @@ def split_data_then_build_model(df):
     X_test = test[FEATURES]
     y_test = test[LABEL]
     n_neighbors = 50
-    kn_model = neighbors.KNeighborsClassifier(n_neighbors, weights="uniform")
+    kn_model = neighbors.KNeighborsClassifier(n_neighbors, weights="distance")
     kn_model.fit(X_train, y_train)
     train_score = kn_model.score(X_train, y_train)
     test_score = kn_model.score(X_test, y_test)
