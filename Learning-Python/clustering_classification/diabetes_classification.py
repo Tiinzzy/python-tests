@@ -116,11 +116,12 @@ def optimize(df):
     kn_model.fit(X_selected, y)
     score = kn_model.score(X_selected, y)
     print('score: ', score)
+    return list(features)
 
 
-def classification_with_save_and_load(df):
+def classification_with_save_and_load(df, new_features):
     df = df.sample(frac=1)
-    X = df[FEATURES]
+    X = df[new_features]
     y = df[LABEL]
     X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.3)
     model = DecisionTreeClassifier()
@@ -138,9 +139,9 @@ if __name__ == '__main__':
     clean_data(ddf)
     # show_data_info(ddf)
     positive_df, negative_df = show_number_of_positive_negative_class(ddf)
-    new_df = equal_sample_size(positive_df, negative_df)
+    # new_df = equal_sample_size(positive_df, negative_df)
     # build_model(new_df)
     # a_model = split_data_then_build_model(new_df)
     # show_some_info(a_model)
-    # optimize(new_df)
-    classification_with_save_and_load(new_df)
+    optimized_features = optimize(ddf)
+    classification_with_save_and_load(ddf, optimized_features)
