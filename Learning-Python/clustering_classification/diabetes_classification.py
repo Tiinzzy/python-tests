@@ -17,6 +17,7 @@ def show_data_info(df):
     print(len(df))
     print(df.columns)
     print('-' * 100)
+
     for row in df.head(10).iterrows():
         print(row)
         print('-' * 100)
@@ -25,28 +26,39 @@ def show_data_info(df):
 def show_number_of_positive_negative_class(df):
     pdf = df[df.diabetes == 1]
     ndf = df[df.diabetes == 0]
-    print('-' * 100)
-    print(pdf.head(2))
-    print('-' * 100)
-    print(ndf.head(2))
-    print(len(pdf), len(ndf))
+    # print('-' * 100)
+    # print(pdf.head(2))
+    # print('-' * 100)
+    # print(ndf.head(2))
+    # print(len(pdf), len(ndf))
+
+    return pdf, ndf
 
 
 def clean_data(df):
     #  converting gender to numbers
-    print(df.gender.unique())
+    # print(df.gender.unique())
     gender_to_num = {'Female': -1, 'Other': 0, 'Male': 1}
     df.gender = df.gender.apply(lambda x: gender_to_num[x])
-    print(df.gender.unique())
+    # print(df.gender.unique())
 
     smoking_to_num = {'never': 1, 'No Info': 2, 'current': 3, 'former': 4, 'ever': 5, 'not current': 6}
-    print(df.smoking_history.unique())
+    # print(df.smoking_history.unique())
     df.smoking_history = df.smoking_history.apply(lambda x: smoking_to_num[x])
-    print(df.smoking_history.unique())
+    # print(df.smoking_history.unique())
+
+
+def equal_sample_size(pos_df, neg_df):
+    neg_df = neg_df.sample(frac=1)
+    new_neg_df = neg_df.sample(n=len(pos_df))
+    new_data_frame = pos_df.append(new_neg_df)
+    final_data_frame = new_data_frame.sample(frac=1)
+    return final_data_frame
 
 
 def build_model(df):
     df = df.sample(frac=1)
+    print(df)
     X = df[FEATURES]
     y = df[LABEL]
     n_neighbors = 5
@@ -89,8 +101,9 @@ def show_some_info(model):
 if __name__ == '__main__':
     ddf = get_data()
     clean_data(ddf)
-    show_data_info(ddf)
-    show_number_of_positive_negative_class(ddf)
-    build_model(ddf)
-    a_model = split_data_then_build_model(ddf)
+    # show_data_info(ddf)
+    positive_df, negative_df = show_number_of_positive_negative_class(ddf)
+    new_df = equal_sample_size(positive_df, negative_df)
+    # build_model(new_df)
+    a_model = split_data_then_build_model(new_df)
     show_some_info(a_model)
