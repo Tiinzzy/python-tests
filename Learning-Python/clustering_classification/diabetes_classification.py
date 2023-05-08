@@ -1,9 +1,10 @@
 import pandas as pd
 import time
-from sklearn import neighbors
+from sklearn import neighbors, model_selection
 from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.feature_selection import SelectKBest, f_classif
+from sklearn.tree import DecisionTreeClassifier
+import joblib
 
 FEATURES = ['gender', 'age', 'hypertension', 'heart_disease', 'smoking_history', 'bmi', 'HbA1c_level',
             'blood_glucose_level']
@@ -110,12 +111,26 @@ def optimize(df):
     features = df.columns[selected_features]
 
     X_selected = df[list(features)]
-    print(X_selected)
-    n_neighbors = 5
+    n_neighbors = 10
     kn_model = neighbors.KNeighborsClassifier(n_neighbors, weights="uniform")
     kn_model.fit(X_selected, y)
     score = kn_model.score(X_selected, y)
     print('score: ', score)
+
+
+def classification_with_save_and_load(df):
+    df = df.sample(frac=1)
+    X = df[FEATURES]
+    y = df[LABEL]
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.3)
+    model = DecisionTreeClassifier()
+    model.fit(X_train, y_train)
+    filename = "Completed_model.joblib"
+    joblib.dump(model, filename)
+
+    loaded_model = joblib.load(filename)
+    result = loaded_model.score(X_test, y_test)
+    print(result)
 
 
 if __name__ == '__main__':
@@ -127,4 +142,5 @@ if __name__ == '__main__':
     # build_model(new_df)
     # a_model = split_data_then_build_model(new_df)
     # show_some_info(a_model)
-    optimize(new_df)
+    # optimize(new_df)
+    classification_with_save_and_load(new_df)
