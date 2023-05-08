@@ -2,6 +2,8 @@ import pandas as pd
 import time
 from sklearn import neighbors
 from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.feature_selection import SelectKBest, f_classif
 
 FEATURES = ['gender', 'age', 'hypertension', 'heart_disease', 'smoking_history', 'bmi', 'HbA1c_level',
             'blood_glucose_level']
@@ -58,7 +60,6 @@ def equal_sample_size(pos_df, neg_df):
 
 def build_model(df):
     df = df.sample(frac=1)
-    print(df)
     X = df[FEATURES]
     y = df[LABEL]
     n_neighbors = 5
@@ -98,6 +99,18 @@ def show_some_info(model):
     print(end - start)
 
 
+def optimize(df):
+    features: []
+    df = df.sample(frac=1)
+    X = df[FEATURES]
+    y = df[LABEL]
+    selector = SelectKBest(f_classif, k=2)
+    selector.fit(X, y)
+    selected_features = selector.get_support(indices=True)
+    features = df.columns[selected_features]
+
+
+
 if __name__ == '__main__':
     ddf = get_data()
     clean_data(ddf)
@@ -105,5 +118,6 @@ if __name__ == '__main__':
     positive_df, negative_df = show_number_of_positive_negative_class(ddf)
     new_df = equal_sample_size(positive_df, negative_df)
     # build_model(new_df)
-    a_model = split_data_then_build_model(new_df)
-    show_some_info(a_model)
+    # a_model = split_data_then_build_model(new_df)
+    # show_some_info(a_model)
+    optimize(new_df)
