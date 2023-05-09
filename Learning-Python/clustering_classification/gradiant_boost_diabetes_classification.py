@@ -1,5 +1,6 @@
 import pandas as pd
 import joblib
+# import shap
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.feature_selection import SelectKBest, f_classif
 from sklearn import model_selection
@@ -40,6 +41,9 @@ def run_gradiant_boost(df, op_features):
     print('score: ', score)
     filename = "Gradiant_Boost.joblib"
     joblib.dump(model, filename)
+
+    # shap_values = shap.TreeExplainer(model).shap_values(X)
+    # shap.plots.waterfall(shap_values[X])
 
 
 def load_and_run(df, op_features):
