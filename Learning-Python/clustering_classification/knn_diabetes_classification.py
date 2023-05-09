@@ -1,5 +1,6 @@
 import pandas as pd
 import time
+import matplotlib.pyplot as plt
 from sklearn import neighbors, model_selection
 from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import SelectKBest, f_classif
@@ -146,6 +147,38 @@ def load_and_classification(df, new_features):
     print('loaded model score for X_test:', score)
 
 
+def draw_scatter(df, display_features, label_id):
+    features = list(display_features)
+    plt.figure(figsize=(15, 15))
+    plt.xlabel("HbA1c Levels")
+    plt.ylabel("Blood Glucose Levels")
+    plt.grid(True)
+
+    plt.scatter(df[df[label_id] == 1][features[0]], df[df[label_id] == 1][features[1]], s=10, c='red', alpha=0.5,
+                label='Diabetes', zorder=10)
+    plt.scatter(df[df[label_id] == 0][features[0]], df[df[label_id] == 0][features[1]], s=10, c='gray', alpha=0.5,
+                label='Non-Diabetes', zorder=10)
+    plt.legend()
+
+    plt.show()
+
+
+def manual_test(display_features):
+    filename = "Completed_model.joblib"
+    loaded_model = joblib.load(filename)
+    y_predict = loaded_model.predict(balanced_df[optimized_features])
+    balanced_df['prediction'] = y_predict
+
+    diff = 0
+    for r in balanced_df.iterrows():
+        if r[1].diabetes != r[1].prediction:
+            diff += 1
+    print(str(diff) + ' errors out of ' + str(len(balanced_df)) + ' or ' + str(
+        round(diff / len(balanced_df) * 100)) + '% error')
+
+    draw_scatter(balanced_df, display_features, 'prediction')
+
+
 if __name__ == '__main__':
     ddf = get_data()
     clean_data(ddf)
@@ -157,4 +190,7 @@ if __name__ == '__main__':
     # show_some_info(a_model)
     optimized_features = optimize(balanced_df)
     # classification_with_save(balanced_df, optimized_features)
-    load_and_classification(balanced_df, optimized_features)
+    # load_and_classification(balanced_df, optimized_features)
+
+    # draw_scatter(balanced_df, optimized_features, 'diabetes')
+    manual_test(optimized_features)
