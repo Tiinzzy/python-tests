@@ -154,7 +154,7 @@ def draw_scatter(df, display_features):
 
     df2 = df.copy()
     df2[features[0]] = df2[features[0]].apply(lambda x: int(x))
-    plt.plot(df.groupby([features[0]])['diabetes'].mean().index, df.groupby([features[0]])['diabetes'].mean(),
+    plt.plot(df.groupby([features[0]])[features[1]].mean().index, df.groupby([features[0]])[features[1]].mean(),
              color='red')
 
     plt.xlabel("HbA1c Levels")
