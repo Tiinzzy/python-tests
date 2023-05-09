@@ -35,7 +35,7 @@ def run_gradiant_boost(df, op_features):
     df = df.sample(frac=1)
     X = df[list(op_features)]
     y = df[LABEL]
-    model = GradientBoostingClassifier(n_estimators=100, learning_rate=1.0, max_depth=3, random_state=0).fit(X,
+    model = GradientBoostingClassifier(n_estimators=100, learning_rate=1.0, max_depth=5, random_state=0).fit(X,
                                                                                                              y)
     score = model.score(X, y)
     print('score: ', score)
