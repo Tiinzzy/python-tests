@@ -27,10 +27,13 @@ def clean_data(df):
 
 
 def run_k_means_clustering(df):
-    X = df[FEATURES].values
-    num_clusters = 3
+    X = df[['HbA1c_level',
+            'blood_glucose_level']].values
+    num_clusters = 4
     kmeans = KMeans(n_clusters=num_clusters)
     kmeans.fit(X)
+    centroids = kmeans.cluster_centers_
+    print(centroids)
     score = kmeans.score(X)
     print('score: ', score)
     labels = kmeans.labels_
@@ -40,7 +43,8 @@ def run_k_means_clustering(df):
 
 def test_sample(df, kmeans):
     df = df.sample(n=2)
-    X = df[FEATURES]
+    X = df[['HbA1c_level',
+            'blood_glucose_level']]
     predicted_label = kmeans.predict(X)
     print(predicted_label)
 
