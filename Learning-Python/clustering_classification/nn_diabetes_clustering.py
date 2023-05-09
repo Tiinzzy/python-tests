@@ -34,6 +34,7 @@ def draw_scatter(df, dim1, dim2):
     df2[dim1] = df2[dim1].apply(lambda x: int(x))
     plt.plot(df.groupby([dim1])[dim2].mean().index, df.groupby([dim1])[dim2].mean(), color='red')
 
+    plt.grid(True)
     plt.show()
 
 
@@ -48,4 +49,5 @@ if __name__ == '__main__':
     ddf = get_data()
     balanced_df = equal_sample_size(ddf)
     draw_scatter(balanced_df, 'HbA1c_level', 'blood_glucose_level')
-    # ddf = run_nn_clustering(ddf, 'HbA1c_level', 'blood_glucose_level', 2)
+    # optimized_ddf = run_nn_clustering(ddf, 'HbA1c_level', 'blood_glucose_level', 2)
+    # print(optimized_ddf)
