@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.cluster import SpectralClustering
 
 FEATURES = ['gender', 'age', 'hypertension', 'heart_disease', 'smoking_history', 'bmi', 'HbA1c_level',
             'blood_glucose_level', 'diabetes']
@@ -15,6 +16,16 @@ def get_data():
     return df
 
 
+def equal_sample_size(df):
+    pdf = df[df.diabetes == 1]
+    ndf = df[df.diabetes == 0]
+    ndf = ndf.sample(frac=1)
+    new_neg_df = ndf.sample(n=len(pdf))
+    new_data_frame = pdf.append(new_neg_df)
+    final_data_frame = new_data_frame.sample(frac=1)
+    return final_data_frame
+
+
 def draw_scatter(df, dim1, dim2):
     plt.figure(figsize=(15, 15))
     plt.scatter(df[dim1], df[dim2], s=0.2)
@@ -26,6 +37,15 @@ def draw_scatter(df, dim1, dim2):
     plt.show()
 
 
+def run_nn_clustering(df, dim1, dim2, n_clusters):
+    X = df[[dim1, dim2]]
+    model = SpectralClustering(n_clusters=n_clusters, assign_labels='discretize', random_state=0).fit(X)
+    df['label'] = model.labels_
+    return df
+
+
 if __name__ == '__main__':
     ddf = get_data()
-    draw_scatter(ddf, 'age', 'bmi')
+    balanced_df = equal_sample_size(ddf)
+    draw_scatter(balanced_df, 'HbA1c_level', 'blood_glucose_level')
+    # ddf = run_nn_clustering(ddf, 'HbA1c_level', 'blood_glucose_level', 2)
