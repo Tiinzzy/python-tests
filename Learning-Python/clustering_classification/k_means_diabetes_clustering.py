@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+from sklearn.mixture import GaussianMixture
 from sklearn.cluster import KMeans
 import pandas as pd
 
@@ -26,19 +28,38 @@ def clean_data(df):
     return final_data_frame
 
 
+def draw_clusters(df, num_clusters):
+    plt.figure(figsize=(15, 15))
+    plt.xlabel("HbA1c Levels")
+    plt.ylabel("Blood Glucose Levels")
+    plt.grid(True)
+
+    features = ['HbA1c_level', 'blood_glucose_level']
+    label_id = 'label'
+
+    for i in range(num_clusters):
+        plt.scatter(df[df[label_id] == i][features[0]], df[df[label_id] == i][features[1]], s=10, alpha=0.5,
+                    label='C' + str(i), zorder=10)
+    plt.legend()
+    plt.show()
+
+
 def run_k_means_clustering(df):
-    X = df[['HbA1c_level',
-            'blood_glucose_level']].values
-    num_clusters = 4
-    kmeans = KMeans(n_clusters=num_clusters)
-    kmeans.fit(X)
-    centroids = kmeans.cluster_centers_
+    X = df[['HbA1c_level', 'blood_glucose_level']]
+    num_clusters = 2
+    model = KMeans(n_clusters=num_clusters)
+    # model = GaussianMixture(n_components=num_clusters, random_state=0, covariance_type='full')
+    model.fit(X)
+    centroids = model.cluster_centers_
     print(centroids)
-    score = kmeans.score(X)
+    score = model.score(X)
     print('score: ', score)
-    labels = kmeans.labels_
-    print(labels)
-    return kmeans
+    labels = model.labels_
+    # labels = model.predict(X)
+    ldf = df[['HbA1c_level', 'blood_glucose_level']]
+    ldf['label'] = labels
+    draw_clusters(ldf, num_clusters)
+    return model
 
 
 def test_sample(df, kmeans):
@@ -52,5 +73,5 @@ def test_sample(df, kmeans):
 if __name__ == '__main__':
     ddf = get_data()
     cln_df = clean_data(ddf)
-    model = run_k_means_clustering(cln_df)
-    test_sample(cln_df, model)
+    km_model = run_k_means_clustering(cln_df)
+    test_sample(cln_df, km_model)
