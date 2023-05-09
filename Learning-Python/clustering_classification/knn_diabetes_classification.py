@@ -1,5 +1,6 @@
 import pandas as pd
 import time
+import matplotlib.pyplot as plt
 from sklearn import neighbors, model_selection
 from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import SelectKBest, f_classif
@@ -146,6 +147,23 @@ def load_and_classification(df, new_features):
     print('loaded model score for X_test:', score)
 
 
+def draw_scatter(df, display_features):
+    features = list(display_features)
+    plt.figure(figsize=(15, 15))
+    plt.scatter(df[features[0]], df[features[1]], s=10)
+
+    df2 = df.copy()
+    df2[features[0]] = df2[features[0]].apply(lambda x: int(x))
+    plt.plot(df.groupby([features[0]])['diabetes'].mean().index, df.groupby([features[0]])['diabetes'].mean(),
+             color='red')
+
+    plt.xlabel("HbA1c Levels")
+    plt.ylabel("Blood Glucose Levels")
+    plt.legend(['HbA1c/Blood Glucose', 'Diabetes'])
+    plt.grid(True)
+    plt.show()
+
+
 if __name__ == '__main__':
     ddf = get_data()
     clean_data(ddf)
@@ -158,3 +176,4 @@ if __name__ == '__main__':
     optimized_features = optimize(balanced_df)
     # classification_with_save(balanced_df, optimized_features)
     load_and_classification(balanced_df, optimized_features)
+    draw_scatter(balanced_df, optimized_features)
