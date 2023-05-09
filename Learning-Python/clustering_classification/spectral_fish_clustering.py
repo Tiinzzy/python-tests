@@ -1,13 +1,16 @@
 from sklearn.cluster import SpectralClustering
 from sklearn.metrics import silhouette_score
 import pandas as pd
+import joblib
 
-FEATURES = ['Weight', 'Length1', 'Length2', 'Length3', 'Height', 'Width']
+FEATURES = ['Species', 'Weight', 'Length1', 'Length2', 'Length3', 'Height', 'Width']
 LABELS = ['Species']
 
 
 def get_data():
     df = pd.read_csv('./data/fish.csv')
+    Species_to_num = {'Bream': 1, 'Roach': 2, 'Whitefish': 3, 'Parkki': 4, 'Perch': 5, 'Pike': 6, 'Smelt': 7}
+    df.Species = df.Species.apply(lambda x: Species_to_num[x])
     return df
 
 
@@ -20,17 +23,24 @@ def run_spectral_clustering(df):
     print('score: ', score)
     labels = clustering.labels_
     print(labels)
+    filename = "Spectral_Cluster.joblib"
+    joblib.dump(clustering, filename)
     return clustering
 
 
-def test_sample(df, clustering):
-    df = df.sample(n=2)
+def load_and_cluster(df):
+    df = df.sample(frac=1)
+    df = df.sample(n=50)
     X = df[FEATURES]
-    prediction = clustering.predict(X)
-    print(prediction)
+    y = df.Species.unique()
+
+    filename = "Spectral_Cluster.joblib"
+    loaded_model = joblib.load(filename)
+    score = silhouette_score(X, y)
+    print('loaded model score for X_test:', score)
 
 
 if __name__ == '__main__':
     ddf = get_data()
-    model = run_spectral_clustering(ddf)
-    test_sample(ddf, model)
+    run_spectral_clustering(ddf)
+    # load_and_cluster(ddf)
