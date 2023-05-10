@@ -47,7 +47,7 @@ def run_gradiant_boost(df, op_features):
 
 def load_and_run(df, op_features):
     df = df.sample(frac=1)
-    df = df.sample(n=200)
+    df = df.sample(n=len(df))
     X = df[op_features]
     y = df[LABEL]
 
