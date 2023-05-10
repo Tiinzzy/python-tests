@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from sklearn.mixture import GaussianMixture
+from sklearn import preprocessing
 from sklearn.cluster import KMeans
 import pandas as pd
 
@@ -45,17 +46,28 @@ def draw_clusters(df, num_clusters):
 
 
 def run_k_means_clustering(df):
-    X = df[['HbA1c_level', 'blood_glucose_level']]
+    X = df[[
+        'gender',
+        #'age',
+        'hypertension',
+        'heart_disease',
+        'smoking_history',
+        #'bmi',
+        'HbA1c_level',
+        'blood_glucose_level'
+    ]]
+
+    scaler = preprocessing.StandardScaler().fit(X)
+    X = scaler.transform(X)
+
     num_clusters = 2
     model = KMeans(n_clusters=num_clusters)
-    # model = GaussianMixture(n_components=num_clusters, random_state=0, covariance_type='full')
     model.fit(X)
     centroids = model.cluster_centers_
     print(centroids)
     score = model.score(X)
     print('score: ', score)
     labels = model.labels_
-    # labels = model.predict(X)
     ldf = df[['HbA1c_level', 'blood_glucose_level']]
     ldf['label'] = labels
     draw_clusters(ldf, num_clusters)
@@ -74,4 +86,4 @@ if __name__ == '__main__':
     ddf = get_data()
     cln_df = clean_data(ddf)
     km_model = run_k_means_clustering(cln_df)
-    test_sample(cln_df, km_model)
+    # test_sample(cln_df, km_model)
