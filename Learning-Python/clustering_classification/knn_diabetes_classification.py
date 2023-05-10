@@ -192,5 +192,5 @@ if __name__ == '__main__':
     # classification_with_save(balanced_df, optimized_features)
     # load_and_classification(balanced_df, optimized_features)
 
-    # draw_scatter(balanced_df, optimized_features, 'diabetes')
-    manual_test(optimized_features)
+    draw_scatter(balanced_df, optimized_features, 'diabetes')
+    # manual_test(optimized_features)
