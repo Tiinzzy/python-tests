@@ -32,7 +32,7 @@ def run_spectral_clustering(df, optim_features):
 
 def load_and_cluster(df, optim_features):
     df = df.sample(frac=1)
-    df = df.sample(n=50)
+    df = df.sample(n=len(df))
     X = df[optim_features]
 
     filename = "Spectral_Cluster.joblib"
@@ -61,10 +61,10 @@ def draw_plot(df, optim_features, label_id):
 
     plt.scatter(df[df[label_id] == 1][optim_features[0]], df[df[label_id] == 1][optim_features[1]], s=8, c='red',
                 alpha=0.5,
-                label='Type 1', zorder=10)
+                label='Length2', zorder=10)
     plt.scatter(df[df[label_id] == 0][optim_features[0]], df[df[label_id] == 0][optim_features[1]], s=8, c='gray',
                 alpha=0.5,
-                label='Type 2', zorder=10)
+                label='Length3', zorder=10)
     plt.legend()
     plt.show()
 
@@ -73,4 +73,5 @@ if __name__ == '__main__':
     ddf = get_data()
     op_features = optimized_features(ddf)
     # run_spectral_clustering(ddf, op_features)
+    op_features = ['Height', 'Width']
     load_and_cluster(ddf, op_features)
