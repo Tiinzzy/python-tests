@@ -1,9 +1,8 @@
 import pandas as pd
 import joblib
-# import shap
+import matplotlib.pyplot as plt
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.feature_selection import SelectKBest, f_classif
-from sklearn import model_selection
 
 FEATURES = ['gender', 'age', 'hypertension', 'heart_disease', 'smoking_history', 'bmi', 'HbA1c_level',
             'blood_glucose_level']
@@ -48,15 +47,17 @@ def run_gradiant_boost(df, op_features):
 
 def load_and_run(df, op_features):
     df = df.sample(frac=1)
-    df = df.sample(n=400)
+    df = df.sample(n=200)
     X = df[op_features]
     y = df[LABEL]
-    X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.3)
 
     filename = "Gradiant_Boost.joblib"
     loaded_model = joblib.load(filename)
-    score = loaded_model.score(X_test, y_test)
+    score = loaded_model.score(X, y)
+    prediction = loaded_model.predict(X)
+    df['prediction'] = prediction
     print('loaded model score for X_test:', score)
+    draw_plot(df, op_features, 'prediction')
 
 
 def optimize(df):
@@ -69,6 +70,23 @@ def optimize(df):
     selected_features = selector.get_support(indices=True)
     features = df.columns[selected_features]
     return features
+
+
+def draw_plot(df, optim_feature, label_id):
+    plt.figure(figsize=(15, 15))
+    plt.xlabel("HbA1c Levels")
+    plt.ylabel("Blood Glucose Levels")
+    plt.grid(True)
+
+    plt.scatter(df[df[label_id] == 1][optim_feature[0]], df[df[label_id] == 1][optim_feature[1]], s=10, c='red',
+                alpha=0.5,
+                label='Diabetes', zorder=10)
+    plt.scatter(df[df[label_id] == 0][optim_feature[0]], df[df[label_id] == 0][optim_feature[1]], s=10, c='gray',
+                alpha=0.5,
+                label='Non-Diabetes', zorder=10)
+    plt.legend()
+
+    plt.show()
 
 
 if __name__ == '__main__':
