@@ -66,9 +66,7 @@ def draw_plot(df, optim_features, label_id):
                 alpha=0.5,
                 label='Type 2', zorder=10)
     plt.legend()
-
     plt.show()
-    pass
 
 
 if __name__ == '__main__':
