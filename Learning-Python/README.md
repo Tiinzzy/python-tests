@@ -15,6 +15,10 @@
 <div>Beautiful Soup which is a Python package for parsing HTML and XML documents.</div>
 <br/>
 
+<h3>clustering_classification</h3>
+<div>A folder where I tested and became more familiar with different learning algorithms, supervise and unsupervised learning, different types of clustering.</div>
+<br/>
+
 <h3>data folder</h3>
 <div>Folder for keeping few datas as I used for learning Python.</div>
 <br/>
