@@ -72,10 +72,14 @@ class OneDirectionLinkedList:
             result = self.tail
             new_tail = self.head
             if new_tail is not None:
-                while new_tail.next != self.tail:
+                while new_tail.next is not None and new_tail.next != self.tail:
                     new_tail = new_tail.next
-            new_tail.next = None
-            self.tail = new_tail
+            if new_tail.next is None:
+                self.tail = None
+                self.head = None
+            else:
+                new_tail.next = None
+                self.tail = new_tail
             return result
 
     def remove_from_head(self):
@@ -95,7 +99,7 @@ class OneDirectionLinkedList:
             start = self.head
             while start.next is not None and start.payload != payload:
                 start = start.next
-            return start if start.payload == payload else None
+            return start.payload == payload
 
     def remove_payload(self, payload):
         pass
