@@ -1,4 +1,5 @@
 from one_directional_linked_list import Node, OneDirectionLinkedList
+from bi_directional_linked_list import BiDirectionLinkedList
 
 
 def initial_tests():
@@ -45,27 +46,63 @@ def one_directional_linked_list():
 
 
 def more_tests():
-    my_ll = one_directional_linked_list()
-    my_ll.describe()
-    my_ll.add_to_tail('T500')
-    my_ll.describe()
-    my_ll.add_to_head('T00')
-    my_ll.describe()
+    ll = one_directional_linked_list()
+    ll.describe()
+    ll.add_to_tail('T500')
+    ll.describe()
+    ll.add_to_head('T00')
+    ll.describe()
 
-    my_ll.remove_from_tail()
-    my_ll.remove_from_tail()
+    ll.remove_from_tail()
+    ll.remove_from_tail()
 
-    my_ll.remove_from_head()
-    my_ll.remove_from_head()
-    my_ll.remove_from_head()
-    my_ll.remove_from_head()
-    my_ll.remove_from_head()
-    my_ll.remove_from_head()
+    ll.remove_from_head()
+    ll.remove_from_head()
+    ll.remove_from_head()
+    ll.remove_from_head()
+    ll.remove_from_head()
+    ll.remove_from_head()
 
-    my_ll.describe()
+    ll.describe()
 
-    my_ll.add_to_head('NEW-BORN')
-    my_ll.describe()
+    ll.add_to_head('NEW-BORN')
+    ll.describe()
+
+
+def bi_directional_tests():
+    bd_ll = BiDirectionLinkedList()
+    bd_ll.describe()
+    bd_ll.add_to_tail('N1')
+    bd_ll.add_to_tail('N2')
+    bd_ll.add_to_tail('N3')
+    bd_ll.add_to_tail('N4')
+    bd_ll.add_to_tail('N5')
+    bd_ll.describe()
+
+    print(bd_ll.head.next.next.prev.prev.payload)
+
+    bd_ll.add_to_head('N0')
+    bd_ll.describe()
+
+    bd_ll.show_list()
+    bd_ll.add_to_middle('2.5', 3)
+    bd_ll.show_list()
+
+
+def test_stack():
+    from stack import Stack
+    stack = Stack(100)
+    stack.push(1)
+    stack.push(31)
+    stack.push(51)
+    print(stack.pop())
+    print(stack.pop())
+    print(stack.pop())
+    print(stack.pop())
+    stack.push(5134)
+    print(stack.pop())
+    print(stack.pop())
+    print(stack.pop())
 
 
 if __name__ == '__main__':
@@ -74,8 +111,13 @@ if __name__ == '__main__':
     # my_ll = test_head_tail()
     # my_ll.describe()
 
-    my_ll = one_directional_linked_list()
-    my_ll.describe()
-    res = my_ll.payload_exist('T3')
-    if res is not None:
-        print(res.payload)
+    # my_ll = one_directional_linked_list()
+    # p1 = {'a': 'T33'}
+    # my_ll.add_to_tail(p1)
+    # my_ll.describe()
+    # p2 = {'a': 'T33'}
+    # res = my_ll.payload_exist(p2)
+
+    # bi_directional_tests()
+
+    test_stack()
