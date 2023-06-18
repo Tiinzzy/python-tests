@@ -72,7 +72,6 @@ class BiDirectionLinkedList:
             next_node_pointer = self.head
             for i in range(index):
                 next_node_pointer = next_node_pointer.next
-            print(next_node_pointer.payload)
             n = BdNode(payload)
             n.next = next_node_pointer
             n.prev = next_node_pointer.prev
@@ -122,7 +121,6 @@ class BiDirectionLinkedList:
             next_node_pointer = self.head
             for i in range(self.size):
                 while next_node_pointer is not None:
-                    print(next_node_pointer.payload)
                     if next_node_pointer.payload == payload:
                         next_node_pointer.prev.next = next_node_pointer.next
                         next_node_pointer.next.prev = next_node_pointer.prev
