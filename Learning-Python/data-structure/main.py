@@ -71,23 +71,18 @@ def more_tests():
 
 def bi_directional_tests():
     bd_ll = BiDirectionLinkedList()
-    bd_ll.describe()
     bd_ll.add_to_tail('N1')
     bd_ll.add_to_tail('N2')
     bd_ll.add_to_tail('N3')
     bd_ll.add_to_tail('N4')
     bd_ll.add_to_tail('N5')
-    bd_ll.describe()
-
-    print(bd_ll.head.next.next.prev.prev.payload)
-
     bd_ll.add_to_head('N0')
-    bd_ll.describe()
-
-    bd_ll.show_list()
     bd_ll.add_to_middle('2.5', 3)
     bd_ll.show_list()
-
+    print('---------')
+    bd_ll.remove_from_middle('2.5')
+    bd_ll.show_list()
+    print('---------')
 
 def test_stack():
     from stack import Stack
@@ -111,13 +106,20 @@ if __name__ == '__main__':
     # my_ll = test_head_tail()
     # my_ll.describe()
 
-    # my_ll = one_directional_linked_list()
+    # To see all linked lists and then see the removed one
+    my_ll = one_directional_linked_list()
+    my_ll.describe()
+    my_ll.remove_payload('T4')
+    my_ll.describe()
+
     # p1 = {'a': 'T33'}
     # my_ll.add_to_tail(p1)
     # my_ll.describe()
     # p2 = {'a': 'T33'}
     # res = my_ll.payload_exist(p2)
 
-    # bi_directional_tests()
+    # Go to the main function on the top and change the node name to see it removed
+    # you can test remove from tail or head and remove from middle
+    bi_directional_tests()
 
-    test_stack()
+    # test_stack()
