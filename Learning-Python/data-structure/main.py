@@ -119,6 +119,7 @@ if __name__ == '__main__':
     # res = my_ll.payload_exist(p2)
 
     # Go to the main function on the top and change the node name to see it removed
+    # you can test remove from tail or head and remove from middle
     bi_directional_tests()
 
     # test_stack()
