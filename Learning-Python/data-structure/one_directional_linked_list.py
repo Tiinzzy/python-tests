@@ -117,9 +117,6 @@ class OneDirectionLinkedList:
             while start.next is not None and start.payload != payload:
                 prev_node = start
                 start = start.next
-            for i in range(self.size()):
-                while start.next is not None:
-                    if start.payload == payload:
-                        prev_node.next = start.next
-                    start = start.next
+            prev_node.next = prev_node.next.next
+
                     
