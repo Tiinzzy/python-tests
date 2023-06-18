@@ -85,7 +85,45 @@ class BiDirectionLinkedList:
         self.show_chain()
 
     def remove_from_tail(self):
-        pass
+        if self.head is None:
+            return None
+        else:
+            result = self.tail
+            new_tail = self.head
+            if new_tail is not None:
+                while new_tail.next is not None and new_tail.next != self.tail:
+                    new_tail = new_tail.next
+            if new_tail.next is None:
+                self.tail = None
+                self.head = None
+            else:
+                new_tail.next = None
+                self.tail = new_tail
+            return result
 
     def remove_from_head(self):
-        pass
+        if self.head is None:
+            return None
+        else:
+            result = self.head
+            self.head = result.next
+            if self.head is None:
+                self.tail = None
+            return result
+
+    def remove_from_middle(self, payload):
+        if self.head is None:
+            return None
+        elif self.head.payload == payload:
+            self.remove_from_head()
+        elif self.tail.payload == payload:
+            self.remove_from_tail()
+        else:
+            next_node_pointer = self.head
+            for i in range(self.size):
+                while next_node_pointer is not None:
+                    print(next_node_pointer.payload)
+                    if next_node_pointer.payload == payload:
+                        next_node_pointer.prev.next = next_node_pointer.next
+                        next_node_pointer.next.prev = next_node_pointer.prev
+                    next_node_pointer = next_node_pointer.next
