@@ -80,7 +80,7 @@ def bi_directional_tests():
     bd_ll.add_to_middle('2.5', 3)
     bd_ll.show_list()
     print('---------')
-    bd_ll.remove_from_middle('2.5')
+    bd_ll.remove_from_middle('N3')
     bd_ll.show_list()
     print('---------')
 
@@ -107,10 +107,10 @@ if __name__ == '__main__':
     # my_ll.describe()
 
     # To see all linked lists and then see the removed one
-    my_ll = one_directional_linked_list()
-    my_ll.describe()
-    my_ll.remove_payload('T4')
-    my_ll.describe()
+    # my_ll = one_directional_linked_list()
+    # my_ll.describe()
+    # my_ll.remove_payload('T4')
+    # my_ll.describe()
 
     # p1 = {'a': 'T33'}
     # my_ll.add_to_tail(p1)
