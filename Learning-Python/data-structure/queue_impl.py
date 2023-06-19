@@ -20,3 +20,32 @@ class QueueImpl:
 
     def print(self):
         print(self.queue)        
+
+
+class QueueOptimized:
+    def __init__(self):
+        self.queue = {}
+        self.rear = 0
+        self.front = 0
+
+    def add(self, element):
+        self.queue[self.rear] = element
+        self.rear +=1
+
+    def remove(self):
+        item = self.queue[self.front]
+        self.queue.pop(self.front)
+        self.front +=1
+        return item
+
+    def isEmpty(self):
+        print(self.rear - self.front == 0)
+    
+    def size(self):
+        print(self.rear - self.front)
+
+    def peek(self):
+        print(self.queue[self.front])
+
+    def print(self):
+        print(self.queue)  
