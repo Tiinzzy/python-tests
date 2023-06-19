@@ -1,7 +1,7 @@
 from one_directional_linked_list import Node, OneDirectionLinkedList
 from bi_directional_linked_list import BiDirectionLinkedList
 from stack_impl import StackImpl
-from queue_impl import QueueImpl
+from queue_impl import QueueImpl, QueueOptimized
 
 
 def initial_tests():
@@ -126,7 +126,7 @@ if __name__ == '__main__':
 
     # test_stack()
 
-    new_queue = QueueImpl()
+    new_queue = QueueOptimized()
     new_queue.add(1)
     new_queue.add(2)
     new_queue.add(3)
@@ -134,7 +134,11 @@ if __name__ == '__main__':
 
     new_queue.peek()
     new_queue.print()
-
     new_queue.remove()
-    new_queue.peek()
+    print('------------------')
     new_queue.print()
+    new_queue.peek()
+    print('------------------')
+    new_queue.remove()
+    new_queue.print()
+    new_queue.peek()
