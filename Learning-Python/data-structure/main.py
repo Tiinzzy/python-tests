@@ -2,6 +2,7 @@ from one_directional_linked_list import Node, OneDirectionLinkedList
 from bi_directional_linked_list import BiDirectionLinkedList
 from stack_impl import StackImpl
 from queue_impl import QueueImpl, QueueOptimized
+from circular_queue import CircularQue
 
 
 def initial_tests():
@@ -122,23 +123,17 @@ if __name__ == '__main__':
 
     # Go to the main function on the top and change the node name to see it removed
     # you can test remove from tail or head and remove from middle
-    bi_directional_tests()
+    # bi_directional_tests()
 
     # test_stack()
 
-    new_queue = QueueOptimized()
-    new_queue.add(1)
-    new_queue.add(2)
-    new_queue.add(3)
-    new_queue.add(4)
+    new_queue = CircularQue(5)
+    print(new_queue.isEmpty())
+    new_queue.add(10)
+    new_queue.add(20)
+    new_queue.add(30)
+    new_queue.print()
+    # new_queue.add(40)
+    # new_queue.add(50)
 
-    new_queue.peek()
-    new_queue.print()
-    new_queue.remove()
-    print('------------------')
-    new_queue.print()
-    new_queue.peek()
-    print('------------------')
-    new_queue.remove()
-    new_queue.print()
-    new_queue.peek()
+    print(new_queue.isFull())
