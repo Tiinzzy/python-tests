@@ -7,13 +7,15 @@ class CircularQue:
         self.rear = -1
 
     def isFull(self):
+        print(self.capacity,'<<< capacity')
+        print(self.currentLength,'<<< current length')
         return self.capacity == self.currentLength
 
     def isEmpty(self):
         return self.currentLength == 0
 
     def add(self, element):
-        if self.isFull == False:
+        if self.isFull is not False:
             self.rear = (self.rear+1) % self.capacity
             self.rear = self.rear+1
             self.queue[self.rear] = element
@@ -44,6 +46,11 @@ class CircularQue:
         if self.isEmpty:
             print('Queue is empty')
         else:
-            i = None
+            i = self.front
             string = ''
-            #Have to figure it out                 
+
+            while i != self.rear:
+                i = (i + 1) % self.capacity
+                string += self.queue[i] + " "
+            string +=  self.queue[i]
+            print(string)
