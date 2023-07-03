@@ -51,11 +51,11 @@ class BidirectionalLinkelist:
                 return True
 
     def remove_when_size_one(self):
-        last_node = self.tail
+        last_node = self.head
         self.head = None
         self.tail = None
         self.size = 0
-        return last_node
+        return last_node.payload
 
     def remove_from_list(self, node):
         node.next = None
