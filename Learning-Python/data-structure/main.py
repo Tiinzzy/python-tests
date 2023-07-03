@@ -1,4 +1,4 @@
-from bidirectional_linkedlist import BidirectionalLinkelist
+from bidirect_linkedlist.bidirectional_linkedlist import BidirectionalLinkelist
 
 
 if __name__ == '__main__':
