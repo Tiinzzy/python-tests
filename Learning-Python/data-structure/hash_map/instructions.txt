@@ -1,0 +1,34 @@
+class THashMap():
+	def __init__():
+		this.hash_keys = {}
+
+	def __hash_function(key):
+		if len(key) > 0:
+			return key[0]
+		else
+			return ''
+
+	def insert(key, value):
+		hash_key = hash_function(key)
+		if hash_key not in hash_keys.keys():
+			hash_keys[hash_key] = new BiLinkLinst()
+
+		hash_keys[hash_key].insert({key: key, value: value})
+		pass
+
+
+	def get(key):
+		hash_key = hash_function(key)
+		if hash_key not in hash_keys.keys():
+			return None
+		else:
+			return hash_keys[hash_key].find_fist((e) => { return e.key == key })
+
+
+
+	def remove(key):
+		hash_key = hash_function(key)
+		if hash_key not in hash_keys.keys():
+			return False
+		else:
+			return hash_keys[hash_key].remove_somehow()
