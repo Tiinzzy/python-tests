@@ -47,7 +47,10 @@ class HashMap:
             print(key)
             linked_list.show_all()
             print('--------')
-            # current_node = linked_list.head
-            # while current_node is not None:
-            #     print(current_node.payload['key'], current_node.payload['value'])
-            #     current_node = current_node.next
+
+    def show_all_sizes(self):
+        i = 0
+        for key, linked_list in self.hash_keys.items():
+            print(i, key, linked_list.size)
+            print('--------')
+            i += 1
