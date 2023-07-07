@@ -1,0 +1,83 @@
+
+class Node():
+	def __init__(self, name):
+		self.name = name
+		self.children = []
+
+
+class OrgChart():
+
+	def __init__(self):
+		self.root = None
+
+
+	def add_child(self, name, parent = None):
+		if parent is None:
+			if self.root is None:
+				self.root = Node(name)
+				return self.root
+			else:
+				return None
+		else:
+			child = Node(name)
+			parent.children.append(child)
+			return child
+
+
+	def __travers_node_until_find(node, name):
+		if node.name == name:
+			return node
+		else:
+			for child in node.children:
+				result = __travers_node_until_find(child, name)
+				if result is not None:
+					return result
+			return None
+
+
+	def find_first_node(self, name):
+		return __travers_node_until_find(sel.root, name)
+
+
+	def __print_node(node, indent):
+		print('-'*indent, end='')
+		print(node.name)
+		for child in node.children:
+			__print_node(child, indent + 2)
+
+
+	def show_org_chart(self):
+	    print_node(self.root, 2)
+
+
+    def find_first_parent(self,name):
+        only find names parent and return
+        pass
+
+    def add_sibling(name0 ,name1):
+        find name0 parent and then add name1
+        pass
+
+    #draw dos tree if you can if not its fine :)
+    https://www.w3.org/TR/xml-entity-names/025.html
+
+
+
+if __name__ == '__main__':
+	org_chart = OrgChart()
+
+	r = org_chart.add_child('CEO')
+	print(r.name)  						# kamran
+
+	m = org_chart.add_child('Marketing', r)
+	p = org_chart.add_child('Production', r)
+
+	org_chart.add_child('Lorna', m)
+	org_chart.add_child('Morgan', m)
+
+	org_chart.add_child('Daniel', p)
+	org_chart.add_child('Alfredo', p)
+
+
+	org_chart.show_org_chart()
+
