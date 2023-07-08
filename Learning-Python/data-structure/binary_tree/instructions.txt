@@ -1,0 +1,84 @@
+class Node {
+  constructor(weight) {
+    this.weight = weight;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+class BinarayTree {
+  constructor() {
+    this.root = null;
+  }
+
+  foo_insert(node, w) {
+    if (node.weight < w) {
+      if (node.right === null) {
+        node.right = new Node(w);
+        return;
+      } else {
+        this.foo_insert(node.right, w);
+      }
+    } else {
+      if (node.left === null) {
+        node.left = new Node(w);
+        return;
+      } else {
+        this.foo_insert(node.left, w);
+      }
+    }
+  }
+
+  insert(w) {
+    if (this.root === null) {
+      this.root = new Node(w);
+    } else {
+      this.foo_insert(this.root, w);
+    }
+  }
+
+  show_node(node) {
+    if (node === null) {
+        return;
+    }
+
+    let node_str = ' > ' + node.weight;
+    node_str += ", left: " + (node.left === null ? 'NULL' : node.left.weight);
+    node_str += ", right: " + (node.right === null ? 'NULL' : node.right.weight);
+    console.log(node_str);
+    this.show_node(node.left);
+    this.show_node(node.right);
+  }
+
+  show() {
+    this.show_node(this.root);
+  }
+}
+
+// -------------------------------------------------------
+
+let b = new BinarayTree();
+b.insert(40);
+b.insert(30);
+b.insert(50);
+b.insert(45);
+b.insert(35);
+b.insert(60);
+b.insert(25);
+b.show();
+
+
+/*
+
+    - write a python code for the above
+    - add a new method to find if a node exists => my_bi_tree.find(45) // true
+    - write a test case in which you
+        - insert 1,000,000 random number to the tree
+        - look for a numbe in it
+        - but you also have to measure how long it takes to find the answer
+        - use this
+            import time
+            start_time = time.time()
+            my_bi_tree.find(45)
+            end_time = time.time()
+            print(end_time-start_time, ' seconds')

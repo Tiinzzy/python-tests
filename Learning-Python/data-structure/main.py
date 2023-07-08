@@ -3,6 +3,8 @@ from tree.organization_chart import OrganizationChart
 from hash_map.hashmap import HashMap, BidirectionalLinkelist
 import string
 import random
+import time
+from binary_tree.binary_tree import BinaryTree
 
 letters = string.ascii_lowercase
 
@@ -19,26 +21,64 @@ def brute_force():
 
 
 if __name__ == '__main__':
-    tree = OrganizationChart()
-    ceo = tree.add_child('CEO')
+    # tree = OrganizationChart()
+    # ceo = tree.add_child('CEO')
+    #
+    # manager = tree.add_child('Manager', ceo)
+    # secretary = tree.add_child('Secretary', manager)
+    # staff1 = tree.add_child('Staff1', manager)
+    # Kiana = tree.add_child('Kiana', staff1)
+    # staff2 = tree.add_child('Staff2', manager)
+    # Kevin = tree.add_child('Kevin', staff2)
+    #
+    # vice_president = tree.add_child('VicePresident', ceo)
+    # secretary = tree.add_child('Secretary', vice_president)
+    # gina = tree.add_child('Gina', secretary)
+    # staff3 = tree.add_child('Staff3', vice_president)
+    # Poopoo = tree.add_child('PooPoo', staff3)
+    #
+    # tree.show_org_chart()
+    # print('>>>>>>>>>>>>>')
+    # print(tree.find_first_parent('Staff3').name)
+    #
+    # tree.add_sibling(tree.find_first_parent('Staff3'), 'Kamran')
+    # tree.add_sibling(tree.find_first_parent('Kamran'), 'Tina')
+    # tree.show_org_chart()
 
-    manager = tree.add_child('Manager', ceo)
-    secretary = tree.add_child('Secretary', manager)
-    staff1 = tree.add_child('Staff1', manager)
-    Kiana = tree.add_child('Kiana', staff1)
-    staff2 = tree.add_child('Staff2', manager)
-    Kevin = tree.add_child('Kevin', staff2)
+    br_tree = BinaryTree()
+    # br_tree.insert(40)
+    # br_tree.insert(39)
+    # br_tree.insert(41)
+    # br_tree.insert(38)
+    # br_tree.insert(47)
+    # br_tree.show()
+    #
+    # print(br_tree.node_exist(1.5))
+    print('---------------------------')
 
-    vice_president = tree.add_child('VicePresident', ceo)
-    secretary = tree.add_child('Secretary', vice_president)
-    gina = tree.add_child('Gina', secretary)
-    staff3 = tree.add_child('Staff3', vice_president)
-    Poopoo = tree.add_child('PooPoo', staff3)
+    seed = time.time() * 1000
+    count = 100000
+    max_num = 10000
+    search_for = int(random.random() * max_num)
 
-    tree.show_org_chart()
+    random.seed(seed)
+    for i in range(count):
+        br_tree.insert(int(random.random() * max_num))
 
-    print()
+    start_time = time.time()
+    print(br_tree.node_exist(search_for))
+    end_time = time.time()
+    print(end_time - start_time, ' seconds')
 
-    tree.add_child('Suzan', tree.find_first_node('Staff22'))
+    a = []
+    random.seed(seed)
+    for i in range(count):
+        a.append(int(random.random() * max_num))
 
-    tree.show_org_chart()
+    start_time = time.time()
+    for i in range(len(a)):
+        if a[i] == search_for:
+            print('FOUND!', a[i], search_for)
+            break
+    end_time = time.time()
+    print(end_time - start_time, ' seconds')
