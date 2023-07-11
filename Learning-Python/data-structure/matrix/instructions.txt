@@ -1,0 +1,17 @@
+get_street_path_matrix(row_count, col_count, number_of_blocked_cells)
+
+m = get_street_path_matrix(4, 4, 3)
+
+m = [
+	[0, 1, 0, 0],
+	[0, 1, 0, 0],
+	[1, 0, 0, 0],
+	[0, 0, 1, 0]
+	]
+
+r = get_rount([3,0], [0,3])
+r = [[3,0], [3,1], [2,1], [2,2], [2,3], [1,3], [0,3]]
+
+
+r = get_rount([3,0], [1,0])
+r= []
