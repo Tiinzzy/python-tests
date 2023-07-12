@@ -85,7 +85,6 @@ if __name__ == '__main__':
     # end_time = time.time()
     # print(end_time - start_time, ' seconds')
 
-
     # br_tree = BinaryTree()
     # br_tree.insert(40)
     # br_tree.insert(39)
@@ -98,10 +97,12 @@ if __name__ == '__main__':
 
     print('----------------------')
     mtr = Matrix()
-    rand_array = np.random.choice([0, 1], size=(4, 4))
+    # rand_array = np.random.choice([0, 1], size=(4, 4))
     mtr.random_insert((4, 4), 4)
     mtr.show_grid()
 
     start = [3, 0]
     destination = [0, 3]
-    # mtr.path_to_destination(start, destination)
+    path_to_desitnation = mtr.path_to_destination(start, destination)
+    print(path_to_desitnation)
+

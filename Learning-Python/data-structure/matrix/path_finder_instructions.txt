@@ -1,0 +1,79 @@
+size(4,4)
+matrix = [ [], [], ....]
+start = (3,0)
+end = (0,3)
+
+r = start[0]
+c = start[1]
+
+
+
+def get_top_status():
+
+  top_r = r-1
+  top_c = c
+  top_ok = true
+  if top_r < 0:
+	   top_ok = false
+  if matrix[top_r, top_c] == 1:
+  		top_ok = false
+
+  return top_ok, (top_r, top_c)
+
+
+def get_bottom_status():
+  bot_r = r+1
+  bot_c = c
+  bot_ok = true
+  if bot_r >= size[0]:
+  		bot_ok = false
+  if matrix[bot_r, bot_c] == 1:
+  		bot_ok = false
+	return bot_ok, (bot_r, bot_c)
+
+
+def pick_a_direction(top, bottom, left, right):
+	options = []
+	if top:
+		options.append('TOP')
+	if bottom:
+		options.append('BOTTOM')
+	if left:
+		options.append('LEFT')
+	if right:
+		options.append('RIGHT')
+
+	if len(options) == 0:
+		return 'DEADEND'
+	elif len(options) == 1:
+		return options[0]
+	else
+		return options[random.int(0, len(options)-1)]
+
+
+
+while r != end[0] and c != end[1]:
+  top_ok, top_cell = get_top_status()
+  bot_ok, bot_cell = get_bottom_status()
+  left_ok, left_cell  = ...
+  right_ok, right_cell = ...
+
+
+  # now we know if we can go top, bottom, left or right
+
+  direction = pick_a_direction(top, bottom, left, right)
+
+  if direction == 'DEADEND':
+  		print('SORRY ...')
+  		break
+  elsif direction == 'TOP':
+  		next_cell = top_cell
+  elif direction == 'BOTTOM':
+  		next_cell = bot_cell
+  elif ...
+
+  # now next_cell points to the next position
+
+  print ((r, c), '=>', next_cell)
+  r = next_cell[0]
+  c = next_cell[1]
