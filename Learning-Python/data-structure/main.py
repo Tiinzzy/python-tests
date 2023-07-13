@@ -98,11 +98,16 @@ if __name__ == '__main__':
     print('----------------------')
     mtr = Matrix()
     # rand_array = np.random.choice([0, 1], size=(4, 4))
-    mtr.random_insert((4, 4), 4)
+    mtr.random_insert((6, 6), 8)
+
+    start = [0, 0]
+    destination = [5, 5]
+    for i in range(500):
+        solved, path_to_desitnation = mtr.path_to_destination(start, destination)
+        # print(solved, path_to_desitnation)
+        if solved:
+            print(solved, len(path_to_desitnation), path_to_desitnation)
+            print('----HORRAY----')
+        else:
+            print('try number: ', i)
     mtr.show_grid()
-
-    start = [3, 0]
-    destination = [0, 3]
-    path_to_desitnation = mtr.path_to_destination(start, destination)
-    print(path_to_desitnation)
-
