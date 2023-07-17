@@ -57,7 +57,7 @@ class Matrix:
                 path.append(current)
                 self.grid[current[0]][current[1]] = PATH
 
-        return {"path": path, "result": result, 'grid': np.array(self.grid)}
+        return {"path": path, "result": result, 'grid': self.grid}
 
     @staticmethod
     def _clone_2d_array(array):
