@@ -65,17 +65,19 @@ def to_cell_char(cell_id):
 
 if __name__ == '__main__':
     START = [0, 0]
-    END = [4, 5]
+    END = [5, 5]
     ITERATION = []
 
-    for _ in range(500):
+    for _ in range(1000):
         mtr = Matrix()
-        mtr.init_grid(6, 10, 5)
+        mtr.init_grid(6, 6, 4)
         result = mtr.find_a_path(START, END)
         if result['result']:
             length = len(result['path'])
             ITERATION.append({'length': length, 'data': result})
 
+    for _ in ITERATION:
+        print(_['length'])
     shortest = find_shortest_path(ITERATION)
 
     print('-----------')
