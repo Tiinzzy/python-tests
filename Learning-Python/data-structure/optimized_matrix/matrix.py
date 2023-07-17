@@ -1,5 +1,6 @@
 import random
 import numpy as np
+import time
 
 FREE = 0
 START = 1
@@ -10,6 +11,7 @@ BLOCKED = 8
 
 class Matrix:
     def __init__(self):
+        random.seed(time.time() * 1000)
         self.grid = None
         self.rows = None
         self.columns = None
@@ -22,7 +24,7 @@ class Matrix:
             r = self._get_random_int(rows)
             c = self._get_random_int(cols)
             g[r][c] = BLOCKED
-        self.grid = g
+        self.grid = self._clone_2d_array(g)
         self.rows = rows
         self.columns = cols
         self.blocked = blocked
@@ -47,6 +49,7 @@ class Matrix:
             if next_cell is None:
                 break
             elif self._ceq(next_cell, end):
+                print('SOLVED')
                 path.append(end)
                 result = True
                 break
@@ -55,7 +58,11 @@ class Matrix:
                 path.append(current)
                 self.grid[current[0]][current[1]] = PATH
 
-        return {"path": path, "grid": self.grid, "result": result}
+        return {"path": path, "result": result}
+
+    @staticmethod
+    def _clone_2d_array(array):
+        return [row[:] for row in array]
 
     @staticmethod
     def _grid_sum(grid):
