@@ -49,7 +49,6 @@ class Matrix:
             if next_cell is None:
                 break
             elif self._ceq(next_cell, end):
-                print('SOLVED')
                 path.append(end)
                 result = True
                 break
@@ -58,7 +57,7 @@ class Matrix:
                 path.append(current)
                 self.grid[current[0]][current[1]] = PATH
 
-        return {"path": path, "result": result}
+        return {"path": path, "result": result, 'grid': np.array(self.grid)}
 
     @staticmethod
     def _clone_2d_array(array):
