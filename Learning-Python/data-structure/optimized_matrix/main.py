@@ -14,12 +14,12 @@ def find_shortest_path(array_of_objects):
 
 if __name__ == '__main__':
     START = [0, 0]
-    END = [4, 4]
+    END = [4, 5]
     ITERATION = []
 
     for _ in range(500):
         mtr = Matrix()
-        mtr.init_grid(5, 5, 3)
+        mtr.init_grid(6, 10, 3)
         result = mtr.find_a_path(START, END)
         if result['result']:
             length = len(result['path'])
@@ -28,3 +28,5 @@ if __name__ == '__main__':
     shortest = find_shortest_path(ITERATION)
     print('-----------')
     print(shortest['data']['grid'])
+    print('path -->',shortest['data']['path'])
+    print('length -->', shortest['length'])
