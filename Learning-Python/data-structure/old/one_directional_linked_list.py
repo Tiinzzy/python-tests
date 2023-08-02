@@ -7,7 +7,8 @@ class Node:
         self.next = next_node
 
     def show(self):
-        print(self.payload, '->', ('None' if self.next is None else self.next.payload))
+        print(self.payload, '->',
+              ('None' if self.next is None else self.next.payload))
 
     def show_chain(self):
         start = self
@@ -102,4 +103,20 @@ class OneDirectionLinkedList:
             return start.payload == payload
 
     def remove_payload(self, payload):
-        pass
+        if self.head.payload is None:
+            return False
+        elif self.head.payload == payload:
+            self.remove_from_head()
+            return True
+        elif self.tail.payload == payload:
+            self.remove_from_tail()
+            return True
+        else:
+            start = self.head
+            prev_node = None
+            while start.next is not None and start.payload != payload:
+                prev_node = start
+                start = start.next
+            prev_node.next = prev_node.next.next
+
+                    

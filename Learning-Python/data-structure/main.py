@@ -1,123 +1,113 @@
-from one_directional_linked_list import Node, OneDirectionLinkedList
-from bi_directional_linked_list import BiDirectionLinkedList
+# from bidirect_linkedlist.bidirectional_linkedlist import BidirectionalLinkelist
+from tree.organization_chart import OrganizationChart
+from hash_map.hashmap import HashMap, BidirectionalLinkelist
+import string
+import random
+import numpy as np
+import time
+from binary_tree.binary_tree import BinaryTree
+from matrix.matrix import Matrix
+
+letters = string.ascii_lowercase
 
 
-def initial_tests():
-    n1 = Node('tina')
-    n2 = Node({'name': 'kamran'})
-    n3 = Node('kiana')
-
-    n1.set_next(n2)
-    n2.set_next(n3)
-
-    print('------------------')
-
-    n1.show()
-    n2.show()
-    n3.show()
-
-    print('------------------')
-
-    n1.show_chain()
+def random_string():
+    return ''.join(random.choice(letters) for i in range(10))
 
 
-def test_head_tail():
-    ll = OneDirectionLinkedList()
-    tasks = ['T1', 'T2', 'T3', 'T4', 'T264']
-
-    for t in tasks:
-        a_task = Node(t)
-        if ll.head is None:
-            ll.head = a_task
-            ll.tail = a_task
-        else:
-            ll.tail.next = a_task
-            ll.tail = a_task
-
-    return ll
-
-
-def one_directional_linked_list():
-    ll = OneDirectionLinkedList()
-    tasks = ['T1', 'T2', 'T3', 'T4', 'T264']
-    for t in tasks:
-        ll.add_to_tail(t)
-    return ll
-
-
-def more_tests():
-    ll = one_directional_linked_list()
-    ll.describe()
-    ll.add_to_tail('T500')
-    ll.describe()
-    ll.add_to_head('T00')
-    ll.describe()
-
-    ll.remove_from_tail()
-    ll.remove_from_tail()
-
-    ll.remove_from_head()
-    ll.remove_from_head()
-    ll.remove_from_head()
-    ll.remove_from_head()
-    ll.remove_from_head()
-    ll.remove_from_head()
-
-    ll.describe()
-
-    ll.add_to_head('NEW-BORN')
-    ll.describe()
-
-
-def bi_directional_tests():
-    bd_ll = BiDirectionLinkedList()
-    bd_ll.describe()
-    bd_ll.add_to_tail('N1')
-    bd_ll.add_to_tail('N2')
-    bd_ll.add_to_tail('N3')
-    bd_ll.add_to_tail('N4')
-    bd_ll.add_to_tail('N5')
-    bd_ll.describe()
-
-    print(bd_ll.head.next.next.prev.prev.payload)
-
-    bd_ll.add_to_head('N0')
-    bd_ll.describe()
-
-    bd_ll.show_list()
-    bd_ll.add_to_middle('2.5', 3)
-    bd_ll.show_list()
-
-
-def test_stack():
-    from stack import Stack
-    stack = Stack(100)
-    stack.push(1)
-    stack.push(31)
-    stack.push(51)
-    print(stack.pop())
-    print(stack.pop())
-    print(stack.pop())
-    print(stack.pop())
-    stack.push(5134)
-    print(stack.pop())
-    print(stack.pop())
-    print(stack.pop())
+def brute_force():
+    your_hash = HashMap()
+    for i in range(10000):
+        your_hash.insert(random_string(), i)
+    your_hash.show_all_sizes()
 
 
 if __name__ == '__main__':
-    # initial_tests()
+    # tree = OrganizationChart()
+    # ceo = tree.add_child('CEO')
+    #
+    # manager = tree.add_child('Manager', ceo)
+    # secretary = tree.add_child('Secretary', manager)
+    # staff1 = tree.add_child('Staff1', manager)
+    # Kiana = tree.add_child('Kiana', staff1)
+    # staff2 = tree.add_child('Staff2', manager)
+    # Kevin = tree.add_child('Kevin', staff2)
+    #
+    # vice_president = tree.add_child('VicePresident', ceo)
+    # secretary = tree.add_child('Secretary', vice_president)
+    # gina = tree.add_child('Gina', secretary)
+    # staff3 = tree.add_child('Staff3', vice_president)
+    # Poopoo = tree.add_child('PooPoo', staff3)
+    #
+    # tree.show_org_chart()
+    # print('>>>>>>>>>>>>>')
+    # print(tree.find_first_parent('Staff3').name)
+    #
+    # tree.add_sibling(tree.find_first_parent('Staff3'), 'Kamran')
+    # tree.add_sibling(tree.find_first_parent('Kamran'), 'Tina')
+    # tree.show_org_chart()
 
-    # my_ll = test_head_tail()
-    # my_ll.describe()
+    # br_tree = BinaryTree()
+    # br_tree.insert(40)
+    # br_tree.insert(39)
+    # br_tree.insert(41)
+    # br_tree.insert(38)
+    # br_tree.insert(47)
+    # br_tree.show()
+    #
+    # print(br_tree.node_exist(1.5))
+    # print('---------------------------')
+    #
+    # seed = time.time() * 1000
+    # count = 100000
+    # max_num = 10000
+    # search_for = int(random.random() * max_num)
+    #
+    # random.seed(seed)
+    # for i in range(count):
+    #     br_tree.insert(int(random.random() * max_num))
+    #
+    # start_time = time.time()
+    # print(br_tree.node_exist(search_for))
+    # end_time = time.time()
+    # print(end_time - start_time, ' seconds')
+    #
+    # a = []
+    # random.seed(seed)
+    # for i in range(count):
+    #     a.append(int(random.random() * max_num))
+    #
+    # start_time = time.time()
+    # for i in range(len(a)):
+    #     if a[i] == search_for:
+    #         print('FOUND!', a[i], search_for)
+    #         break
+    # end_time = time.time()
+    # print(end_time - start_time, ' seconds')
 
-    # my_ll = one_directional_linked_list()
-    # p1 = {'a': 'T33'}
-    # my_ll.add_to_tail(p1)
-    # my_ll.describe()
-    # p2 = {'a': 'T33'}
-    # res = my_ll.payload_exist(p2)
+    # br_tree = BinaryTree()
+    # br_tree.insert(40)
+    # br_tree.insert(39)
+    # br_tree.insert(41)
+    # br_tree.insert(38)
+    # br_tree.insert(47)
+    # br_tree.insert(44)
+    # br_tree.show()
+    # br_tree.remove(41)
 
-    # bi_directional_tests()
+    print('----------------------')
+    mtr = Matrix()
+    # rand_array = np.random.choice([0, 1], size=(4, 4))
+    mtr.random_insert((6, 6), 8)
 
-    test_stack()
+    start = [0, 0]
+    destination = [5, 5]
+    for i in range(500):
+        solved, path_to_desitnation = mtr.path_to_destination(start, destination)
+        # print(solved, path_to_desitnation)
+        if solved:
+            print(solved, len(path_to_desitnation), path_to_desitnation)
+            print('----HORRAY----')
+        else:
+            print('try number: ', i)
+    mtr.show_grid()

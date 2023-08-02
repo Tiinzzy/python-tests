@@ -1,0 +1,38 @@
+bidirectional linkedlist class():
+
+def get_head():
+    return head of linkedlist
+
+def get_tail():
+    return tail of linkedlist
+
+def insert(payload,index):
+    #if inedx in wrong range, return None otherwise return index
+
+    if index is None: 
+        adds a new node to the tail
+    else:
+        adds a node in index element    
+
+def remove(index):
+    if index is not None and in range: 
+        removes a node from the index
+    else:
+        return None
+    
+def size():
+    return linkedlist nodes
+
+def clear():
+    return delete entire linkedlist
+
+def find_first(element):
+    return first found element if not return None
+
+def get_element(index):
+    return index element of linkedlist if -1 last element
+
+def show_all():
+    retun print(list)
+
+{}
