@@ -51,8 +51,9 @@ def save_news_to_file(news, filename):
 
 if __name__ == "__main__":
     input_query = input("Enter a search prompt: ")
+
     prompt_sentiment = analyze_sentiment(input_query)
-    print(f"Sentiment is: {prompt_sentiment}")
+    print(f"Search prompt sentiment is: {prompt_sentiment}")
 
     news = search_news(input_query)
 
@@ -63,6 +64,13 @@ if __name__ == "__main__":
         save_filename = "news_results.txt"
         save_news_to_file(news_to_save, save_filename)
 
-        print("News results saved!")
+        title_texts = []
+        for item in news_to_save:
+            title_texts.append(item['title'])
+
+        all_titles = ' '.join(title_texts)
+        total_sentiment = analyze_sentiment(all_titles)
+        print(f"Total sentiment for the titles are: {total_sentiment}")
+
     else:
         print("No news have been found!")
