@@ -33,8 +33,10 @@ def search_news(query):
     for anchor in soup.find_all("a"):
         title = anchor.get_text()
         link = anchor["href"]
+
         if link.startswith("http"):
-            links.append({"title": title, "link": link})
+            revised_title = title.replace('\n', ' * ').split(' * ')[-1]
+            links.append({"title": revised_title})
 
     return links
 
@@ -44,7 +46,6 @@ def save_news_to_file(news, filename):
         for index, item in enumerate(news, start=1):
             file.write(f"Index: {index}\n")
             file.write(f"Title: {item['title']}\n")
-            file.write(f"Link: {item['link']}\n")
             file.write("\n")
 
 
