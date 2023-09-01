@@ -6,7 +6,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 nltk.download("vader_lexicon")
 
 
-class Sentiment:
+class NLTKSentiment:
 
     @staticmethod
     def find_news_titles(search_prompt):
