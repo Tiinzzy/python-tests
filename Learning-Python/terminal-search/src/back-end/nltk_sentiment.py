@@ -42,7 +42,6 @@ class NLTKSentiment:
 
         all_titles = ' '.join(title_texts)
 
-        print(title_texts, "<<<<<<<<<<<<<<<<<<<<<")
         sia = SentimentIntensityAnalyzer()
         sentiment_scores = sia.polarity_scores(all_titles)
 
