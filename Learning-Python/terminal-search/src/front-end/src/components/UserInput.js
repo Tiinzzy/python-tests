@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 
 import BackEndConnection from './BackEndConnection';
 import Table from "./Table";
+import RadioButton from "./RadioButton";
 
 const backend = BackEndConnection.INSTANCE();
 
@@ -20,6 +21,7 @@ export default class UserInput extends React.Component {
         this.state = {
             searchItem: '',
         }
+        this.callBack = this.callBack.bind(this);
     }
 
     getSearchPrompt(e) {
@@ -34,13 +36,26 @@ export default class UserInput extends React.Component {
         }
     }
 
-    searchForSentiment(e) {
-        let query = { prompt: this.state.searchItem }
-        backend.send_search_prompt(query, (data) => {
-            if (data) {
-                this.setState({ searchItem: '', allSentiments: data, titles: data.array_of_titles });
-            };
-        })
+    searchForSentiment() {
+        this.callBack(1);
+    }
+
+    callBack(e) {
+        if (e && e === 1) {
+            let query = { prompt: this.state.searchItem, msg: 'all' };
+            backend.send_search_prompt(query, (data) => {
+                if (data) {
+                    this.setState({ allSentiments: data, titles: data.array_of_titles });
+                };
+            })
+        } else if (e && e === 2) {
+            let query = { prompt: this.state.searchItem, msg: 'oneByOne' };
+            backend.send_search_prompt(query, (data) => {
+                if (data) {
+                    this.setState({ allSentiments: data, titles: data.array_of_titles });
+                };
+            })
+        }
     }
 
     render() {
@@ -56,6 +71,7 @@ export default class UserInput extends React.Component {
                             <SearchIcon />
                         </IconButton>
                     </Paper>
+                    <RadioButton callBack={this.callBack} />
                     {this.state.allSentiments && <Table allSentiments={this.state.allSentiments} />}
                     <Box style={{ border: 'solid 1px #eaeaea', borderRadius: 4, width: '40%', padding: 10, height: '40%', marginTop: 15 }}>
                         {this.state.titles && this.state.titles.map((e, i) => (
