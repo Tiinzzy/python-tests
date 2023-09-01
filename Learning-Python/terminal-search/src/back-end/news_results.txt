@@ -1,30 +1,30 @@
 Index: 1
-Title: Donald Trump enters plea in Georgia election case, and says he plans to skip upcoming hearing
+Title: Watch: Expert predicts how Trump is going to use televised Georgia trial for election campaign | CNN Politics
 
 Index: 2
-Title: Donald Trump's election fraud trial in Georgia will be livestreamed - BBC News
+Title: ‘I wouldn’t give him a nickel’: one-time Giuliani donors rule out legal aid | Rudy Giuliani | The Guardian
 
 Index: 3
-Title: Video: Maggie Haberman on what 'struck' her while reading former President Donald Trump's deposition | CNN Politics
+Title: Donald Trump’s Georgia Trial on RICO Charges to Livestream on YouTube, Judge Rules
 
 Index: 4
-Title: Ex-Proud Boys leader sentenced to 15 years in prison in Jan. 6 Capitol attack case
-
-Index: 5
-Title: 'Not Guilty': Trump enters plea in Georgia election case | CNN Politics
-
-Index: 6
-Title: Video: Hear by how much New York's AG claims Trump inflated his net worth | CNN Politics
-
-Index: 7
-Title: Donald Trump allegedly inflated his net worth by as much as $2.2bn in 2014 | Donald Trump | The Guardian
-
-Index: 8
-Title: Trump pleads not guilty to Georgia election interference charges, seeks to sever his case from others | CBC News
-
-Index: 9
 Title: Trump campaign aide told police officers to 'go hang yourself' at Jan. 6 riot
 
+Index: 5
+Title: Donald Trump enters plea in Georgia election case, and says he plans to skip upcoming hearing
+
+Index: 6
+Title: Donald Trump's election fraud trial in Georgia will be livestreamed - BBC News
+
+Index: 7
+Title: Video: Maggie Haberman on what 'struck' her while reading former President Donald Trump's deposition | CNN Politics
+
+Index: 8
+Title: Ex-Proud Boys leader sentenced to 15 years in prison in Jan. 6 Capitol attack case
+
+Index: 9
+Title: 'Not Guilty': Trump enters plea in Georgia election case | CNN Politics
+
 Index: 10
-Title: Trump pleads not guilty in Georgia election subversion case and seeks to sever his case from others | CP24.com
+Title: Video: Hear by how much New York's AG claims Trump inflated his net worth | CNN Politics
 
