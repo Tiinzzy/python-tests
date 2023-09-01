@@ -1,9 +1,21 @@
+import { BrowserRouter } from "react-router-dom";
+
 import Home from "./components/Home";
 
-export default function App() {
+function RealApp() {
   return (
     <div>
       <Home />
     </div>
   );
 };
+
+export default function App() {
+
+
+  return (
+    <BrowserRouter basename="/news-sentiment">
+      <RealApp />
+    </BrowserRouter>
+  )
+}

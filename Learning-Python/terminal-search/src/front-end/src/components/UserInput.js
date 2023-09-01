@@ -9,6 +9,8 @@ import Typography from "@mui/material/Typography";
 
 
 import BackEndConnection from './BackEndConnection';
+import Table from "./Table";
+import RadioButton from "./RadioButton";
 
 const backend = BackEndConnection.INSTANCE();
 
@@ -19,11 +21,11 @@ export default class UserInput extends React.Component {
         this.state = {
             searchItem: '',
         }
+        this.callBack = this.callBack.bind(this);
     }
 
     getSearchPrompt(e) {
         this.setState({ searchItem: e.target.value });
-        console.log(e.keyCode)
         if (e.keyCode === 13) {
             e.preventDefault();
         }
@@ -34,15 +36,26 @@ export default class UserInput extends React.Component {
         }
     }
 
-    searchForSentiment(e) {
-        let query = { prompt: this.state.searchItem }
-        backend.send_search_prompt(query, (data) => {
-            if (data) {
-                console.log(data);
-                this.setState({ searchItem: '', titles: data.array_of_titles, promptSentiment: data.prompt_sentiment, titlesSentiment: data.titles_sentiment });
-            };
-        })
-        console.log(this.state.searchItem)
+    searchForSentiment() {
+        this.callBack(1);
+    }
+
+    callBack(e) {
+        if (e && e === 1) {
+            let query = { prompt: this.state.searchItem, msg: 'all' };
+            backend.send_search_prompt(query, (data) => {
+                if (data) {
+                    this.setState({ allSentiments: data, titles: data.array_of_titles });
+                };
+            })
+        } else if (e && e === 2) {
+            let query = { prompt: this.state.searchItem, msg: 'oneByOne' };
+            backend.send_search_prompt(query, (data) => {
+                if (data) {
+                    this.setState({ allSentiments: data, titles: data.array_of_titles });
+                };
+            })
+        }
     }
 
     render() {
@@ -58,16 +71,8 @@ export default class UserInput extends React.Component {
                             <SearchIcon />
                         </IconButton>
                     </Paper>
-                    <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-                        {this.state.promptSentiment && <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-                            <Typography fontWeight="600" mr={1}> Search Prompt Sentiment: </Typography>
-                            <Typography mr={5}>{this.state.promptSentiment}</Typography>
-                        </span>}
-                        {this.state.titlesSentiment && <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-                            <Typography fontWeight="600" mr={1}>All Titles Sentiment: </Typography>
-                            <Typography>{this.state.titlesSentiment}</Typography>
-                        </span>}
-                    </Box>
+                    <RadioButton callBack={this.callBack} />
+                    {this.state.allSentiments && <Table allSentiments={this.state.allSentiments} />}
                     <Box style={{ border: 'solid 1px #eaeaea', borderRadius: 4, width: '40%', padding: 10, height: '40%', marginTop: 15 }}>
                         {this.state.titles && this.state.titles.map((e, i) => (
                             <Typography key={i} variant="body1">
