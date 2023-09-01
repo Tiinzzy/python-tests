@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 
 
 import BackEndConnection from './BackEndConnection';
+import Table from "./Table";
 
 const backend = BackEndConnection.INSTANCE();
 
@@ -23,7 +24,6 @@ export default class UserInput extends React.Component {
 
     getSearchPrompt(e) {
         this.setState({ searchItem: e.target.value });
-        console.log(e.keyCode)
         if (e.keyCode === 13) {
             e.preventDefault();
         }
@@ -38,11 +38,9 @@ export default class UserInput extends React.Component {
         let query = { prompt: this.state.searchItem }
         backend.send_search_prompt(query, (data) => {
             if (data) {
-                console.log(data);
-                this.setState({ searchItem: '', titles: data.array_of_titles, promptSentiment: data.prompt_sentiment, titlesSentiment: data.titles_sentiment });
+                this.setState({ searchItem: '', allSentiments: data, titles: data.array_of_titles });
             };
         })
-        console.log(this.state.searchItem)
     }
 
     render() {
@@ -58,16 +56,7 @@ export default class UserInput extends React.Component {
                             <SearchIcon />
                         </IconButton>
                     </Paper>
-                    <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-                        {this.state.promptSentiment && <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-                            <Typography fontWeight="600" mr={1}> Search Prompt Sentiment: </Typography>
-                            <Typography mr={5}>{this.state.promptSentiment}</Typography>
-                        </span>}
-                        {this.state.titlesSentiment && <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-                            <Typography fontWeight="600" mr={1}>All Titles Sentiment: </Typography>
-                            <Typography>{this.state.titlesSentiment}</Typography>
-                        </span>}
-                    </Box>
+                    {this.state.allSentiments && <Table allSentiments={this.state.allSentiments} />}
                     <Box style={{ border: 'solid 1px #eaeaea', borderRadius: 4, width: '40%', padding: 10, height: '40%', marginTop: 15 }}>
                         {this.state.titles && this.state.titles.map((e, i) => (
                             <Typography key={i} variant="body1">
