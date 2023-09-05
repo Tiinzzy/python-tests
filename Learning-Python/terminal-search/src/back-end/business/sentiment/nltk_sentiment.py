@@ -47,5 +47,5 @@ class NLTKSentiment:
         all_ten_title = []
         for index, item in enumerate(all_titles, start=1):
             title_sentiment, score = one_by_one_sentiment(item['title'])
-            all_ten_title.append({'title_index': index, 'title_sentiment': title_sentiment})
+            all_ten_title.append({'title_index': index, 'nltk_title': title_sentiment, 'title': item['title']})
         return all_ten_title

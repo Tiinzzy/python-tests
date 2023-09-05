@@ -23,10 +23,10 @@ export default class RadioButton extends React.Component {
         return (
             <>
                 <FormControl>
-                    <FormLabel id="demo-row-radio-buttons-group-label">Title Process </FormLabel>
+                    <FormLabel id="demo-row-radio-buttons-group-label">Process </FormLabel>
                     <RadioGroup row >
-                        <FormControlLabel value="All" control={<Radio />} label="All" onChange={() => this.selectedButton(1)} />
-                        <FormControlLabel value="One by One" control={<Radio />} label="One by One" onChange={() => this.selectedButton(2)} />
+                        <FormControlLabel value="All" control={<Radio />} label="All Titles" onChange={() => this.selectedButton(1)} />
+                        <FormControlLabel value="One by One" control={<Radio />} label="Titles One by One" onChange={() => this.selectedButton(2)} />
                     </RadioGroup>
                 </FormControl>
             </>
