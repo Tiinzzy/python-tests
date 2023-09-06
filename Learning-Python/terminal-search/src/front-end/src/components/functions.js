@@ -32,3 +32,11 @@ export function tableReadyData(allData) {
 
     return fullDetail;
 }
+
+export function sumAllScores(arrayOfObjects) {
+    let result = arrayOfObjects.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue.totalScore;
+    }, 0);
+
+    return result;
+}
