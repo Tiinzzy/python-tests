@@ -1,6 +1,13 @@
 import React from "react";
 
 import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 import { PATTERN1, PATTERN2, PATTERN3, PATTERN4 } from "./functions";
 
@@ -49,76 +56,71 @@ export default class SentimentAllTable extends React.Component {
 
     render() {
         return (
-            <Box style={{ width: '50%' }}>
-                <table width="100%" style={{ fontSize: '80%', backgroundColor: 'white', maring: 5, border: 'solid 1px black' }} cellPadding={0} cellSpacing={1}>
-                    <tbody style={{ backgroundColor: 'white', border: 'solid 1px black' }} >
-                        <tr style={{ backgroundColor: 'white', border: 'solid 1px black' }}>
-                            <th width='23%' style={{ border: 'solid 1px black' }}>Sentiment Predictor</th>
-                            <th width='35%' style={{ border: 'solid 1px black' }}>Total Search Prompt Sentiment</th>
-                            <th width='34%' style={{ border: 'solid 1px black' }}>Total All Titles Sentiment</th>
-                            <th width='8%' style={{ border: 'solid 1px black' }}>Scores</th>
-                        </tr>
-                        <tr style={{ backgroundColor: 'white', border: 'solid 1px black' }}>
-                            <td style={{ border: 'solid 1px black', padding: 2 }}>
-                                NLTK Sentiment
-                            </td>
-                            <td style={{ border: 'solid 1px black', padding: 2 }}>
-                                {this.state.nltk_pormpt}
-                            </td>
-                            <td style={{ border: 'solid 1px black', padding: 2 }}>
-                                {this.state.nltk_titles}
-                            </td>
-                            <td style={{ border: 'solid 1px black', padding: 2 }}>
-                                {this.state.nltkScore && (this.state.nltkScore * 1).toFixed(4)}
-                            </td>
-                        </tr>
-                        <tr style={{ backgroundColor: 'white', border: 'solid 1px black' }}>
-                            <td style={{ border: 'solid 1px black', padding: 2 }}>
-                                Text Blob Sentiment
-                            </td>
-                            <td style={{ border: 'solid 1px black', padding: 2 }}>
-                                {this.state.blob_prompt}
-                            </td>
-                            <td style={{ border: 'solid 1px black', padding: 2 }}>
-                                {this.state.blob_titles}
-                            </td>
-                            <td style={{ border: 'solid 1px black', padding: 2 }}>
-                                {this.state.blobScore && (this.state.blobScore * 1).toFixed(4)}
-                            </td>
-                        </tr>
-                        <tr style={{ backgroundColor: 'white', border: 'solid 1px black' }}>
-                            <td style={{ border: 'solid 1px black', padding: 2 }}>
-                                Vader Sentiment
-                            </td>
-                            <td style={{ border: 'solid 1px black', padding: 2 }}>
-                                {this.state.vader_prompt}
-                            </td>
-                            <td style={{ border: 'solid 1px black', padding: 2 }}>
-                                {this.state.vader_titles}
-                            </td>
-                            <td style={{ border: 'solid 1px black', padding: 2 }}>
-                                {this.state.vaderScore && (this.state.vaderScore * 1).toFixed(4)}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table width="100%" style={{ fontSize: '80%', backgroundColor: 'white', maring: 5, border: 'solid 1px black', marginTop: 20 }} cellPadding={0} cellSpacing={1}>
-                    <tbody style={{ backgroundColor: 'white', border: 'solid 1px black' }} >
-                        <tr style={{ backgroundColor: 'white', border: 'solid 1px black' }}>
-                            <th width='10%' style={{ border: 'solid 1px black' }}>Index</th>
-                            <th width='90%' style={{ border: 'solid 1px black' }}>Title</th>
-                        </tr>
-                        {this.state.titles && this.state.titles.map((e, i) => (
-                            <tr style={{ backgroundColor: 'white', border: 'solid 1px black' }} key={i}>
-                                <td style={{ border: 'solid 1px black', padding: 2 }}>
-                                    {i + 1}
-                                </td>
-                                <td style={{ border: 'solid 1px black', padding: 2 }}>
-                                    {e.replace(PATTERN1, '').replace(PATTERN2, '').replace(PATTERN3, '').replace(PATTERN4, '')}
-                                </td>
-                            </tr>))}
-                    </tbody>
-                </table>
+            <Box style={{ width: '65%' }}>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell width='23%'>Sentiment Predictor</TableCell>
+                                <TableCell width='35%'>Total Search Prompt Sentiment</TableCell>
+                                <TableCell width='34%'>Total All Titles Sentiment</TableCell>
+                                <TableCell width='8%'>Scores</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell>NLTK Sentiment</TableCell>
+                                <TableCell>{this.state.nltk_pormpt}</TableCell>
+                                <TableCell>{this.state.nltk_titles}</TableCell>
+                                <TableCell>
+                                    {this.state.nltkScore && (this.state.nltkScore * 1).toFixed(4)}
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Text Blob Sentiment</TableCell>
+                                <TableCell>{this.state.blob_prompt}</TableCell>
+                                <TableCell>{this.state.blob_titles}</TableCell>
+                                <TableCell>
+                                    {this.state.blobScore && (this.state.blobScore * 1).toFixed(4)}
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Vader Sentiment</TableCell>
+                                <TableCell>{this.state.vader_prompt}</TableCell>
+                                <TableCell>{this.state.vader_titles}</TableCell>
+                                <TableCell>
+                                    {this.state.vaderScore && (this.state.vaderScore * 1).toFixed(4)}
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+
+                <TableContainer component={Paper} style={{ marginTop: '20px' }}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell width='10%'>Index</TableCell>
+                                <TableCell width='90%'>Title</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {this.state.titles &&
+                                this.state.titles.map((e, i) => (
+                                    <TableRow key={i}>
+                                        <TableCell>{i + 1}</TableCell>
+                                        <TableCell>
+                                            {e
+                                                .replace(PATTERN1, '')
+                                                .replace(PATTERN2, '')
+                                                .replace(PATTERN3, '')
+                                                .replace(PATTERN4, '')}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Box>
         );
     }
