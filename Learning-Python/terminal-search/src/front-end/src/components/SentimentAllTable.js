@@ -61,10 +61,10 @@ export default class SentimentAllTable extends React.Component {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell width='23%'>Sentiment Predictor</TableCell>
-                                <TableCell width='35%'>Total Search Prompt Sentiment</TableCell>
-                                <TableCell width='34%'>Total All Titles Sentiment</TableCell>
-                                <TableCell width='8%'>Scores</TableCell>
+                                <TableCell width='23%' style={{ fontWeight: 'bold', fontSize: '13px' }}>Sentiment Predictor</TableCell>
+                                <TableCell width='35%' style={{ fontWeight: 'bold', fontSize: '13px' }}>Total Search Prompt Sentiment</TableCell>
+                                <TableCell width='34%' style={{ fontWeight: 'bold', fontSize: '13px' }}>Total All Titles Sentiment</TableCell>
+                                <TableCell width='8%' style={{ fontWeight: 'bold', fontSize: '13px' }}>Scores</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -100,8 +100,8 @@ export default class SentimentAllTable extends React.Component {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell width='10%'>Index</TableCell>
-                                <TableCell width='90%'>Title</TableCell>
+                                <TableCell width='10%' style={{ fontWeight: 'bold', fontSize: '13px' }}>Index</TableCell>
+                                <TableCell width='90%' style={{ fontWeight: 'bold', fontSize: '13px' }}>Title</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
