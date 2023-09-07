@@ -36,6 +36,5 @@ def get_classifying_text():
     parameters = get_parameters(request)
     text = parameters['text']
     result = get_vector_classification_result(text)
-    print(result)
 
-    return jsonify({'result': True})
+    return jsonify(result)
