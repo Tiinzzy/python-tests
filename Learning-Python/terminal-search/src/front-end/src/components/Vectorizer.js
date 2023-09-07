@@ -61,7 +61,7 @@ export default class Vectorizer extends React.Component {
             <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', marginTop: 25 }}>
                 <Box>
                     <TextField
-                        label="Enter or Upload Text"
+                        label="Enter or Drag a Text File"
                         variant="outlined"
                         multiline
                         rows={6}
