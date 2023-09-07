@@ -21,6 +21,8 @@ def test():
     print(wv.most_similar(positive=['book', 'french'], negative=['english'], topn=1))
     print(wv.most_similar(positive=['cat', 'dog'], negative=['lion'], topn=1))
 
+    print(wv.most_similar(positive=['american', 'russian'], negative=['beer'], topn=1))
+
 
 if __name__ == '__main__':
     test()
