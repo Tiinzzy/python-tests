@@ -46,12 +46,12 @@ export default class SentimentOneByOneTable extends React.Component {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center">Index</TableCell>
-                                <TableCell>Title</TableCell>
-                                <TableCell align="center">NLTK</TableCell>
-                                <TableCell align="center">Text Blob</TableCell>
-                                <TableCell align="center">Vader</TableCell>
-                                <TableCell align="center">Total Score</TableCell>
+                                <TableCell align="center" style={{ fontWeight: 'bold', fontSize: '13px' }}>Index</TableCell>
+                                <TableCell style={{ fontWeight: 'bold', fontSize: '13px' }}>Title</TableCell>
+                                <TableCell align="center" style={{ fontWeight: 'bold', fontSize: '13px' }}>NLTK</TableCell>
+                                <TableCell align="center" style={{ fontWeight: 'bold', fontSize: '13px' }}>Text Blob</TableCell>
+                                <TableCell align="center" style={{ fontWeight: 'bold', fontSize: '13px' }}>Vader</TableCell>
+                                <TableCell align="center" style={{ fontWeight: 'bold', fontSize: '13px' }}>Score</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -88,7 +88,8 @@ export default class SentimentOneByOneTable extends React.Component {
                                 </TableCell>
                                 <TableCell align="center">
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell align="center" style={{ fontWeight: 'bold', fontSize: '13px' }}>
+                                    Total Score
                                 </TableCell>
                                 <TableCell align="center">
                                     {this.state.totalScores}
