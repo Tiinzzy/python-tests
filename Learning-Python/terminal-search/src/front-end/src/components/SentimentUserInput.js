@@ -48,9 +48,11 @@ export default class SentimentUserInput extends React.Component {
         let query = { prompt: this.state.searchItem, msg: this.state.msg };
         this.setState({ displayProgress: true }, () => {
             backend.send_search_prompt(query, (data) => {
-                if (data) {
+                if ((data.hasOwnProperty('array_of_titles') && data.array_of_titles.length === 4) || (data.hasOwnProperty('nltk_step_sentiment') && data.nltk_step_sentiment.length === 4)) {
+                    this.setState({ displayProgress: false });
+                } else {
                     this.setState({ allSentiments: data, titles: data.array_of_titles, displayProgress: false });
-                };
+                }
             })
         })
     }
@@ -72,6 +74,7 @@ export default class SentimentUserInput extends React.Component {
 
                     <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, marginTop: 5, marginBottom: 5 }} >
                         <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search Prompt" inputProps={{ 'aria-label': 'Search Prompt' }}
+                            autoFocus
                             onChange={(e) => this.getSearchPrompt(e)}
                             onKeyDown={(e) => this.getSearchPrompt(e)} />
                         <IconButton type="button" sx={{ p: '10px' }} aria-label="search"
