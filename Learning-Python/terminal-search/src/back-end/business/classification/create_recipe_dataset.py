@@ -34,4 +34,6 @@ def get_data_set(size):
     return all_data
 
 
-print(get_data_set(500).head())
+df = get_data_set(1500)
+df.to_csv('../data/full-dataset.csv', index=False)
+
