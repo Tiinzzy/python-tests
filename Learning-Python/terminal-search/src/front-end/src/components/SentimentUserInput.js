@@ -36,9 +36,11 @@ export default class SentimentUserInput extends React.Component {
         if (isEnter) {
             this.setState({ displayProgress: true }, () => {
                 backend.send_search_prompt(query, (data) => {
-                    if (data) {
+                    if ((data.hasOwnProperty('array_of_titles') && data.array_of_titles.length === 4) || (data.hasOwnProperty('nltk_step_sentiment') && data.nltk_step_sentiment.length === 4)) {
+                        this.setState({ displayProgress: false });
+                    } else {
                         this.setState({ allSentiments: data, titles: data.array_of_titles, displayProgress: false });
-                    };
+                    }
                 })
             })
         }
@@ -69,7 +71,7 @@ export default class SentimentUserInput extends React.Component {
         return (
             <>
                 {this.state.displayProgress ? <Box style={{ width: '100%', height: '4px' }}><LinearProgress /></Box> : <Box style={{ height: '4px', width: '100%' }}></Box>}
-                <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', marginTop: 25 }}>
+                <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', marginTop: 25, marginBottom: 25 }}>
                     <RadioButton callBack={this.callBack} />
 
                     <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, marginTop: 5, marginBottom: 5 }} >

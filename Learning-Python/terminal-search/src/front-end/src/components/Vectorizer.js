@@ -64,7 +64,7 @@ export default class Vectorizer extends React.Component {
         this.setState({ displayProgress: true }, () => {
             backend.vector_classifying_text(query, (data) => {
                 if (data) {
-                    this.setState({ displayProgress: false, result: true, adaboost: data.adaboost_prediction, forest: data.forest_prediction, svm: data.svm_prediction });
+                    this.setState({ displayProgress: false, result: true, adaboost: data.adaboost_prediction, forest: data.random_forest_prediction, svm: data.svc_prediction });
                 }
             });
         })
