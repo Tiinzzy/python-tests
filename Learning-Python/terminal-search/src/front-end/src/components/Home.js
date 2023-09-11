@@ -28,8 +28,8 @@ export default class Home extends React.Component {
         return (
             <>
                 <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'left', padding: 10, borderBottom: 'solid 2px #41424C', backgroundColor: '#0288d1' }}>
-                    <Button variant="text" style={{ color: 'white', marginLeft: 20, marginRight: 15, backgroundColor: this.state.displaySentiment === true && '#EFF8FF33' }} size="small" onClick={() => this.switchPage(1)}>Sentiment Processor</Button>
-                    <Button variant="text" style={{ color: 'white', backgroundColor: this.state.displaySentiment === false && '#EFF8FF33'}} size="small" onClick={() => this.switchPage(2)}>Vector Classifier</Button>
+                    <Button variant="text" style={{ color: 'white', marginLeft: 20, marginRight: 15, backgroundColor: this.state.displaySentiment === true && '#EFF8FF33' }} size="small" onClick={() => this.switchPage(1)}>News Sentiment Processor</Button>
+                    <Button variant="text" style={{ color: 'white', backgroundColor: this.state.displaySentiment === false && '#EFF8FF33' }} size="small" onClick={() => this.switchPage(2)}>Recipe Classifier</Button>
                 </Box>
                 {this.state.displaySentiment ? <SentimentUserInput /> : <Vectorizer />}
 

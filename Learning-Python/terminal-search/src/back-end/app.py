@@ -3,7 +3,7 @@ import json
 
 from business.total_process import get_all_ten_titles, process_sentiment_for_all
 from business.separate_process import get_separate_ten_titles, process_sentiment_separately
-from business.classifier_process import get_vector_classification_result
+from business.process_classification import process_tex_classification
 
 app = Flask(__name__)
 
@@ -35,6 +35,6 @@ def get_search_prompt():
 def get_classifying_text():
     parameters = get_parameters(request)
     text = parameters['text']
-    result = get_vector_classification_result(text)
+    result = process_tex_classification(text)
 
     return jsonify(result)
