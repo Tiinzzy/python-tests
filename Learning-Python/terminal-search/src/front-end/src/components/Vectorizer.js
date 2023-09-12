@@ -16,6 +16,17 @@ import BackEndConnection from './BackEndConnection';
 
 const backend = BackEndConnection.INSTANCE();
 
+const aPageStyle = (displayProgress) => {
+    return {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        marginTop: 25,
+        opacity: displayProgress ? 0.2 : 1
+    }
+}
+
 export default class Vectorizer extends React.Component {
 
     constructor(props) {
@@ -62,11 +73,13 @@ export default class Vectorizer extends React.Component {
     processText() {
         let query = { 'text': this.state.text.replace(/[!"'`!?,.-_()]/g, '') };
         this.setState({ displayProgress: true }, () => {
-            backend.vector_classifying_text(query, (data) => {
-                if (data) {
-                    this.setState({ displayProgress: false, result: true, adaboost: data.adaboost_prediction, forest: data.random_forest_prediction, svm: data.svc_prediction });
-                }
-            });
+            setTimeout(() => {
+                backend.vector_classifying_text(query, (data) => {
+                    if (data) {
+                        this.setState({ displayProgress: false, result: true, adaboost: data.adaboost_prediction, forest: data.random_forest_prediction, svm: data.svc_prediction });
+                    }
+                });
+            }, 300);
         })
     }
 
@@ -78,8 +91,8 @@ export default class Vectorizer extends React.Component {
         return (
             <>
                 {this.state.displayProgress ? <Box style={{ width: '100%', height: '4px' }}><LinearProgress /></Box> : <Box style={{ height: '4px', width: '100%' }}></Box>}
-                <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', marginTop: 25 }}>
-                    <Box width={4/5}>
+                <Box style={aPageStyle(this.state.displayProgress)}>
+                    <Box width={4 / 5}>
                         <TextField
                             label="Enter or Drag a Text File"
                             variant="outlined"
@@ -91,7 +104,7 @@ export default class Vectorizer extends React.Component {
                             onDragOver={(e) => this.preventDefault(e)}
                             onDrop={(e) => this.handleDragDrop(e)} />
                         <Box display='flex'>
-                            <Box flexGrow={1}/>
+                            <Box flexGrow={1} />
                             <input
                                 type="file"
                                 accept=".txt"
