@@ -10,8 +10,8 @@ def remove_non_english(s):
 
 
 def get_data_set(size):
-    positive_df = pd.read_csv('/home/tina/Downloads/food_recipes.csv')[['recipe_title', 'description']]
-    positive_df['text'] = positive_df['recipe_title'] + positive_df['description']
+    positive_df = pd.read_csv('/home/tina/Downloads/food_recipes.csv')[['recipe_title', 'description', 'ingredients']]
+    positive_df['text'] = positive_df['recipe_title'] + positive_df['description'] + positive_df['ingredients']
     positive_df = positive_df['text'].astype(str)
     positive_df = positive_df.sample(frac=1)
     positive_label = np.empty(size)
@@ -34,6 +34,5 @@ def get_data_set(size):
     return all_data
 
 
-df = get_data_set(1500)
+df = get_data_set(1664)
 df.to_csv('../data/full-dataset.csv', index=False)
-
