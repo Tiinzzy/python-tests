@@ -38,3 +38,12 @@ def get_classifying_text():
     result = process_tex_classification(text)
 
     return jsonify(result)
+
+
+@app.route('/predict/text', methods=["POST"])
+def get_text_prediction():
+    parameters = get_parameters(request)
+    text = parameters['text']
+    print(text)
+
+    return jsonify({'result': True})
