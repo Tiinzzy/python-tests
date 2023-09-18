@@ -4,6 +4,7 @@ import json
 from business.total_process import get_all_ten_titles, process_sentiment_for_all
 from business.separate_process import get_separate_ten_titles, process_sentiment_separately
 from business.process_classification import process_tex_classification
+from business.process_prediction import prcess_text_prediction
 
 app = Flask(__name__)
 
@@ -38,3 +39,13 @@ def get_classifying_text():
     result = process_tex_classification(text)
 
     return jsonify(result)
+
+
+@app.route('/predict/text', methods=["POST"])
+def get_text_prediction():
+    parameters = get_parameters(request)
+    text = parameters['text']
+
+    result = prcess_text_prediction(text)
+
+    return jsonify({'result': True})
