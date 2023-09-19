@@ -14,13 +14,26 @@ export default class WordPrediction extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: ''
+            text: '',
+            suggestion: null
         }
     }
 
     handleTextChange(e) {
-        console.log(e.target.value)
-        this.setState({ text: e.target.value });
+        this.setState({ text: e.target.value }, () => {
+            if (this.state.text.length >= 14) {
+                let query = { 'text': this.state.text.toLowerCase() };
+                this.setState({ displayProgress: true }, () => {
+                    backend.predict_rest_of_text(query, (data) => {
+                        if (data) {
+                            this.setState({ displayProgress: false, suggestion: data.result });
+                        }
+                    });
+                })
+            } else {
+                this.setState({ suggestion: null })
+            }
+        });
     }
 
     handleClearText() {
@@ -28,16 +41,17 @@ export default class WordPrediction extends React.Component {
     };
 
     processText() {
-        let query = { 'text': this.state.text.replace(/[!"'`!?,.-_()]/g, '') };
+        let query = { 'text': this.state.text.toLowerCase() };
         this.setState({ displayProgress: true }, () => {
-            setTimeout(() => {
-                backend.predict_rest_of_text(query, (data) => {
-                    console.log(data)
-                    if (data) {
-                        this.setState({ displayProgress: false });
-                    }
-                });
-            }, 300);
+            backend.predict_rest_of_text(query, (data) => {
+                if (data) {
+                    this.setState({ displayProgress: false, suggestion: data.result }, () => {
+                        if (this.state.text.length === 0) {
+                            this.setState({ suggestion: null })
+                        }
+                    });
+                }
+            });
         })
     }
 
@@ -52,9 +66,13 @@ export default class WordPrediction extends React.Component {
                             variant="outlined"
                             multiline
                             autoFocus
-                            rows={10}
+                            rows={1}
                             fullWidth value={this.state.text}
                             onChange={(e) => this.handleTextChange(e)} />
+                        {this.state.suggestion !== null &&
+                            <div style={{ marginTop: 1, backgroundColor: '#F8FCFF', border: 'solid 2px #1769aa', borderRadius: 4, padding: 6 }}>
+                                {this.state.suggestion}
+                            </div>}
                         <Box display='flex'>
                             <Box flexGrow={1} />
                             <Button variant="contained" size="small" onClick={() => this.handleClearText()}
