@@ -11,11 +11,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const fetchedToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    // const fetchedToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     let query = new FormData();
     query.append("post_data", this.state.postData);
-    query.append("csrfmiddlewaretoken", { fetchedToken })
+    // query.append("csrfmiddlewaretoken", { fetchedToken })
 
     axios.get('http://localhost:8000/api/sample/')
       .then(response => {
