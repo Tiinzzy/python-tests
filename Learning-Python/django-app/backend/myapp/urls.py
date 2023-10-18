@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import get_items, create_item
+from . import views
 
 urlpatterns = [
-    path('get-items/', get_items, name='get_items'),
-    path('create-item/', create_item, name='create_item'),
+    path('get-items/', views.get_items, name='get_items'),
+    path('create-item/', views.create_item, name='create_item'),
 ]
