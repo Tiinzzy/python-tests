@@ -15,7 +15,8 @@ monthly_challenges = {
     "september": 'This is 9th month, September',
     "october": 'This is 10th month, October',
     "november": 'This is 11th month, November',
-    "december": 'This is 12th month, December'
+    "december": 'This is 12th month, December',
+    "test": None
 }
 
 
