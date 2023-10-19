@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.template.loader import render_to_string
 
@@ -64,4 +64,9 @@ def monthly_challenge(request, month):
         })
         return HttpResponse(response_data)
     except:
-        return HttpResponseNotFound("<h1>This month is not supported!</h1>")
+        # reponse_data = "<h1>This month is not supported!</h1>"
+        # response_data = render_to_string("404.html")
+        # HttpResponseNotFound(response_data)
+
+        # if use raise for http404, name the html file 404 and also set debug to false but only for deployment
+        raise Http404()
