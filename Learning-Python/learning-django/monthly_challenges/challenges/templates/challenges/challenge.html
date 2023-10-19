@@ -1,20 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monthly {{month_name | title}} Challenge</title>
-</head>
+    {% block page_title %}
+        Monthly {{month_name | title}} Challenge
+    {% endblock %}
 
-<body>
-    <h1>Current Month is: {{month_name | title}}</h1>
-    {% if text is not None %}
-    <h2>{{text}}</h2>
-    {% else %}
-    <h2>This is a test to show else if in django</h2>
-    {% endif %}
-</body>
-
-</html>
+    {% block content %}
+        <h1>Current Month is: {{month_name | title}}</h1>
+            {% if text is not None %}
+                <h2>{{text}}</h2>
+            {% else %}
+                <h2>This is a test to show else if in django</h2>
+            {% endif %}
+    {% endblock %}
