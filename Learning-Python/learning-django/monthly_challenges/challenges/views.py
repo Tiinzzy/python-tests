@@ -23,13 +23,15 @@ def index(request):
     list_items = ""
     months = list(monthly_challenges.keys())
 
-    for month in months:
-        capitalized_month = month.capitalize()
-        months_path = reverse("month-challenge", args=[month])
-        list_items += f"<li><a href=\"{months_path}\">{capitalized_month}</a></li>"
+    # old version of rendering
+    # for month in months:
+    #     capitalized_month = month.capitalize()
+    #     months_path = reverse("month-challenge", args=[month])
+    #     list_items += f"<li><a href=\"{months_path}\">{capitalized_month}</a></li>"
 
-    response_data = f"<ul>{list_items}</ul>"
-    return HttpResponse(list_items)
+    # response_data = f"<ul>{list_items}</ul>"
+    # HttpResponse(response_data)
+    return render(request, "challenges/index.html", {'months': months})
 
 
 def january(request):
@@ -54,8 +56,8 @@ def monthly_challenge(request, month):
         challenge_text = monthly_challenges[month]
         # f"<h1>{challenge_text}</h1>" old response data but down there is the html template version
         # can also do render or render_to_string
-    
-        response_data = render(request, "challenges/challenge.html",{
+
+        response_data = render(request, "challenges/challenge.html", {
             'text': challenge_text,
             'month_name': month.capitalize()
         })
