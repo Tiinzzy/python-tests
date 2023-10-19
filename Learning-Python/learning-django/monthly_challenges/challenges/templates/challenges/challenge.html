@@ -3,6 +3,8 @@
 
 {% block css_files %}
 <link rel="stylesheet" href="{% static "challenges/challenges.css" %}">
+<link rel="stylesheet" href="{% static "challenges/includes/headers.css" %}">
+<link rel="stylesheet" href="{% static "challenges/challenge.css" %}">
 {% endblock %}
 
     {% block page_title %}
@@ -10,7 +12,7 @@
     {% endblock %}
 
     {% block content %}
-        {% include "challenges/includes/header.html" with active_page="challenge" %}
+        {% include "challenges/includes/header.html" with active_page="" %}
         <h1>Current Month is: {{month_name | title}}</h1>
             {% if text is not None %}
                 <h2>{{text}}</h2>
