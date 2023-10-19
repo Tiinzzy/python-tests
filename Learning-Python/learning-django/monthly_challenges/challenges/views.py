@@ -54,8 +54,10 @@ def monthly_challenge(request, month):
         challenge_text = monthly_challenges[month]
         # f"<h1>{challenge_text}</h1>" old response data but down there is the html template version
         # can also do render or render_to_string
+    
         response_data = render(request, "challenges/challenge.html",{
-            'text': challenge_text
+            'text': challenge_text,
+            'month_name': month.capitalize()
         })
         return HttpResponse(response_data)
     except:
