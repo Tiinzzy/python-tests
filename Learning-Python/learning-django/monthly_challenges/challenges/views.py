@@ -18,6 +18,7 @@ monthly_challenges = {
     "december": 'This is 12th month, December'
 }
 
+
 def index(request):
     list_items = ""
     months = list(monthly_challenges.keys())
@@ -42,15 +43,18 @@ def monthly_challenge_by_number(request, month):
         return HttpResponseNotFound("Invalid month!")
 
     forward_or_redirect_month = months[month - 1]
-    redirect_path = reverse("month-challenge", args=[forward_or_redirect_month]) # it will build a path with /challenge and args adds the name of the month or number 
+    # it will build a path with /challenge and args adds the name of the month or number
+    redirect_path = reverse(
+        "month-challenge", args=[forward_or_redirect_month])
     return HttpResponseRedirect(redirect_path)
 
 
 def monthly_challenge(request, month):
     try:
         challenge_text = monthly_challenges[month]
-        # f"<h1>{challenge_text}</h1>" old response data but down there is the html template version   
-        response_data = render_to_string("challenges/challenge.html")
+        # f"<h1>{challenge_text}</h1>" old response data but down there is the html template version
+        # can also do render or render_to_string
+        response_data = render(request, "challenges/challenge.html")
         return HttpResponse(response_data)
     except:
         return HttpResponseNotFound("<h1>This month is not supported!</h1>")
