@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static "challenges/challenges.css" %}">
+<link rel="stylesheet" href="{% static "challenges/includes/headers.css" %}">
+{% endblock %}
+
+    {% block page_title %}
+        All Challenge
+    {% endblock %}
+
+    {% block content %}
+        {% include "challenges/includes/header.html" with active_page="" %}
+        {% comment %} anywhere there is include you have access to other variables within the {%%}, liken callback {% endcomment %}
+        <ul>
+            {% for m in months %}
+                <li><a href="{% url 'month-challenge' m %}">{{m | title}}</a></li>
+            {% endfor %}
+        </ul>
+   {% endblock %}
