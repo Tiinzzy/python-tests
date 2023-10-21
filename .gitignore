@@ -108,3 +108,5 @@ dist
 *.cpython-310.pyc
 
 .idea/
+
+**/__pycache__/*
