@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} My Blog {% endblock %}
+
+{% block css_files %} <link rel="stylesheet" href={% static "blog/index.css"%}/>{% endblock %}
+
+
+{% block content %}
+<header id="main-navigation">
+    <h1>
+        <a href="">
+            Tina's Blog
+        </a>      
+    </h1>    
+    <nav>
+        <a ref="">
+            All Posts
+        </a>    
+    </nav>    
+</header>    
+<section id="welcome"> 
+    <header>
+        <img src="" alt="Tina -The Author of This Blog"/>
+        <h2>
+            Tina's Blog
+        </h2>    
+        <p>
+            Hello I am Tina and I love to learn more about Django!
+        </p>
+    </header>    
+</section>   
+<section id="latest-posts"> 
+        <h2>
+            My Latest Posts
+        </h2>    
+        <ul>
+            <li>
+                <article class="post">
+                    <a ref="">
+                        <img src="" alt="Mountains"/>
+                    </a> 
+                    <div class="post__content">
+                        <h3>
+                            Mountain Climbing
+                        </h3>
+                        <p>
+                            There is nothing like the views you get from hiking in the mountains.
+                        </p>
+                    </div>
+                </article>
+            </li>
+        </ul>
+</section>  
+<section id="about">
+    <h2>
+        What I do?
+    </h2> 
+    <p>
+        I love programming and learning more in the field of software development.
+    </p> 
+    <p>
+        MY goal is to keep growing as a web developer. 
+    </p> 
+</section> 
+{% endblock %}
