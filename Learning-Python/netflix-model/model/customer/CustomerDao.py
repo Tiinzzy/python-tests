@@ -1,4 +1,5 @@
-from utility.Database import Database
+from utility.Databases import Databases
+
 
 class CustomerDao:
     CUSTOMER_COLLECTION = "customer"
@@ -8,7 +9,7 @@ class CustomerDao:
         self.name = name
         self.phone_no = phone_no
         self.email = email
-        self.db = Database().get_netflix_database()
+        self.db = Databases.NETFLIX
 
     def save_to_table(self):
         document = {
@@ -22,7 +23,7 @@ class CustomerDao:
     @staticmethod
     def load_all():
         all_customer_dao = []
-        for doc in Database().get_netflix_database().customer.find():
+        for doc in Databases.NETFLIX.customer.find():
             customer = CustomerDao(oid=doc["oid"])
             customer.name = doc["name"]
             customer.phone_no = doc["phoneNo"]

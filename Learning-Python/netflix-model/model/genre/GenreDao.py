@@ -1,4 +1,4 @@
-from utility.Database import Database
+from utility.Databases import Databases
 
 
 class GenreDao:
@@ -7,7 +7,7 @@ class GenreDao:
     def __init__(self, description=None, oid=None):
         self.oid = oid
         self.description = description
-        self.db = Database().get_netflix_database()
+        self.db = Databases.NETFLIX
 
     def save_to_table(self):
         document = {
@@ -19,7 +19,7 @@ class GenreDao:
     @staticmethod
     def load_all():
         all_genre_dao = []
-        for doc in Database().get_netflix_database().genre.find():
+        for doc in Databases.NETFLIX.genre.find():
             genre = GenreDao(oid=doc["oid"])
             genre.description = doc["description"]
             all_genre_dao.append(genre)
