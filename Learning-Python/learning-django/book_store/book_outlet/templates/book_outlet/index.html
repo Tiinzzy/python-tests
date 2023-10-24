@@ -8,7 +8,10 @@ ALl Books
 <ul>
     {% for b in books %}
     <li>
-        {{b.title}} (Rating: {{b.rating}})
+        <a href="{{b.get_absolute_url}}">
+        {{b.title}}
+        </a>
+         (Rating: {{b.rating}})
     </li>
      {% endfor %}
 </ul>
