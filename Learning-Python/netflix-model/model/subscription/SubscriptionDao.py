@@ -1,14 +1,15 @@
 from utility.Databases import Databases
 from utility.OidGenerator import OidGenerator
+from enum import Enum
 
 
-class ESubscriptionType:
+class ESubscriptionType(Enum):
     MONTHLY = "MONTHLY"
     ANNUALLY = "ANNUALLY"
     NOT_DEFINED = "NOT_DEFINED"
 
 
-class EPrice:
+class EPrice(Enum):
     SINGLE_USER = "SINGLE_USER"
     MULTI_USER = "MULTI_USER"
     MULTI_4K = "MULTI_4K"
@@ -30,13 +31,13 @@ class SubscriptionDao:
         self.db = Databases.NETFLIX
 
     @staticmethod
-    def get_prices():
+    def get_prices(e_price=EPrice.NOT_DEFINED):
         enum_to_price = {
             EPrice.SINGLE_USER: 10.99,
             EPrice.MULTI_USER: 12.99,
             EPrice.MULTI_4K: 16.99
         }
-        return enum_to_price
+        return enum_to_price if e_price == EPrice.NOT_DEFINED else enum_to_price[e_price]
 
     def save_to_table(self):
         document = {
