@@ -47,14 +47,20 @@ def test_subscription():
 
 
 if __name__ == "__main__":
-    test_genre()
+    # test_genre()
+    #
+    # print()
+    # test_customer()
+    #
+    # print()
+    # test_movie()
+    #
+    # print()
+    # test_subscription()
 
-    print()
-    test_customer()
+    sd = SubscriptionDao()
+    print(sd.get_prices(e_price=EPrice.SINGLE_USER))
 
-    print()
-    test_movie()
-
-    print()
-    test_subscription()
     # time.sleep(60)
+
+
