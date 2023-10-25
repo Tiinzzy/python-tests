@@ -1,11 +1,15 @@
 from utility.Databases import Databases
+from utility.OidGenerator import OidGenerator
 
 
 class CustomerDao:
     CUSTOMER_COLLECTION = "customer"
 
     def __init__(self, name=None, phone_no=None, email=None, oid=None):
-        self.oid = oid
+        if oid is None:
+            self.oid = OidGenerator.get_new()
+        else:
+            self.oid = oid
         self.name = name
         self.phone_no = phone_no
         self.email = email

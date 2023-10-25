@@ -1,11 +1,15 @@
 from utility.Databases import Databases
+from utility.OidGenerator import OidGenerator
 
 
 class GenreDao:
     GENRE_COLLECTION = "genre"
 
     def __init__(self, description=None, oid=None):
-        self.oid = oid
+        if oid is None:
+            self.oid = OidGenerator.get_new()
+        else:
+            self.oid = oid
         self.description = description
         self.db = Databases.NETFLIX
 
