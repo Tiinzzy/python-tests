@@ -3,6 +3,7 @@ import time
 from model.customer.CustomerDao import CustomerDao
 from model.genre.GenreDao import GenreDao
 from model.movies.MoviesDao import MoviesDao
+from model.subscription.SubscriptionDao import SubscriptionDao, EPrice, ESubscriptionType
 
 
 def test_genre():
@@ -31,6 +32,20 @@ def test_movie():
     print(f"Oid: {m.get_oid()}, Title: {m.get_title()}, Release Date: {m.get_release_date()}, Rating: {m.get_rating()}")
 
 
+def test_subscription():
+    # sdo = SubscriptionDao(ESubscriptionType.ANNUALLY, EPrice.MULTI_4K, "2022-11-11", "2023-11-11")
+    # sdo.save_to_table()
+
+    subscriptions = SubscriptionDao.load_all()
+    for sd in subscriptions:
+        print(
+            f"Oid: {sd.get_oid()}, Type: {sd.get_subscription_type()}, Price: {sd.get_price()}, Start Date: {sd.get_subscription_date()}, End Date: {sd.get_expiry_date()}")
+
+    sd = SubscriptionDao(2)
+    print(
+        f"Oid: {sd.get_oid()}, Type: {sd.get_subscription_type()}, Price: {sd.get_price()}, Start Date: {sd.get_subscription_date()}, End Date: {sd.get_expiry_date()}")
+
+
 if __name__ == "__main__":
     test_genre()
 
@@ -39,4 +54,7 @@ if __name__ == "__main__":
 
     print()
     test_movie()
+
+    print()
+    test_subscription()
     # time.sleep(60)
