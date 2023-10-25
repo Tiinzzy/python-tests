@@ -1,11 +1,15 @@
 from utility.Databases import Databases
+from utility.OidGenerator import OidGenerator
 
 
 class MoviesDao:
     MOVIE_COLLECTION = "movie"
 
     def __init__(self, title=None, oid=None, release_date=None, rating=None):
-        self.oid = oid
+        if oid is None:
+            self.oid = OidGenerator.get_new()
+        else:
+            self.oid = oid
         self.title = title
         self.release_date = release_date
         self.rating = rating
