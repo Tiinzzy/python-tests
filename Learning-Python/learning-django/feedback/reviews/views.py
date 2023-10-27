@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
 from .forms import ReviwForm
+from .models import Reviw
 
 # Create your views here.
 
@@ -22,9 +23,13 @@ def review(request):
     # if the form is made with django form class
     if request.method == "POST":
         form = ReviwForm(request.POST)
-        
+
         if form.is_valid():
-            print(form.cleaned_data)
+            review = Reviw(
+                user_name=form.cleaned_data['user_name'],
+                review_text=form.cleaned_data['review_text'],
+                rating=form.cleaned_data['rating'])
+            review.save()
             return HttpResponseRedirect("/thank-you")
     else:
         form = ReviwForm()
