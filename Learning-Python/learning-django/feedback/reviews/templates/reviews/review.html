@@ -9,9 +9,6 @@
 <body>
     <form action="/" method="POST">
         {% csrf_token %}
-        {% if has_error%}
-        <p>This form is invalid - Please enter a valid username!</p>
-        {% endif %}
         {{ form }}
         <button type="submit">Send</button>
     </form>
