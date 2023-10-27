@@ -6,3 +6,5 @@ class ReviwForm(forms.Form):
         "required": "Your name must not be empty!",
         "max_length": "PLease enter a shorter name!"
     })
+    review_text = forms.CharField(label="Your Feedback", widget=forms.Textarea, max_length=200)
+    rating = forms.IntegerField(label="Your Rating", min_value=1, max_value=5)
