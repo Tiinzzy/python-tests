@@ -1,5 +1,5 @@
 from django import forms
-from .models import Reviw
+from .models import Review
 
 # class ReviwForm(forms.Form):
 #     user_name = forms.CharField(label="Your Name", max_length=100, error_messages={
@@ -10,9 +10,9 @@ from .models import Reviw
 #     rating = forms.IntegerField(label="Your Rating", min_value=1, max_value=5)
 
 
-class ReviwForm(forms.ModelForm):
+class ReviewForm(forms.ModelForm):
     class Meta:
-        model = Reviw
+        model = Review
         fields = '__all__'
         # exclude = ['owner_comment']
         labels = {
