@@ -18,8 +18,7 @@ class ReviewView(View):
         })
 
     def post(self, request):
-        existing_data = Reviw.objects.get(pk=1)
-        form = ReviwForm(request.POST, instance=existing_data)
+        form = ReviwForm(request.POST)
 
         if form.is_valid():
             form.save()
@@ -29,6 +28,7 @@ class ReviewView(View):
             "form": form
         })
 
+
 class ThanYouView(TemplateView):
     template_name = "reviews/thank_you.html"
 
@@ -36,6 +36,17 @@ class ThanYouView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["message"] = "We Recieved Your Review!"
         return context
+
+
+class ReviewsListView(TemplateView):
+    template_name = "reviews/review_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        reviews = Reviw.objects.all()
+        context["reviews"] = reviews
+        return context
+    
 
 
 
