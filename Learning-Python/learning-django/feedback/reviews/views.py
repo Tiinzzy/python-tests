@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, CreateView
 
 from .forms import ReviewForm
 from .models import Review
