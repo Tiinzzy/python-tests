@@ -1,6 +1,8 @@
+from typing import Any
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views import View
+from django.views.generic.base import TemplateView
 
 from .forms import ReviwForm
 from .models import Reviw
@@ -27,9 +29,13 @@ class ReviewView(View):
             "form": form
         })
 
-class ThanYouView(View):
-    def get(self, request):
-        return render(request, "reviews/thank_you.html")
+class ThanYouView(TemplateView):
+    template_name = "reviews/thank_you.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["message"] = "We Recieved Your Review!"
+        return context
 
 
 
