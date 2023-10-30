@@ -46,9 +46,17 @@ class ReviewsListView(TemplateView):
         reviews = Reviw.objects.all()
         context["reviews"] = reviews
         return context
-    
 
 
+class SingleReviewView(TemplateView):
+    template_name = "reviews/single_review.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        review_id = kwargs["id"]
+        selected_review = Reviw.objects.get(pk=review_id)
+        context["review"] = selected_review
+        return context
 
 # def review(request):
 #     # if the form is html and made with htm
