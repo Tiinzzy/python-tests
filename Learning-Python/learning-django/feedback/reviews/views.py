@@ -27,6 +27,11 @@ class ReviewView(View):
             "form": form
         })
 
+class ThanYouView(View):
+    def get(self, request):
+        return render(request, "reviews/thank_you.html")
+
+
 
 # def review(request):
 #     # if the form is html and made with htm
@@ -62,5 +67,5 @@ class ReviewView(View):
 #     })
 
 
-def thank_you(request):
-    return render(request, "reviews/thank_you.html")
+# def thank_you(request):
+#     return render(request, "reviews/thank_you.html")
