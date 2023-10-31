@@ -1,5 +1,6 @@
 from utility.Databases import Databases
 from utility.OidGenerator import OidGenerator
+from model.tvseries import SeasonsDao
 
 class TvSeriesDao:
     TV_SERIES_COLLECTION = "tv_series"
@@ -39,6 +40,48 @@ class TvSeriesDao:
             tv_series.rating = doc["rating"]
             all_tv_series_dao.append(tv_series)
         return all_tv_series_dao
+
+    @classmethod
+    def load_all(cls):
+        return cls.load_all("", 100)
+
+    @classmethod
+    def load_all(cls, count):
+        return cls.load_all("", count)
+    
+    def load_by_oid(self, oid):
+        tv_series_data = self.db[self.TV_SERIES_COLLECTION].find_one({"_id": oid})
+
+        if tv_series_data is not None:
+            tv_series = TvSeriesDao.__new__(TvSeriesDao)
+            tv_series.oid = tv_series_data["_id"]
+            tv_series.title = tv_series_data["title"]
+            tv_series.summary = tv_series_data["summary"]
+            tv_series.start_date = tv_series_data["startDate"]
+            tv_series.end_date = tv_series_data["endDate"]
+
+            return tv_series
+        else:
+            return None
+
+    def load_seasons(self):
+        return SeasonsDao.load_all(self.oid)
+
+    def add_season(self, season_number, start_date, end_date):
+        season_dao = SeasonsDao(season_number, start_date, end_date, self.oid)
+        season_dao.save_to_table()
+
+    def add_episode(self, season_number, title, run_time, air_date):
+        season = self.get_season(season_number)
+        if season:
+            season.add_episode(title, run_time, air_date)
+
+    def get_season(self, season_number):
+        seasons = self.load_seasons()
+        for season in seasons:
+            if season.get_season_number() == season_number:
+                return season
+        return None
 
     def delete_tv_series(self, oid):
         self.db[self.TV_SERIES_COLLECTION].delete_one({"oid": oid})
