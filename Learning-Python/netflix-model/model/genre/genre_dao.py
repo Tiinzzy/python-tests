@@ -18,7 +18,10 @@ class GenreDao:
             "oid": self.oid,
             "description": self.description
         }
-        self.db[self.GENRE_COLLECTION].insert_one(document)
+        if(GenreDao.__id_exist(self.oid)):
+            self.db[self.GENRE_COLLECTION].replace_one({"oid": self.oid}, document)
+        else:    
+            self.db[self.GENRE_COLLECTION].insert_one(document)
 
     @staticmethod
     def load_all():
@@ -29,6 +32,14 @@ class GenreDao:
             all_genre_dao.append(genre)
         return all_genre_dao
 
+    def delete_genre(self, oid):
+        self.db[self.GENRE_COLLECTION].delete_one({"oid": oid})
+
+    @staticmethod
+    def __id_exist(oid):
+        temp = GenreDao(oid=oid)
+        return temp.get_oid() == oid
+    
     def get_oid(self):
         return self.oid
 

@@ -22,7 +22,10 @@ class MoviesDao:
             "releaseDate": self.release_date,
             "rating": self.rating
         }
-        self.db[self.MOVIE_COLLECTION].insert_one(document)
+        if(MoviesDao.__id_exist(self.oid)):
+            self.db[self.MOVIE_COLLECTION].replace_one({"oid": self.oid}, document)
+        else:    
+            self.db[self.MOVIE_COLLECTION].insert_one(document)
 
     @staticmethod
     def load_all():
@@ -34,6 +37,14 @@ class MoviesDao:
             movie.rating = doc["rating"]
             all_movie_dao.append(movie)
         return all_movie_dao
+    
+    def delete_movie(self, oid):
+        self.db[self.MOVIE_COLLECTION].delete_one({"oid": oid})
+
+    @staticmethod
+    def __id_exist(oid):
+        temp = MoviesDao(oid=oid)
+        return temp.get_oid() == oid
 
     def get_oid(self):
         return self.oid
@@ -46,3 +57,12 @@ class MoviesDao:
 
     def get_rating(self):
         return self.rating
+
+    def set_title(self, title):
+        self.title = title
+
+    def set_release_date(self, release_date):
+        self.release_date = release_date
+
+    def set_rating(self,rating):
+        self.rating = rating
