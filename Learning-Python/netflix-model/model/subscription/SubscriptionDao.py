@@ -47,7 +47,10 @@ class SubscriptionDao:
             "expiryDate": self.sub_expiry,
             "price": self.price
         }
-        self.db[self.SUBSCRIPTION_COLLECTION].insert_one(document)
+        if(SubscriptionDao.__id_exist(self.oid)):
+            self.db[self.SUBSCRIPTION_COLLECTION].replace_one({"oid": self.oid}, document)
+        else:    
+            self.db[self.SUBSCRIPTION_COLLECTION].insert_one(document)
 
     @staticmethod
     def load_all():
@@ -61,6 +64,14 @@ class SubscriptionDao:
             all_subscription_dao.append(sub)
         return all_subscription_dao
 
+    def delete_customer(self, oid):
+        self.db[self.SUBSCRIPTION_COLLECTION].delete_one({"oid": oid})
+
+    @staticmethod
+    def __id_exist(oid):
+        temp = SubscriptionDao(oid=oid)
+        return temp.get_oid() == oid
+    
     def get_oid(self):
         return self.oid
 
@@ -75,3 +86,15 @@ class SubscriptionDao:
 
     def get_price(self):
         return self.price
+
+    def set_subscription_type(self,sub_type):
+        self.sub_type = sub_type
+
+    def set_subscription_date(self, sub_date):
+        self.sub_date = sub_date
+
+    def set_expiry_date(self, sub_expiry):
+        self.sub_expiry = sub_expiry
+
+    def set_price(self, price):
+        self.price = price

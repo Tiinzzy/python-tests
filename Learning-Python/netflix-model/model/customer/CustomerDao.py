@@ -22,7 +22,10 @@ class CustomerDao:
             "phoneNo": self.phone_no,
             "email": self.email
         }
-        self.db[self.CUSTOMER_COLLECTION].insert_one(document)
+        if(CustomerDao.__id_exist(self.oid)):
+            self.db[self.CUSTOMER_COLLECTION].replace_one({"oid": self.oid}, document)
+        else:    
+            self.db[self.CUSTOMER_COLLECTION].insert_one(document)
 
     @staticmethod
     def load_all():
@@ -34,6 +37,15 @@ class CustomerDao:
             customer.email = doc["email"]
             all_customer_dao.append(customer)
         return all_customer_dao
+    
+
+    def delete_customer(self, oid):
+        self.db[self.CUSTOMER_COLLECTION].delete_one({"oid": oid})
+
+    @staticmethod
+    def __id_exist(oid):
+        temp = CustomerDao(oid=oid)
+        return temp.get_oid() == oid
 
     def get_oid(self):
         return self.oid
@@ -46,3 +58,12 @@ class CustomerDao:
 
     def get_email(self):
         return self.email
+    
+    def set_name(self, name):
+        self.name = name
+
+    def set_phone_no(self, phone_no):
+        self.phone_no = phone_no
+
+    def set_email(self, email):
+        self.email = email
