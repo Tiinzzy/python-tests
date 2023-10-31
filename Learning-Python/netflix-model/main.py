@@ -1,7 +1,7 @@
 import time
 
 from model.customer.CustomerDao import CustomerDao
-from model.genre.GenreDao import GenreDao
+from model.genre.genre_dao import GenreDao
 from model.movies.MoviesDao import MoviesDao
 from model.subscription.SubscriptionDao import SubscriptionDao, EPrice, ESubscriptionType
 
