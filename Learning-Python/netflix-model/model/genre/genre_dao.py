@@ -32,7 +32,7 @@ class GenreDao:
             all_genre_dao.append({genre.oid: genre.description})
         return all_genre_dao
 
-    def delete_genre(self, oid):
+    def delete(self, oid):
         self.db[self.GENRE_COLLECTION].delete_one({"oid": oid})
 
     @staticmethod
