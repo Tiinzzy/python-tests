@@ -2,7 +2,7 @@ import unittest
 from model.movies.movies_dao import MoviesDao
 
 
-class TestGenreDao(unittest.TestCase):
+class TestMovieDao(unittest.TestCase):
 
     def test_save_to_table(self):
         movie = MoviesDao("Test Movie", "2023-11-01","7")

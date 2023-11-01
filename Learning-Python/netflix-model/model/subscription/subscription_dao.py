@@ -47,9 +47,9 @@ class SubscriptionDao:
             "expiryDate": self.sub_expiry,
             "price": self.price
         }
-        if(SubscriptionDao.__id_exist(self.oid)):
+        if SubscriptionDao.id_exist(self.oid):
             self.db[self.SUBSCRIPTION_COLLECTION].replace_one({"oid": self.oid}, document)
-        else:    
+        else:
             self.db[self.SUBSCRIPTION_COLLECTION].insert_one(document)
 
     @staticmethod
@@ -61,17 +61,24 @@ class SubscriptionDao:
             sub.date = doc["subscriptionDate"]
             sub.expiry = doc["expiryDate"]
             sub.price = doc["price"]
-            all_subscription_dao.append(sub)
+            all_subscription_dao.append({sub.oid: [sub.type, sub.date, sub.expiry, sub.price]})
         return all_subscription_dao
 
-    def delete_customer(self, oid):
+    def delete(self, oid):
         self.db[self.SUBSCRIPTION_COLLECTION].delete_one({"oid": oid})
 
     @staticmethod
-    def __id_exist(oid):
-        temp = SubscriptionDao(oid=oid)
-        return temp.get_oid() == oid
-    
+    def id_exist(oid):
+        all_ids = []
+        for doc in Databases.NETFLIX.genre.find():
+            movie = SubscriptionDao(oid=doc["oid"])
+            movie.oid = doc["oid"]
+            all_ids.append(movie.oid)
+        if oid in all_ids:
+            return True
+        else:
+            return False
+
     def get_oid(self):
         return self.oid
 
@@ -87,7 +94,7 @@ class SubscriptionDao:
     def get_price(self):
         return self.price
 
-    def set_subscription_type(self,sub_type):
+    def set_subscription_type(self, sub_type):
         self.sub_type = sub_type
 
     def set_subscription_date(self, sub_date):
