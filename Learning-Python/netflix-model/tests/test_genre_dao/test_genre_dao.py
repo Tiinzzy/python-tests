@@ -24,7 +24,7 @@ class TestGenreDao(unittest.TestCase):
         self.assertEqual(gnr.get_description(), "Test1")
 
         new_oid = gnr.get_oid()
-        result = gnr.delete_genre(new_oid)
+        result = gnr.delete(new_oid)
         self.assertEqual(result, None)
 
 
