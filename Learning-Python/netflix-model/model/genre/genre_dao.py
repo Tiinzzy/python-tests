@@ -18,9 +18,9 @@ class GenreDao:
             "oid": self.oid,
             "description": self.description
         }
-        if(GenreDao.__id_exist(self.oid)):
+        if self.id_exist(self.oid):
             self.db[self.GENRE_COLLECTION].replace_one({"oid": self.oid}, document)
-        else:    
+        else:
             self.db[self.GENRE_COLLECTION].insert_one(document)
 
     @staticmethod
@@ -29,16 +29,23 @@ class GenreDao:
         for doc in Databases.NETFLIX.genre.find():
             genre = GenreDao(oid=doc["oid"])
             genre.description = doc["description"]
-            all_genre_dao.append(genre)
+            all_genre_dao.append({genre.oid: genre.description})
         return all_genre_dao
 
     def delete_genre(self, oid):
         self.db[self.GENRE_COLLECTION].delete_one({"oid": oid})
 
     @staticmethod
-    def __id_exist(oid):
-        temp = GenreDao(oid=oid)
-        return temp.get_oid() == oid
+    def id_exist(oid):
+        all_ids = []
+        for doc in Databases.NETFLIX.genre.find():
+            genre = GenreDao(oid=doc["oid"])
+            genre.oid = doc["oid"]
+            all_ids.append(genre.oid)
+        if oid in all_ids:
+            return True
+        else:
+            return False
     
     def get_oid(self):
         return self.oid
@@ -48,3 +55,6 @@ class GenreDao:
 
     def set_description(self, description):
         self.description = description
+
+    def __str__(self):
+        return f"Genre: OID={self.oid}, Description={self.description}"
