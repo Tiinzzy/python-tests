@@ -22,7 +22,7 @@ class CustomerDao:
             "phoneNo": self.phone_no,
             "email": self.email
         }
-        if(CustomerDao.__id_exist(self.oid)):
+        if CustomerDao.id_exist(self.oid):
             self.db[self.CUSTOMER_COLLECTION].replace_one({"oid": self.oid}, document)
         else:    
             self.db[self.CUSTOMER_COLLECTION].insert_one(document)
@@ -35,17 +35,24 @@ class CustomerDao:
             customer.name = doc["name"]
             customer.phone_no = doc["phoneNo"]
             customer.email = doc["email"]
-            all_customer_dao.append(customer)
+            all_customer_dao.append({customer.oid:[customer.name,customer.phone_no,customer.email]})
         return all_customer_dao
     
 
-    def delete_customer(self, oid):
+    def delete(self, oid):
         self.db[self.CUSTOMER_COLLECTION].delete_one({"oid": oid})
 
     @staticmethod
-    def __id_exist(oid):
-        temp = CustomerDao(oid=oid)
-        return temp.get_oid() == oid
+    def id_exist(oid):
+        all_ids = []
+        for doc in Databases.NETFLIX.genre.find():
+            customer = CustomerDao(oid=doc["oid"])
+            customer.oid = doc["oid"]
+            all_ids.append(customer.oid)
+        if oid in all_ids:
+            return True
+        else:
+            return False
 
     def get_oid(self):
         return self.oid
