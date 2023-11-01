@@ -5,7 +5,7 @@ from utility.OidGenerator import OidGenerator
 class MoviesDao:
     MOVIE_COLLECTION = "movie"
 
-    def __init__(self, title=None, oid=None, release_date=None, rating=None):
+    def __init__(self, title=None, release_date=None, rating=None, oid=None):
         if oid is None:
             self.oid = OidGenerator.get_new()
         else:
@@ -22,9 +22,9 @@ class MoviesDao:
             "releaseDate": self.release_date,
             "rating": self.rating
         }
-        if(MoviesDao.__id_exist(self.oid)):
+        if MoviesDao.id_exist(self.oid):
             self.db[self.MOVIE_COLLECTION].replace_one({"oid": self.oid}, document)
-        else:    
+        else:
             self.db[self.MOVIE_COLLECTION].insert_one(document)
 
     @staticmethod
@@ -35,16 +35,23 @@ class MoviesDao:
             movie.title = doc["movieTitle"]
             movie.release_date = doc["releaseDate"]
             movie.rating = doc["rating"]
-            all_movie_dao.append(movie)
+            all_movie_dao.append({movie.oid: [movie.title, movie.release_date, movie.rating]})
         return all_movie_dao
-    
-    def delete_movie(self, oid):
+
+    def delete(self, oid):
         self.db[self.MOVIE_COLLECTION].delete_one({"oid": oid})
 
     @staticmethod
-    def __id_exist(oid):
-        temp = MoviesDao(oid=oid)
-        return temp.get_oid() == oid
+    def id_exist(oid):
+        all_ids = []
+        for doc in Databases.NETFLIX.genre.find():
+            movie = MoviesDao(oid=doc["oid"])
+            movie.oid = doc["oid"]
+            all_ids.append(movie.oid)
+        if oid in all_ids:
+            return True
+        else:
+            return False
 
     def get_oid(self):
         return self.oid
@@ -64,5 +71,5 @@ class MoviesDao:
     def set_release_date(self, release_date):
         self.release_date = release_date
 
-    def set_rating(self,rating):
+    def set_rating(self, rating):
         self.rating = rating
