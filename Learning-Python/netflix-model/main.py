@@ -1,9 +1,9 @@
 import time
 
-from model.customer.CustomerDao import CustomerDao
+from model.customer.customer_dao import CustomerDao
 from model.genre.genre_dao import GenreDao
-from model.movies.MoviesDao import MoviesDao
-from model.subscription.SubscriptionDao import SubscriptionDao, EPrice, ESubscriptionType
+from model.movies.movies_dao import MoviesDao
+from model.subscription.subscription_dao import SubscriptionDao, EPrice, ESubscriptionType
 
 
 def test_genre():
