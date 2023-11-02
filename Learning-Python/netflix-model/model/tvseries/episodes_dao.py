@@ -24,7 +24,7 @@ class EpisodeDao:
             "airDate": self.air_date,
             "seasonOid": self.season_oid
         }
-        if (EpisodeDao.__id_exist(self.oid)):
+        if EpisodeDao.id_exist(self.oid):
             self.db[self.EPISODE_COLLECTION].replace_one(
                 {"oid": self.oid}, document)
         else:
@@ -59,6 +59,18 @@ class EpisodeDao:
             return e
         else:
             return None
+
+    @staticmethod
+    def id_exist(oid):
+        all_ids = []
+        for doc in Databases.NETFLIX.genre.find():
+            genre = EpisodeDao(oid=doc["oid"])
+            genre.oid = doc["oid"]
+            all_ids.append(genre.oid)
+        if oid in all_ids:
+            return True
+        else:
+            return False
 
     def get_oid(self):
         return self.oid
