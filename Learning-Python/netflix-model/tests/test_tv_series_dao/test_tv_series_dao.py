@@ -32,3 +32,6 @@ class TestTvSeriesDao(unittest.TestCase):
         self.assertTrue(newEpisode.get_run_time(), 1)
         self.assertTrue(newEpisode.get_air_date(), "5678")
         self.assertTrue(newEpisode.get_season_oid(), 123)
+
+        loadNewEpisode = EpisodeDao.load_by_oid(oid=newEpisode.get_oid())
+        print(loadNewEpisode)
