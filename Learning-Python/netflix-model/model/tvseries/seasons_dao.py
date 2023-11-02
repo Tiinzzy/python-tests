@@ -15,6 +15,7 @@ class SeasonDao:
         self.start_date = start_date
         self.end_date = end_date
         self.tv_series_oid = tv_series_oid
+        self.db = Databases.NETFLIX
 
     def save_to_table(self):
         document = {
@@ -24,12 +25,11 @@ class SeasonDao:
             "endDate": self.end_date,
             "tvSeriesOid": self.tv_series_oid
         }
-        if (EpisodeDao.__id_exist(self.oid)):
+        if EpisodeDao.id_exist(self.oid):
             self.db[self.SEASON_COLLECTION].replace_one(
                 {"oid": self.oid}, document)
         else:
             self.db[self.SEASON_COLLECTION].insert_one(document)
-
 
     def load_all(self, tv_series_oid):
         seasons = self.db[self.SEASON_COLLECTION].find({"tvSeriesOid": tv_series_oid})
@@ -60,6 +60,18 @@ class SeasonDao:
             return s
         else:
             return None
+
+    @staticmethod
+    def id_exist(oid):
+        all_ids = []
+        for doc in Databases.NETFLIX.genre.find():
+            genre = SeasonDao(oid=doc["oid"])
+            genre.oid = doc["oid"]
+            all_ids.append(genre.oid)
+        if oid in all_ids:
+            return True
+        else:
+            return False
 
     def get_oid(self):
         return self.oid
