@@ -1,12 +1,12 @@
 from utility.Databases import Databases
 from utility.OidGenerator import OidGenerator
-from model.tvseries import EpisodeDao
+from model.tvseries.episodes_dao import EpisodeDao
 
 
 class SeasonDao:
     SEASON_COLLECTION = "seasons"
 
-    def __init__(self, oid=None, season_number=None, start_date=None, end_date=None, tv_series_oid=None):
+    def __init__(self, season_number=None, start_date=None, end_date=None, tv_series_oid=None, oid=None):
         if oid is None:
             self.oid = OidGenerator.get_new()
         else:
@@ -25,7 +25,7 @@ class SeasonDao:
             "endDate": self.end_date,
             "tvSeriesOid": self.tv_series_oid
         }
-        if EpisodeDao.id_exist(self.oid):
+        if SeasonDao.id_exist(self.oid):
             self.db[self.SEASON_COLLECTION].replace_one(
                 {"oid": self.oid}, document)
         else:
@@ -33,9 +33,11 @@ class SeasonDao:
 
     def load_all(self, tv_series_oid):
         seasons = self.db[self.SEASON_COLLECTION].find({"tvSeriesOid": tv_series_oid})
+        print(seasons)
         all_seasons_of_a_tv_series_oid = []
 
         for doc in seasons:
+            print(doc)
             s = SeasonDao(oid=doc["oid"])
             s.oid = doc["_id"]
             s.season_number = doc["seasonNumber"]
@@ -64,10 +66,12 @@ class SeasonDao:
     @staticmethod
     def id_exist(oid):
         all_ids = []
-        for doc in Databases.NETFLIX.genre.find():
-            genre = SeasonDao(oid=doc["oid"])
-            genre.oid = doc["oid"]
-            all_ids.append(genre.oid)
+        for doc in Databases.NETFLIX.seasons.find():
+            seasons = SeasonDao(oid=doc["oid"])
+            seasons.oid = doc["oid"]
+            all_ids.append(seasons.oid)
+        print(oid)
+        print(all_ids)
         if oid in all_ids:
             return True
         else:
