@@ -2,6 +2,7 @@ from utility.Databases import Databases
 from utility.OidGenerator import OidGenerator
 from model.tvseries import SeasonsDao
 
+
 class TvSeriesDao:
     TV_SERIES_COLLECTION = "tv_series"
 
@@ -24,7 +25,7 @@ class TvSeriesDao:
             "startDate": self.startDate,
             "endDate": self.endDate
         }
-        if (TvSeriesDao.__id_exist(self.oid)):
+        if TvSeriesDao.id_exist(self.oid):
             self.db[self.TV_SERIES_COLLECTION].replace_one(
                 {"oid": self.oid}, document)
         else:
@@ -47,13 +48,13 @@ class TvSeriesDao:
 
     @classmethod
     def load_all(cls, count):
-        return cls.load_all("", count)
-    
+        return cls.load_all(count)
+
     def load_by_oid(self, oid):
         tv_series_data = self.db[self.TV_SERIES_COLLECTION].find_one({"_id": oid})
 
         if tv_series_data is not None:
-            tv_series = TvSeriesDao.__new__(TvSeriesDao)
+            tv_series = TvSeriesDao(TvSeriesDao)
             tv_series.oid = tv_series_data["_id"]
             tv_series.title = tv_series_data["title"]
             tv_series.summary = tv_series_data["summary"]
@@ -63,6 +64,18 @@ class TvSeriesDao:
             return tv_series
         else:
             return None
+
+    @staticmethod
+    def id_exist(oid):
+        all_ids = []
+        for doc in Databases.NETFLIX.genre.find():
+            genre = TvSeriesDao(oid=doc["oid"])
+            genre.oid = doc["oid"]
+            all_ids.append(genre.oid)
+        if oid in all_ids:
+            return True
+        else:
+            return False
 
     def load_seasons(self):
         return SeasonsDao.load_all(self.oid)
@@ -90,7 +103,6 @@ class TvSeriesDao:
     def __id_exist(oid):
         temp = TvSeriesDao(oid=oid)
         return temp.get_oid() == oid
-    
 
     def get_oid(self):
         return self.oid
