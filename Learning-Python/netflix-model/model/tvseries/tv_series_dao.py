@@ -1,12 +1,13 @@
 from utility.Databases import Databases
 from utility.OidGenerator import OidGenerator
-from model.tvseries import SeasonsDao
+from model.tvseries.seasons_dao import SeasonDao
+from model.tvseries.episodes_dao import EpisodeDao
 
 
 class TvSeriesDao:
     TV_SERIES_COLLECTION = "tv_series"
 
-    def __init__(self, title=None, oid=None, summary=None, startDate=None, endDate=None):
+    def __init__(self, title=None, summary=None, startDate=None, endDate=None, oid=None):
         if oid is None:
             self.oid = OidGenerator.get_new()
         else:
@@ -69,32 +70,31 @@ class TvSeriesDao:
     def id_exist(oid):
         all_ids = []
         for doc in Databases.NETFLIX.genre.find():
-            genre = TvSeriesDao(oid=doc["oid"])
-            genre.oid = doc["oid"]
-            all_ids.append(genre.oid)
+            tv_series = TvSeriesDao(oid=doc["oid"])
+            tv_series.oid = doc["oid"]
+            all_ids.append(tv_series.oid)
         if oid in all_ids:
             return True
         else:
             return False
 
     def load_seasons(self):
-        return SeasonsDao.load_all(self.oid)
+        return SeasonDao.load_all(self.oid)
 
     def add_season(self, season_number, start_date, end_date):
-        season_dao = SeasonsDao(season_number, start_date, end_date, self.oid)
+        season_dao = SeasonDao(season_number, start_date, end_date, self.oid)
         season_dao.save_to_table()
 
-    def add_episode(self, season_number, title, run_time, air_date):
-        season = self.get_season(season_number)
-        if season:
-            season.add_episode(title, run_time, air_date)
+    def add_episode(self, season_oid, title, run_time, air_date):
+        episode_dao = EpisodeDao(title, run_time, air_date, season_oid)
+        episode_dao.save_to_table()
 
-    def get_season(self, season_number):
-        seasons = self.load_seasons()
-        for season in seasons:
-            if season.get_season_number() == season_number:
-                return season
-        return None
+    # def get_season(self, season_number):
+    #     seasons = self.load_seasons()
+    #     for season in seasons:
+    #         if season.get_season_number() == season_number:
+    #             return season
+    #     return None
 
     def delete_tv_series(self, oid):
         self.db[self.TV_SERIES_COLLECTION].delete_one({"oid": oid})
