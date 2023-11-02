@@ -5,7 +5,7 @@ from utility.OidGenerator import OidGenerator
 class EpisodeDao:
     EPISODE_COLLECTION = "episodes"
 
-    def __init__(self, oid=None, title=None, run_time=None, air_date=None, season_oid=None):
+    def __init__(self, title=None, run_time=None, air_date=None, season_oid=None, oid=None):
         if oid is None:
             self.oid = OidGenerator.get_new()
         else:
@@ -63,10 +63,10 @@ class EpisodeDao:
     @staticmethod
     def id_exist(oid):
         all_ids = []
-        for doc in Databases.NETFLIX.genre.find():
-            genre = EpisodeDao(oid=doc["oid"])
-            genre.oid = doc["oid"]
-            all_ids.append(genre.oid)
+        for doc in Databases.NETFLIX.episodes.find():
+            episodes = EpisodeDao(oid=doc["oid"])
+            episodes.oid = doc["oid"]
+            all_ids.append(episodes.oid)
         if oid in all_ids:
             return True
         else:
