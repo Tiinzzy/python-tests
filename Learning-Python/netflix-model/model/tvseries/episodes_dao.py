@@ -71,6 +71,14 @@ class EpisodeDao:
         else:
             return False
 
+    @staticmethod
+    def delete(oid):
+        if EpisodeDao.id_exist(oid):
+            Databases.NETFLIX.episodes.delete_one({"oid": oid})
+            return True
+        else:
+            return False
+
     def get_oid(self):
         return self.oid
 
