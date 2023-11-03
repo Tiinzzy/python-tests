@@ -56,7 +56,8 @@ class EpisodeDao:
                 episode.season_oid = doc["seasonOid"]
                 selected_episode.append(
                     {episode.oid: [episode.title, episode.run_time, episode.air_date, episode.season_oid]})
-        return selected_episode
+            return selected_episode
+        return None
 
     @staticmethod
     def id_exist(oid):

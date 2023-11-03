@@ -57,7 +57,8 @@ class SeasonDao:
                 s.tv_series_oid = doc["tvSeriesOid"]
                 selected_season.append(
                     {s.oid: [s.season_number, s.start_date, s.end_date, s.tv_series_oid]})
-        return selected_season
+            return selected_season
+        return None
 
     @staticmethod
     def id_exist(oid):
