@@ -48,7 +48,7 @@ class SeasonDao:
     @staticmethod
     def load_by_oid(oid):
         selected_season = []
-        for doc in Databases.NETFLIX.seasons.find():
+        for doc in Databases.NETFLIX.seasons.find({"oid": oid}):
             if doc["oid"] == oid:
                 s = SeasonDao(oid=doc["oid"])
                 s.season_number = doc["seasonNumber"]
@@ -74,12 +74,15 @@ class SeasonDao:
     def delete_episodes(self):
         EpisodeDao.delete_seasons_episode(self.oid)
 
-    def delete(self, oid):
-        if SeasonDao.id_exist(oid):
-            EpisodeDao.delete_seasons_episode(self.oid)
-            Databases.NETFLIX.SEASON_COLLECTION.delete_one({"oid": oid})
-        else:
-            return False
+    def delete(self, seasonOid=None, tvSeriesOid=None):
+        if SeasonDao.id_exist(seasonOid):
+            EpisodeDao.delete_seasons_episode(seasonOid)
+            if tvSeriesOid is not None:
+                self.__delete_by_oid(tvSeriesOid)
+            elif seasonOid is not None:
+                self.__delete_by_oid(seasonOid)
+            else:
+                return False
 
     @staticmethod
     def id_exist(oid):
@@ -114,3 +117,11 @@ class SeasonDao:
     def add_episode(self, title, run_time, air_date):
         episode_dao = EpisodeDao(title, run_time, air_date, self.oid)
         episode_dao.save_to_table()
+
+    @staticmethod
+    def __delete_by_oid(oid):
+        Databases.NETFLIX.SEASON_COLLECTION.delete_one({"oid": oid})
+
+    @staticmethod
+    def __delete_by_tv_series_id(tvSeriesOid):
+        Databases.NETFLIX.SEASON_COLLECTION.delete_many({"tvSeriesOid": tvSeriesOid})
