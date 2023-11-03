@@ -78,3 +78,10 @@ class TestTvSeriesDao(unittest.TestCase):
         self.assertTrue(value_variable[1], "1111-11-11")
         self.assertTrue(value_variable[2], "1212-12-12")
         self.assertTrue(value_variable[3], 666)
+
+    def test_load_tv_series(self):
+        all_tv_series = TvSeriesDao.load_all()
+        self.assertTrue(len(all_tv_series) > 0)
+
+        load_10_tv_series = TvSeriesDao.load_all(10)
+        self.assertTrue(len(load_10_tv_series) == 10)
