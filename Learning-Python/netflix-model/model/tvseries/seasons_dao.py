@@ -31,37 +31,33 @@ class SeasonDao:
         else:
             self.db[self.SEASON_COLLECTION].insert_one(document)
 
-    def load_all(self, tv_series_oid):
-        seasons = self.db[self.SEASON_COLLECTION].find({"tvSeriesOid": tv_series_oid})
-        print(seasons)
-        all_seasons_of_a_tv_series_oid = []
+    @staticmethod
+    def load_all(tv_series_oid=None):
+        all_seaosns = []
+        for doc in Databases.NETFLIX.seasons.find():
+            if doc["tvSeriesOid"] == tv_series_oid or tv_series_oid == None:
+                s = SeasonDao(oid=doc["oid"])
+                s.season_number = doc["seasonNumber"]
+                s.start_date = doc["startDate"]
+                s.end_date = doc["endDate"]
+                s.tv_series_oid = doc["tvSeriesOid"]
+                all_seaosns.append(
+                    {s.oid: [s.season_number, s.start_date, s.end_date, s.tv_series_oid]})
+        return all_seaosns
 
-        for doc in seasons:
-            print(doc)
-            s = SeasonDao(oid=doc["oid"])
-            s.oid = doc["_id"]
-            s.season_number = doc["seasonNumber"]
-            s.start_date = doc["startDate"]
-            s.end_date = doc["endDate"]
-            s.tv_series_oid = doc["tvSeriesOid"]
-            all_seasons_of_a_tv_series_oid.append(s)
-
-        return all_seasons_of_a_tv_series_oid
-
-    def load_by_oid(self, oid):
-        season_data = self.db[self.SEASON_COLLECTION].find_one({"oid": oid})
-
-        if season_data is not None:
-            s = SeasonDao(oid=oid)
-            s.oid = season_data["_id"]
-            s.season_number = season_data["seasonNumber"]
-            s.start_date = season_data["startDate"]
-            s.end_date = season_data["endDate"]
-            s.tv_series_oid = season_data["tvSeriesOid"]
-
-            return s
-        else:
-            return None
+    @staticmethod
+    def load_by_oid(oid):
+        selected_season = []
+        for doc in Databases.NETFLIX.seasons.find():
+            if doc["oid"] == oid:
+                s = SeasonDao(oid=doc["oid"])
+                s.season_number = doc["seasonNumber"]
+                s.start_date = doc["startDate"]
+                s.end_date = doc["endDate"]
+                s.tv_series_oid = doc["tvSeriesOid"]
+                selected_season.append(
+                    {s.oid: [s.season_number, s.start_date, s.end_date, s.tv_series_oid]})
+        return selected_season
 
     @staticmethod
     def id_exist(oid):
@@ -70,8 +66,6 @@ class SeasonDao:
             seasons = SeasonDao(oid=doc["oid"])
             seasons.oid = doc["oid"]
             all_ids.append(seasons.oid)
-        print(oid)
-        print(all_ids)
         if oid in all_ids:
             return True
         else:
