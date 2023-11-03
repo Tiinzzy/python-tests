@@ -104,6 +104,6 @@ class TestTvSeriesDao(unittest.TestCase):
         self.assertTrue(value_variable[3], newTvSeries.get_endDate())
 
         load_new_tv_series = TvSeriesDao.load_by_oid(66666)
-        self.assertEquals(load_new_tv_series, None)
+        self.assertEqual(load_new_tv_series, None)
 
 
