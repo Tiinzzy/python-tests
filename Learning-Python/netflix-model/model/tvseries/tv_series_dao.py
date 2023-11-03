@@ -1,12 +1,13 @@
 from utility.Databases import Databases
 from utility.OidGenerator import OidGenerator
-from model.tvseries import SeasonsDao
+from model.tvseries.seasons_dao import SeasonDao
+from model.tvseries.episodes_dao import EpisodeDao
 
 
 class TvSeriesDao:
     TV_SERIES_COLLECTION = "tv_series"
 
-    def __init__(self, title=None, oid=None, summary=None, startDate=None, endDate=None):
+    def __init__(self, title=None, summary=None, startDate=None, endDate=None, oid=None):
         if oid is None:
             self.oid = OidGenerator.get_new()
         else:
@@ -32,72 +33,81 @@ class TvSeriesDao:
             self.db[self.TV_SERIES_COLLECTION].insert_one(document)
 
     @staticmethod
-    def load_all():
+    def load_all(count=None):
         all_tv_series_dao = []
-        for doc in Databases.NETFLIX.tv_series.find():
+        query = Databases.NETFLIX.tv_series.find()
+        if count is not None:
+            query = query.limit(count)
+        for doc in query:
             tv_series = TvSeriesDao(oid=doc["oid"])
-            tv_series.title = doc["movieTitle"]
-            tv_series.release_date = doc["releaseDate"]
-            tv_series.rating = doc["rating"]
-            all_tv_series_dao.append(tv_series)
+            tv_series.title = doc["title"]
+            tv_series.summary = doc["summary"]
+            tv_series.startDate = doc["startDate"]
+            tv_series.endDate = doc["endDate"]
+            all_tv_series_dao.append(
+                {tv_series.oid: [tv_series.title, tv_series.summary, tv_series.startDate, tv_series.endDate]})
         return all_tv_series_dao
 
-    @classmethod
-    def load_all(cls):
-        return cls.load_all("", 100)
-
-    @classmethod
-    def load_all(cls, count):
-        return cls.load_all(count)
-
-    def load_by_oid(self, oid):
-        tv_series_data = self.db[self.TV_SERIES_COLLECTION].find_one({"_id": oid})
-
-        if tv_series_data is not None:
-            tv_series = TvSeriesDao(TvSeriesDao)
-            tv_series.oid = tv_series_data["_id"]
-            tv_series.title = tv_series_data["title"]
-            tv_series.summary = tv_series_data["summary"]
-            tv_series.start_date = tv_series_data["startDate"]
-            tv_series.end_date = tv_series_data["endDate"]
-
-            return tv_series
-        else:
-            return None
+    @staticmethod
+    def load_by_oid(oid):
+        selected_tv_series = []
+        for doc in Databases.NETFLIX.tv_series.find({"oid": oid}):
+            if doc["oid"] == oid:
+                tv_series = TvSeriesDao(oid=doc["oid"])
+                tv_series.title = doc["title"]
+                tv_series.summary = doc["summary"]
+                tv_series.startDate = doc["startDate"]
+                tv_series.endDate = doc["endDate"]
+                selected_tv_series.append(
+                    {tv_series.oid: [tv_series.title, tv_series.summary, tv_series.startDate, tv_series.endDate]})
+            return selected_tv_series
+        return None
 
     @staticmethod
     def id_exist(oid):
         all_ids = []
         for doc in Databases.NETFLIX.genre.find():
-            genre = TvSeriesDao(oid=doc["oid"])
-            genre.oid = doc["oid"]
-            all_ids.append(genre.oid)
+            tv_series = TvSeriesDao(oid=doc["oid"])
+            tv_series.oid = doc["oid"]
+            all_ids.append(tv_series.oid)
         if oid in all_ids:
             return True
         else:
             return False
 
-    def load_seasons(self):
-        return SeasonsDao.load_all(self.oid)
+    def load_all_seasons(self):
+        return SeasonDao.load_all(self.oid)
 
     def add_season(self, season_number, start_date, end_date):
-        season_dao = SeasonsDao(season_number, start_date, end_date, self.oid)
-        season_dao.save_to_table()
+        return SeasonDao(season_number, start_date, end_date, self.oid)
 
-    def add_episode(self, season_number, title, run_time, air_date):
-        season = self.get_season(season_number)
-        if season:
-            season.add_episode(title, run_time, air_date)
+    @staticmethod
+    def add_episode(seasonNumber, title, run_time, air_date):
+        season = TvSeriesDao.get_season(seasonNumber)
+        season_oid = season["oid"]
+        return EpisodeDao(title, run_time, air_date, season_oid)
 
-    def get_season(self, season_number):
-        seasons = self.load_seasons()
-        for season in seasons:
-            if season.get_season_number() == season_number:
-                return season
-        return None
+    @staticmethod
+    def delete_seasons(tvSeriesOid):
+        all_seasons = SeasonDao.load_all(tvSeriesOid)
+        for s in all_seasons:
+            if s['tvSeriesOid'] == tvSeriesOid:
+                SeasonDao.delete(seasonOid=s['seasonOid'])
 
-    def delete_tv_series(self, oid):
-        self.db[self.TV_SERIES_COLLECTION].delete_one({"oid": oid})
+    @staticmethod
+    def delete(oid):
+        if TvSeriesDao.id_exist(oid):
+            TvSeriesDao.delete_seasons(oid)
+            Databases.NETFLIX.TV_SERIES_COLLECTION.delete_one({"oid": oid})
+
+    @staticmethod
+    def get_season(seasonNumber):
+        seasons = SeasonDao.load_all()
+        for s in seasons:
+            if s["seasonNumber"] == seasonNumber:
+                return s
+            else:
+                return None
 
     @staticmethod
     def __id_exist(oid):

@@ -5,7 +5,7 @@ from utility.OidGenerator import OidGenerator
 class EpisodeDao:
     EPISODE_COLLECTION = "episodes"
 
-    def __init__(self, oid=None, title=None, run_time=None, air_date=None, season_oid=None):
+    def __init__(self, title=None, run_time=None, air_date=None, season_oid=None, oid=None):
         if oid is None:
             self.oid = OidGenerator.get_new()
         else:
@@ -30,47 +30,61 @@ class EpisodeDao:
         else:
             self.db[self.EPISODE_COLLECTION].insert_one(document)
 
-    def load_all(self, season_oid):
-        episodes = self.db[self.EPISODE_COLLECTION].find(
-            {"seasonOid": season_oid})
+    @staticmethod
+    def load_all(season_oid=None):
         all_episodes_of_a_season = []
-
-        for doc in episodes:
-            e = EpisodeDao(oid=doc["oid"])
-            e.oid = doc["oid"]
-            e.title = doc["title"]
-            e.run_time = doc["runTime"]
-            e.air_date = doc["airDate"]
-            e.season_oid = doc["seasonOid"]
-            all_episodes_of_a_season.append(e)
-
+        for doc in Databases.NETFLIX.episodes.find():
+            if doc["seasonOid"] == season_oid or season_oid == None:
+                episode = EpisodeDao(oid=doc["oid"])
+                episode.title = doc["title"]
+                episode.run_time = doc["runTime"]
+                episode.air_date = doc["airDate"]
+                episode.season_oid = doc["seasonOid"]
+                all_episodes_of_a_season.append(
+                    {episode.oid: [episode.title, episode.run_time, episode.air_date, episode.season_oid]})
         return all_episodes_of_a_season
 
-    def load_by_oid(self, oid):
-        episode_data = self.db[self.EPISODE_COLLECTION].find_one({"oid": oid})
-
-        if episode_data is not None:
-            e = EpisodeDao(oid=oid)
-            e.oid = episode_data["oid"]
-            e.title = episode_data["title"]
-            e.run_time = episode_data["runTime"]
-            e.air_date = episode_data["airDate"]
-            e.season_oid = episode_data["seasonOid"]
-            return e
-        else:
-            return None
+    @staticmethod
+    def load_by_oid(oid):
+        selected_episode = []
+        for doc in Databases.NETFLIX.episodes.find({"oid": oid}):
+            if doc["oid"] == oid:
+                episode = EpisodeDao(oid=doc["oid"])
+                episode.title = doc["title"]
+                episode.run_time = doc["runTime"]
+                episode.air_date = doc["airDate"]
+                episode.season_oid = doc["seasonOid"]
+                selected_episode.append(
+                    {episode.oid: [episode.title, episode.run_time, episode.air_date, episode.season_oid]})
+            return selected_episode
+        return None
 
     @staticmethod
     def id_exist(oid):
         all_ids = []
-        for doc in Databases.NETFLIX.genre.find():
-            genre = EpisodeDao(oid=doc["oid"])
-            genre.oid = doc["oid"]
-            all_ids.append(genre.oid)
+        for doc in Databases.NETFLIX.episodes.find():
+            episodes = EpisodeDao(oid=doc["oid"])
+            episodes.oid = doc["oid"]
+            all_ids.append(episodes.oid)
         if oid in all_ids:
             return True
         else:
             return False
+
+    @staticmethod
+    def delete(oid):
+        if EpisodeDao.id_exist(oid):
+            Databases.NETFLIX.episodes.delete_one({"oid": oid})
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def delete_seasons_episode(seasonOid):
+        try:
+            Databases.NETFLIX.episodes.delete_many({"seasonOid": seasonOid})
+        except:
+            print("Unable to delete due to an error!")
 
     def get_oid(self):
         return self.oid
