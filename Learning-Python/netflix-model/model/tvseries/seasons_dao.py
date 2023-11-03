@@ -60,6 +60,27 @@ class SeasonDao:
             return selected_season
         return None
 
+    def load_episodes(self):
+        return EpisodeDao.load_all(self.oid)
+
+    def add_episode(self, title, run_time, air_date):
+        new_episode = EpisodeDao(title, run_time, air_date, self.oid)
+        new_episode.save_to_table()
+
+    @staticmethod
+    def delete_episode(episodeOid):
+        EpisodeDao.delete(episodeOid)
+
+    def delete_episodes(self):
+        EpisodeDao.delete_seasons_episode(self.oid)
+
+    def delete(self, oid):
+        if SeasonDao.id_exist(oid):
+            EpisodeDao.delete_seasons_episode(self.oid)
+            Databases.NETFLIX.SEASON_COLLECTION.delete_one({"oid": oid})
+        else:
+            return False
+
     @staticmethod
     def id_exist(oid):
         all_ids = []
