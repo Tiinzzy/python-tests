@@ -74,15 +74,18 @@ class SeasonDao:
     def delete_episodes(self):
         EpisodeDao.delete_seasons_episode(self.oid)
 
-    def delete(self, seasonOid=None, tvSeriesOid=None):
+    @classmethod
+    def delete(cls, seasonOid=None):
         if SeasonDao.id_exist(seasonOid):
             EpisodeDao.delete_seasons_episode(seasonOid)
-            if tvSeriesOid is not None:
-                self.__delete_by_oid(tvSeriesOid)
-            elif seasonOid is not None:
-                self.__delete_by_oid(seasonOid)
-            else:
-                return False
+            cls.__delete_by_tv_series_id(seasonOid)
+
+    @classmethod
+    def delete_by_tv_id(cls, tvSeriesOid):
+        all_seasons = SeasonDao.load_all()
+        for s in all_seasons:
+            if s["tvSeriesOid"] == tvSeriesOid:
+                cls.__delete_by_tv_series_id(tvSeriesOid)
 
     @staticmethod
     def id_exist(oid):
