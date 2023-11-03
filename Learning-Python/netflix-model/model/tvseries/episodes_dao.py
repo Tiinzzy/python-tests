@@ -34,7 +34,7 @@ class EpisodeDao:
     def load_all(season_oid=None):
         all_episodes_of_a_season = []
         for doc in Databases.NETFLIX.episodes.find():
-            if doc["seasonOid"] == season_oid:
+            if doc["seasonOid"] == season_oid or season_oid == None:
                 episode = EpisodeDao(oid=doc["oid"])
                 episode.title = doc["title"]
                 episode.run_time = doc["runTime"]
