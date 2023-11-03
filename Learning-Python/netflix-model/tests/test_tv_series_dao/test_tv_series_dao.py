@@ -85,3 +85,20 @@ class TestTvSeriesDao(unittest.TestCase):
 
         load_10_tv_series = TvSeriesDao.load_all(10)
         self.assertTrue(len(load_10_tv_series) == 10)
+
+        newTvSeries = TvSeriesDao("Tests Python10", "this is a test to add from python10", "4321", "8765")
+        newTvSeries.save_to_table()
+        self.assertTrue(newTvSeries.get_oid() != 0)
+        self.assertTrue(newTvSeries.get_title(), "Tests Python10")
+
+        key_variable = None
+        value_variable = None
+        load_new_tv_series = TvSeriesDao.load_by_oid(newTvSeries.get_oid())
+        for key, value in load_new_tv_series[0].items():
+            key_variable = key
+            value_variable = value
+        self.assertTrue(key_variable, newTvSeries.get_oid())
+        self.assertTrue(value_variable[0], newTvSeries.get_title())
+        self.assertTrue(value_variable[1], newTvSeries.get_summary())
+        self.assertTrue(value_variable[2], newTvSeries.get_startDate())
+        self.assertTrue(value_variable[3], newTvSeries.get_endDate())
