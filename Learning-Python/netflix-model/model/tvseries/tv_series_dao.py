@@ -33,23 +33,20 @@ class TvSeriesDao:
             self.db[self.TV_SERIES_COLLECTION].insert_one(document)
 
     @staticmethod
-    def load_all():
+    def load_all(count=None):
         all_tv_series_dao = []
-        for doc in Databases.NETFLIX.tv_series.find():
+        query = Databases.NETFLIX.tv_series.find()
+        if count is not None:
+            query = query.limit(count)
+        for doc in query:
             tv_series = TvSeriesDao(oid=doc["oid"])
-            tv_series.title = doc["movieTitle"]
-            tv_series.release_date = doc["releaseDate"]
-            tv_series.rating = doc["rating"]
-            all_tv_series_dao.append(tv_series)
+            tv_series.title = doc["title"]
+            tv_series.summary = doc["summary"]
+            tv_series.startDate = doc["startDate"]
+            tv_series.endDate = doc["endDate"]
+            all_tv_series_dao.append(
+                {tv_series.oid: [tv_series.title, tv_series.summary, tv_series.startDate, tv_series.endDate]})
         return all_tv_series_dao
-
-    @classmethod
-    def load_all(cls):
-        return cls.load_all("", 100)
-
-    @classmethod
-    def load_all(cls, count):
-        return cls.load_all(count)
 
     def load_by_oid(self, oid):
         tv_series_data = self.db[self.TV_SERIES_COLLECTION].find_one({"_id": oid})
