@@ -106,4 +106,12 @@ class TestTvSeriesDao(unittest.TestCase):
         load_new_tv_series = TvSeriesDao.load_by_oid(66666)
         self.assertEqual(load_new_tv_series, None)
 
+    def test_delete_episode(self):
+        episode_tobe_deleted = EpisodeDao("delete episode", 2, "1010-10-10", 999)
+        episode_tobe_deleted.save_to_table()
+        self.assertTrue(episode_tobe_deleted.get_oid() != 0)
+        deleted_episode = EpisodeDao.delete(episode_tobe_deleted.get_oid())
+        self.assertTrue(deleted_episode, True)
 
+        delete_nonexistance = EpisodeDao.delete(99999)
+        self.assertEqual(delete_nonexistance, False)
