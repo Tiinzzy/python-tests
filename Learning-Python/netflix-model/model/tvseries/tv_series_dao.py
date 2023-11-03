@@ -87,11 +87,18 @@ class TvSeriesDao:
         season_oid = season["oid"]
         return EpisodeDao(title, run_time, air_date, season_oid)
 
-    def delete_season(self):
-        return SeasonDao.delete(tvSeriesOid=self.oid)
+    @staticmethod
+    def delete_seasons(tvSeriesOid):
+        all_seasons = SeasonDao.load_all(tvSeriesOid)
+        for s in all_seasons:
+            if s['tvSeriesOid'] == tvSeriesOid:
+                SeasonDao.delete(seasonOid=s['seasonOid'])
 
-    def delete_tv_series(self, oid):
-        self.db[self.TV_SERIES_COLLECTION].delete_one({"oid": oid})
+    @staticmethod
+    def delete(oid):
+        if TvSeriesDao.id_exist(oid):
+            TvSeriesDao.delete_seasons(oid)
+            Databases.NETFLIX.TV_SERIES_COLLECTION.delete_one({"oid": oid})
 
     @staticmethod
     def get_season(seasonNumber):
