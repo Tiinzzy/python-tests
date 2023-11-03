@@ -30,35 +30,33 @@ class EpisodeDao:
         else:
             self.db[self.EPISODE_COLLECTION].insert_one(document)
 
-    def load_all(self, season_oid):
-        episodes = self.db[self.EPISODE_COLLECTION].find(
-            {"seasonOid": season_oid})
+    @staticmethod
+    def load_all(season_oid=None):
         all_episodes_of_a_season = []
-
-        for doc in episodes:
-            e = EpisodeDao(oid=doc["oid"])
-            e.oid = doc["oid"]
-            e.title = doc["title"]
-            e.run_time = doc["runTime"]
-            e.air_date = doc["airDate"]
-            e.season_oid = doc["seasonOid"]
-            all_episodes_of_a_season.append(e)
-
+        for doc in Databases.NETFLIX.episodes.find():
+            if doc["seasonOid"] == season_oid:
+                episode = EpisodeDao(oid=doc["oid"])
+                episode.title = doc["title"]
+                episode.run_time = doc["runTime"]
+                episode.air_date = doc["airDate"]
+                episode.season_oid = doc["seasonOid"]
+                all_episodes_of_a_season.append(
+                    {episode.oid: [episode.title, episode.run_time, episode.air_date, episode.season_oid]})
         return all_episodes_of_a_season
 
-    def load_by_oid(self, oid):
-        episode_data = self.db[self.EPISODE_COLLECTION].find_one({"oid": oid})
-
-        if episode_data is not None:
-            e = EpisodeDao(oid=oid)
-            e.oid = episode_data["oid"]
-            e.title = episode_data["title"]
-            e.run_time = episode_data["runTime"]
-            e.air_date = episode_data["airDate"]
-            e.season_oid = episode_data["seasonOid"]
-            return e
-        else:
-            return None
+    @staticmethod
+    def load_by_oid(oid):
+        selected_episode = []
+        for doc in Databases.NETFLIX.episodes.find():
+            if doc["oid"] == oid:
+                episode = EpisodeDao(oid=doc["oid"])
+                episode.title = doc["title"]
+                episode.run_time = doc["runTime"]
+                episode.air_date = doc["airDate"]
+                episode.season_oid = doc["seasonOid"]
+                selected_episode.append(
+                    {episode.oid: [episode.title, episode.run_time, episode.air_date, episode.season_oid]})
+        return selected_episode
 
     @staticmethod
     def id_exist(oid):
