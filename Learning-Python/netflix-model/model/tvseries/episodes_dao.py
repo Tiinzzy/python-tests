@@ -47,7 +47,7 @@ class EpisodeDao:
     @staticmethod
     def load_by_oid(oid):
         selected_episode = []
-        for doc in Databases.NETFLIX.episodes.find():
+        for doc in Databases.NETFLIX.episodes.find({"oid": oid}):
             if doc["oid"] == oid:
                 episode = EpisodeDao(oid=doc["oid"])
                 episode.title = doc["title"]
@@ -85,7 +85,6 @@ class EpisodeDao:
             Databases.NETFLIX.episodes.delete_many({"seasonOid": seasonOid})
         except:
             print("Unable to delete due to an error!")
-
 
     def get_oid(self):
         return self.oid
