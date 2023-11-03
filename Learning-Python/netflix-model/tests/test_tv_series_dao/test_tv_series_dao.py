@@ -53,4 +53,28 @@ class TestTvSeriesDao(unittest.TestCase):
         self.assertTrue(value_variable[2], "2006-03-05")
         self.assertTrue(value_variable[3], 10666)
 
+    def test_load_seasons(self):
+        s1 = SeasonDao(11, "1111-11-11", "1212-12-12", 666)
+        s1.save_to_table()
+        s2 = SeasonDao(12, "1111-11-11", "1212-12-12", 666)
+        s2.save_to_table()
+        self.assertTrue(s1.get_oid() != 0)
+        self.assertTrue(s1.get_oid() != 2)
+        load_all_seasons_with_tv_id = SeasonDao.load_all(666)
+        self.assertTrue(len(load_all_seasons_with_tv_id) > 0)
 
+        all_seasons = SeasonDao.load_all()
+        self.assertTrue(len(all_seasons) > 0)
+
+        oid = s1.get_oid()
+        load_one_episode = SeasonDao.load_by_oid(oid)
+        key_variable = None
+        value_variable = None
+        for key, value in load_one_episode[0].items():
+            key_variable = key
+            value_variable = value
+        self.assertTrue(key_variable, oid)
+        self.assertTrue(value_variable[0], 12)
+        self.assertTrue(value_variable[1], "1111-11-11")
+        self.assertTrue(value_variable[2], "1212-12-12")
+        self.assertTrue(value_variable[3], 666)
