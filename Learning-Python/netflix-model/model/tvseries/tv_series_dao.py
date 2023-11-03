@@ -48,20 +48,20 @@ class TvSeriesDao:
                 {tv_series.oid: [tv_series.title, tv_series.summary, tv_series.startDate, tv_series.endDate]})
         return all_tv_series_dao
 
-    def load_by_oid(self, oid):
-        tv_series_data = self.db[self.TV_SERIES_COLLECTION].find_one({"_id": oid})
-
-        if tv_series_data is not None:
-            tv_series = TvSeriesDao(TvSeriesDao)
-            tv_series.oid = tv_series_data["_id"]
-            tv_series.title = tv_series_data["title"]
-            tv_series.summary = tv_series_data["summary"]
-            tv_series.start_date = tv_series_data["startDate"]
-            tv_series.end_date = tv_series_data["endDate"]
-
-            return tv_series
-        else:
-            return None
+    @staticmethod
+    def load_by_oid(oid):
+        selected_tv_series = []
+        for doc in Databases.NETFLIX.tv_series.find({"oid": oid}):
+            if doc["oid"] == oid:
+                tv_series = TvSeriesDao(oid=doc["oid"])
+                tv_series.title = doc["title"]
+                tv_series.summary = doc["summary"]
+                tv_series.startDate = doc["startDate"]
+                tv_series.endDate = doc["endDate"]
+                selected_tv_series.append(
+                    {tv_series.oid: [tv_series.title, tv_series.summary, tv_series.startDate, tv_series.endDate]})
+            return selected_tv_series
+        return None
 
     @staticmethod
     def id_exist(oid):
