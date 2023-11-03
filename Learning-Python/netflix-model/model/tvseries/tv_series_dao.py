@@ -75,26 +75,32 @@ class TvSeriesDao:
         else:
             return False
 
-    def load_seasons(self):
+    def load_all_seasons(self):
         return SeasonDao.load_all(self.oid)
 
     def add_season(self, season_number, start_date, end_date):
-        season_dao = SeasonDao(season_number, start_date, end_date, self.oid)
-        season_dao.save_to_table()
+        return SeasonDao(season_number, start_date, end_date, self.oid)
 
-    def add_episode(self, season_oid, title, run_time, air_date):
-        episode_dao = EpisodeDao(title, run_time, air_date, season_oid)
-        episode_dao.save_to_table()
+    @staticmethod
+    def add_episode(seasonNumber, title, run_time, air_date):
+        season = TvSeriesDao.get_season(seasonNumber)
+        season_oid = season["oid"]
+        return EpisodeDao(title, run_time, air_date, season_oid)
 
-    # def get_season(self, season_number):
-    #     seasons = self.load_seasons()
-    #     for season in seasons:
-    #         if season.get_season_number() == season_number:
-    #             return season
-    #     return None
+    def delete_season(self):
+        return SeasonDao.delete(tvSeriesOid=self.oid)
 
     def delete_tv_series(self, oid):
         self.db[self.TV_SERIES_COLLECTION].delete_one({"oid": oid})
+
+    @staticmethod
+    def get_season(seasonNumber):
+        seasons = SeasonDao.load_all()
+        for s in seasons:
+            if s["seasonNumber"] == seasonNumber:
+                return s
+            else:
+                return None
 
     @staticmethod
     def __id_exist(oid):
