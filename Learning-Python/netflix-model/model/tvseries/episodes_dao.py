@@ -79,6 +79,14 @@ class EpisodeDao:
         else:
             return False
 
+    @staticmethod
+    def delete_seasons_episode(seasonOid):
+        try:
+            Databases.NETFLIX.episodes.delete_many({"seasonOid": seasonOid})
+        except:
+            print("Unable to delete due to an error!")
+
+
     def get_oid(self):
         return self.oid
 
