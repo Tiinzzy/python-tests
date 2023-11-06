@@ -64,6 +64,22 @@ class SingleReviewView(DetailView):
     template_name = "reviews/single_review.html"
     model = Review
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        loaded_review = self.object
+        request = self.request
+        favourite_id = request.session.get("favourite_review")
+        context["is_favourite"] = favourite_id == str(loaded_review.id)
+        return context
+
+
+class AddFavouriteView(View):
+    def post(self, request):
+        review_id = request.POST["review_id"]
+        # can only store json not objects in sessions
+        # fav_review = Review.objects.get(pk=review_id)
+        request.session["favourite_review"] = review_id
+        return HttpResponseRedirect("/reviews/" + review_id)
 
 
     # only if it is templateview extension
