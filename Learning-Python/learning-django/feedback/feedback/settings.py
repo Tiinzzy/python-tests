@@ -130,3 +130,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_ROOT = BASE_DIR / "uploads"
 MEDIA_URL = "/user-media/"
+
+# SESSION_COOKIE_AGE =  to set the session to how long last and regularly lasts 2 weeks
