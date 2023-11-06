@@ -65,6 +65,11 @@ class SingleReviewView(DetailView):
     model = Review
 
 
+class AddFavouriteView(View):
+    def post(self, request):
+        review_id = request.POST['review_id']
+        fav_review = Review.objects.get(pk=review_id)
+
 
     # only if it is templateview extension
     # def get_context_data(self, **kwargs):
