@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DeleteView
 
 from .models import Post
+from .forms import CommentForm
 
 
 # Create your views here.
@@ -47,6 +48,7 @@ class SinglePostView(DeleteView):
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         context["post_tags"] = self.object.tags.all()
+        context["comment_form"] = CommentForm()
         return context
 
 # the class on the top instead of the functional view down here 
