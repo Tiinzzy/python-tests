@@ -188,3 +188,21 @@ background-color: rgb(239, 202, 209);
 #comments h2{
   color: rgb(139, 139, 139);
 }
+
+#read-later{
+  margin: 2rem 0;
+}
+
+#read-later button{
+  background-color: transparent;
+  border: 1px solid white;
+  padding: 0.5rem 2rem;
+  font: inherit;
+  color: white;
+}
+
+#read-later button:hover,
+#read-later button:active{
+   background-color: white;
+   color: #390281;
+}
